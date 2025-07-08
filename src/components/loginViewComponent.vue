@@ -31,10 +31,8 @@
       <div id="imagem-lateral">
         <img class="img-lateral" src="/img/image-Photoroom 1.png" alt="LogoIfc" />
       </div>
-    </main>CREATE TABLE IF NOT EXISTS typeUser (
-    id_tip_user INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    desc_type_user VARCHAR(80)
-);
+    </main>
+
   </template>
 
   <style scoped>
