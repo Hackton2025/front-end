@@ -31,7 +31,66 @@
       <div id="imagem-lateral">
         <img class="img-lateral" src="/img/image-Photoroom 1.png" alt="LogoIfc" />
       </div>
-    </main>
+    </main>CREATE TABLE IF NOT EXISTS typeUser (
+    id_tip_user INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    desc_type_user VARCHAR(80)
+);
+
+CREATE TABLE IF NOT EXISTS user (
+    iduser INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name_user VARCHAR(80) NOT NULL,
+    email VARCHAR(120) NOT NULL UNIQUE,
+    idade INT,
+    date_nasc DATE,
+    login_user VARCHAR(120) NOT NULL UNIQUE,
+    password_user VARCHAR(20) NOT NULL,
+    typeUser_id_type_user INT NOT NULL,
+    FOREIGN KEY (typeUser_id_type_user) REFERENCES typeUser(id_tip_user)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS contact (
+    id_contact INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    text_contact VARCHAR(250),
+    date_contact DATE,
+    user_iduser INT NOT NULL,
+    FOREIGN KEY (user_iduser) REFERENCES user(iduser)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS answer (
+    id_answer INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    text_answer VARCHAR(250),
+    user_iduser INT NOT NULL,
+    contact_id_contact INT NOT NULL,
+    FOREIGN KEY (user_iduser) REFERENCES user(iduser)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (contact_id_contact) REFERENCES contact(id_contact)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS category (
+    id_category INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name_category VARCHAR(45)
+);
+
+CREATE TABLE IF NOT EXISTS noticies (
+    id_noticies INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    tittle_noticies VARCHAR(45),
+    text_noticies VARCHAR(250),
+    user_iduser INT NOT NULL,
+    category_id_category INT NOT NULL,
+    FOREIGN KEY (user_iduser) REFERENCES user(iduser)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (category_id_category) REFERENCES category(id_category)
+        ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS notice (
+    id_notice INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    text_notice VARCHAR(250)
+);
+
   </template>
 
   <style scoped>
@@ -107,6 +166,7 @@
           height: 1.8vw;
           border-radius:10px ;
           border: none;
+          cursor: pointer;
           
           &:hover{
             width: 80%;
@@ -155,5 +215,49 @@
       width: 90%;
       /*filter: drop-shadow(2px 2px 2px #2F9E41);*/
     }
+
+
+    @media (max-width: 768px){
+      main div#imagem-lateral img{
+        display: none;
+      }
+      main{
+        padding: 4vw;
+      }
+      main div#dados-do-usuario{
+        width: 100%;
+        margin: 0;
+
+        & img{
+          width: 80%;
+        }
+
+        & form{
+          height: 100%;
+          
+          & div#email-password input{
+            width: 85%;
+            height: 2rem;
+            &:first-child{
+              margin-bottom: 1.5vw;
+            }
+          }
+          & div button{
+            width: 85%;
+            height: 2rem;
+
+            &:first-child{
+              margin-bottom: 1.5vw;
+            }
+          }
+          & div button#cadastro{
+            width: 85%;
+            height: 2rem;
+          }
+        }
+      }
+    }
+
+    /* @media (min-width: 1024px) and (max-width: 1920px) */
 
   </style>
