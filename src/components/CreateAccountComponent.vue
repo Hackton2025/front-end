@@ -10,22 +10,37 @@
               <input type="email" placeholder="E-Mail" />
             </p>
             <p>
+                <input type="text" placeholder="Nome Completo" />
+            </p>
+            <p>
+                <input type="text" placeholder="Nome de usuário" />
+            </p>
+            <p>
+                <input type="text" placeholder="Telefone" />
+            </p>
+            <p>
+                <input style="color: gray;" type="date" placeholder="DD/MM/AA" />
+            </p>
+            <p>
               <input type="password" placeholder="Senha" />
+            </p>
+            <p>
+                <input type="password" placeholder="Confirme a Senha" />
             </p>
           </div>
 
           <div id="apple-google">
             <p>
-              <button id="google"><span id="google" style="color: #000; margin: 0 1vw 0 0;" class="mdi mdi-google"></span>Entrar com o Google</button>
+              <button id="google"><span id="google" style="color: #000; margin: 0 1vw 0 0;" class="mdi mdi-google"></span>Cadastre-se com o Google</button>
             </p>
             <p>
-              <button id="apple"><span id="apple" style="color: #000; margin: 0 1vw 0 0;" class="mdi mdi-apple"></span> Entrar com a Apple</button>
+              <button id="apple"><span id="apple" style="color: #000; margin: 0 1vw 0 0;" class="mdi mdi-apple"></span> Cadastre-se com a Apple</button>
             </p>
           </div>
 
-          <div id="cadastre-se"><p><button id="cadastro">Entrar</button></p></div>
+          <div id="cadastre-se"><p><button id="cadastro">Cadastre-se</button></p></div>
         </form>
-        <p id="create-account"><router-link to="/nova-conta">Criar uma conta</router-link> </p>
+        <p id="create-account"><router-link to="/">Ja tem uma conta?</router-link></p>
         <p id="copyright">2025 &copy; Todos direitos reservados</p>
       </div>
 
@@ -57,7 +72,7 @@
       flex-direction: column;
       justify-content: center;
       width: 35%;
-      height: 70vh;
+      height: 80vh;
       margin-right: 5vw; ;
       border-radius: 15px;
       padding: 0 2vw;
@@ -66,7 +81,7 @@
       & img{
         width: 50%;
         margin: 0 auto 0 auto;
-        margin-top: 2vw;
+        margin-top: 1vw;
         text-align: center;
         
       }
@@ -78,7 +93,7 @@
         align-items: center;
         height: 100%; */
         height: 100%;
-        margin-top: 10%;
+        margin-top: 5%;
         
 
         & p{ 
@@ -94,6 +109,7 @@
             border: none;
             background-color: #D3D3D360;
             border-radius: 10px;
+            color: gray;
         }
         & input:focus{
           outline: none;
@@ -123,7 +139,7 @@
             background-color: #2F9E41;
             color: white;
             font-weight: bold;
-            margin-top: 5vw;
+            margin-top: 2.5vw;
             font-size: 1.3rem;
             height: 2.5vw;
           }
@@ -154,7 +170,8 @@
       font-size: 1rem;
     }
     #create-account{
-      text-align: center;
+
+        text-align: center;
     }
 
     main div#imagem-lateral img{
