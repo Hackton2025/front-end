@@ -159,6 +159,7 @@
 
     main div#imagem-lateral img{
       width: 90%;
+      height: 80vh;
       margin-left: 5vw;
       /*filter: drop-shadow(2px 2px 2px #2F9E41);*/
     }
