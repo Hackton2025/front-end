@@ -191,9 +191,10 @@
       main div#dados-do-usuario{
         width: 100%;
         margin: 0;
+        height: 85vh;
 
         & img{
-          width: 80%;
+          display: none;
         }
 
         & form{
@@ -203,7 +204,7 @@
             width: 85%;
             height: 2rem;
             &:first-child{
-              margin-bottom: 1.5vw;
+              margin-bottom: 0.2vw;
             }
           }
           & div button{
@@ -211,7 +212,7 @@
             height: 2rem;
 
             &:first-child{
-              margin-bottom: 1.5vw;
+              margin-bottom: 0.3vw;
             }
           }
           & div button#cadastro{
