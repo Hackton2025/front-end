@@ -1,1 +1,6 @@
-<template><h1>adsa</h1></template>
+<script setup>
+    import homePageComponent from '@/components/homePageComponent.vue';
+</script>
+<template>
+    <homePageComponent></homePageComponent>
+</template>
