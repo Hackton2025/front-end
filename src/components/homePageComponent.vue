@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 const mostrarConfig = ref(false)
-
+const isOn = ref(false) 
 </script>
 
 <template>
@@ -46,19 +46,16 @@ const mostrarConfig = ref(false)
           </ul>
         </div>
 
-    <div class="notificacoes">
-      <span>🔔 Notificações</span>
+      <div class="notificacoes">
+        <span>🔔 Notificações</span>
         <div class="toggle-box">
-          <button
-            :class="['toggle-btn', isOn ? 'ativo' : '']"
-            @click="isOn = true">ON
+          <button :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">ON
           </button>
-          <button
-            :class="['toggle-btn', !isOn ? 'ativo' : '']"
-            @click="isOn = false">OFF
+            
+          <button :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">OFF
           </button>
         </div>
-    </div>
+      </div>
 
         <div class="privacidade">
           <label for="privacidade">🔒 Privacidade</label>
@@ -70,13 +67,19 @@ const mostrarConfig = ref(false)
 
         <div class="acoes">
           <button class="danger-button">
-            <span class="mdi mdi-sync">Alterar senha </span>
+            <span class="mdi mdi-sync"></span>
+            <span>Alterar senha </span>
           </button>
+
           <button class="danger-button"> 
-            <span class="mdi mdi-exit-run">Sair da conta</span>
+            <span class="mdi mdi-exit-run"></span>
+            <span>Sair da conta</span>
           </button>
+          
           <button class="danger-button">
-            <span class="mdi mdi-delete">Deletar conta</span>
+            <span class="mdi mdi-delete"></span>
+            <span>Deletar conta</span>
+          
           </button>
         </div>
       </div>
@@ -210,6 +213,8 @@ span.mdi {
   border: 1px solid #333;
   border-radius: 5px;
   overflow: hidden;
+  margin: 0 22px;
+  
 }
 .toggle-btn{
   padding: 5px 15px;
@@ -218,10 +223,18 @@ span.mdi {
   color: #333;
   cursor: pointer;
   font-weight: bold;
+  
 }
 .toggle-btn.ativo {
   background-color: green;
   color: white;
+  transition: 0.3s;
+}
+
+.toggle-btn.negativo {
+  background-color: red;
+  color: white;
+  transition: 0.3s;
 }
 .privacidade {
   margin-top: 20px;
@@ -245,19 +258,18 @@ span.mdi {
   flex-direction: column;
 }
 .acoes button {
-  padding: 16px;
+  padding: 1px;
   border: none;
   cursor: pointer;
   text-align: left;
   border-radius: 5px;
-  color: red;
+  color: black;
   
 }
 .acoes button.perigo {
   font-weight: bold;
 }
-.danger-button {
-  font-size: 14px;         
+.danger-button {         
   padding: 6px 12px;       
   margin: 4px 0;           
   display: flex;           
@@ -268,6 +280,7 @@ span.mdi {
   border-radius: 6px;
   cursor: pointer;
 }
-
-
+.mdi mdi-delete{
+  color: red;
+}
 </style>
