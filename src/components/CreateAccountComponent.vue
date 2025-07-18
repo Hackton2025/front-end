@@ -86,12 +86,6 @@
         
       }
       & form{
-        /* width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%; */
         height: 100%;
         margin-top: 5%;
         
@@ -178,7 +172,6 @@
       width: 90%;
       margin-left: 5vw;
       height: 80vh;
-      /*filter: drop-shadow(2px 2px 2px #2F9E41);*/
     }
 
 
@@ -223,7 +216,4 @@
         }
       }
     }
-
-    /* @media (min-width: 1024px) and (max-width: 1920px) */
-
   </style>

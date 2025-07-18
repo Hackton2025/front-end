@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 const mostrarConfig = ref(false)
+
 </script>
 
 <template>
@@ -45,12 +46,19 @@ const mostrarConfig = ref(false)
           </ul>
         </div>
 
-        <div class="linha">
-          <p>🔔 Notificações</p>
-          <label>
-            <input type="checkbox" />
-          </label>
+    <div class="notificacoes">
+      <span>🔔 Notificações</span>
+        <div class="toggle-box">
+          <button
+            :class="['toggle-btn', isOn ? 'ativo' : '']"
+            @click="isOn = true">ON
+          </button>
+          <button
+            :class="['toggle-btn', !isOn ? 'ativo' : '']"
+            @click="isOn = false">OFF
+          </button>
         </div>
+    </div>
 
         <div class="privacidade">
           <label for="privacidade">🔒 Privacidade</label>
@@ -192,10 +200,28 @@ span.mdi {
   margin: 5px 0 0 15px;
   padding: 0;
 }
-.linha {
+.notificacoes {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+}
+.toggle-box {
+  display: flex;
+  border: 1px solid #333;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.toggle-btn{
+  padding: 5px 15px;
+  border: none;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  font-weight: bold;
+}
+.toggle-btn.ativo {
+  background-color: green;
+  color: white;
 }
 .privacidade {
   margin-top: 20px;
@@ -205,10 +231,13 @@ span.mdi {
   padding: 5px;
   border-radius: 4px;
   margin-left: 23.7vw;
-   padding-left: 10px;
+  padding-left: 10px;
+  background-color: #eaeaea;
+  color: black;
+  
 }
 .acoes {
-  border: 1px solid #ff4d4d; 
+  border: 1px solid #d34141; 
   padding: 16px;
   border-radius: 10px;
   margin-top: 24px;
@@ -239,5 +268,6 @@ span.mdi {
   border-radius: 6px;
   cursor: pointer;
 }
+
 
 </style>

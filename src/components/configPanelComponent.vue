@@ -8,11 +8,9 @@
     </div>
 
     <div class="px-6">
-      <!-- conteúdo da config aqui -->
       <h2 class="text-xl font-bold mb-4">Configurações</h2>
       <p>Email: email@gmail.com</p>
       <p>Usuário: user.usuario</p>
-      <!-- e etc -->
     </div>
   </div>
 </template>
