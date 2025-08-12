@@ -1,3 +1,5 @@
+faça o card nesse estilo e me mande o codigo inteiro:
+
 <script setup>
 import { ref } from 'vue'
 
@@ -23,31 +25,53 @@ const isOn = ref(false)
         <span class="mdi mdi-cog" @click="mostrarConfig = true"></span>
       </div>
     </section>
-        <section class="lula">
-        <div class="instituicao">
-            <ul>
-                <li>
-                    1984 Seguidores
-                </li>
-                <li>
-                    <img src="/public/img/Logo_IFC_vertical_araquari.png  " alt="Logo IFC">
-                </li>
-                <li>
-                    69 Seguindo
-                </li>
-                <h3>
-                    Araquari
-                </h3>
-                <p>
-                    @araquari
-                </p>
-                <h3>
-                    Instituto Federal Catarinense Campus Araquari
-                </h3>
-            </ul>
-        </div>
+
+    <section class="lula">
+      <div class="instituicao">
+        
+        <ul>
+        <div class="cima">
+       
+          <li>
+            <img src="/public/img/Logo_IFC_vertical_araquari.png" alt="Logo IFC">
+          </li>
+           </div>
+          <div class="baixo">
+          <h3>Araquari</h3>
+          <p>@araquari</p>
+          <h3>Instituto Federal Catarinense Campus Araquari</h3>
+          </div>
+        </ul>
+        
+      </div>
+
+      <div class="comunidades">
+        <h3>Minhas Comunidades:</h3>
+        <ul>
+          <li>
+            <img src="/public/img/Logo_IFC_vertical_araquari.png" alt="D-geral"> 
+            <p>Direção-Geral</p>
+          </li>
+          <li>
+            <img src="" alt=""> CECOM
+          </li>
+          <li>
+            <img src="" alt=""> Agropecuária
+          </li>
+          <li>
+            <img src="" alt=""> Informática
+          </li>
+          <li>
+            <img src="" alt=""> Química
+          </li>
+          <li>
+            <img src="" alt=""> NUPE
+          </li>
+        </ul>
+      </div>
     </section>
 
+    <!-- Painel de Configurações -->
     <div class="config-panel" :class="{ aberto: mostrarConfig }">
       <div class="fechar">
         <button @click="mostrarConfig = false">❌</button>
@@ -109,7 +133,6 @@ const isOn = ref(false)
     </div>
 
     <div v-if="mostrarConfig" class="fundo" @click="mostrarConfig = false"></div>
-
   </main>
 </template>
 
@@ -153,7 +176,6 @@ input {
   text-align: center;
 }
 
-
 .search-icon {
   position: absolute;
   top: 50%;
@@ -176,9 +198,56 @@ span.mdi {
   padding: 5px;
 }
 
-.instituicao img{
-    width: 8%;
+
+.instituicao {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 350px;
+  margin: 2vw 3vw 2vw 3vw;
+  text-align: center;
 }
+
+.instituicao .cima {
+  background-color: green;
+}
+.instituicao img {
+  width: 80px;
+  height: auto;
+  margin: 10px 0;
+}
+
+.instituicao ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.instituicao li {
+  margin-bottom: 8px;
+}
+
+.instituicao h3 {
+  margin: 8px 0;
+  color: #2c3e50;
+}
+
+.instituicao p {
+  margin: 4px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.lula .comunidades img {
+  width: 9%;
+  border-radius: 20px;
+}
+
+.lula .comunidades ul li {
+  display: flex;
+}
+
 .config-panel {
   position: fixed;
   top: 0;
@@ -319,3 +388,4 @@ span.mdi {
   color: red;
 }
 </style>
+
