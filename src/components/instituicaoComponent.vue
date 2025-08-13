@@ -36,7 +36,7 @@
   width: 70px;
   height: auto;
   margin-top: -35px;
-  border: 3px solid white;
+  border: 3px solid black;
   border-radius: 8px;
   background: white;
 }

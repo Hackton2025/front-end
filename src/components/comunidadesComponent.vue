@@ -10,19 +10,19 @@
             <p>Direção-Geral</p>
           </li>
           <li>
-            <img src="" alt=""> CECOM
+            <img src="/public/img/cecom.png" alt=""> CECOM
           </li>
           <li>
-            <img src="" alt=""> Agropecuária
+            <img src="/public/img/agropecuaria.png" alt=""> Agropecuária
           </li>
           <li>
-            <img src="" alt=""> Informática
+            <img src="/public/img/informatica.png" alt=""> Informática
           </li>
           <li>
-            <img src="" alt=""> Química
+            <img src="/public/img/quimica.png" alt=""> Química
           </li>
           <li>
-            <img src="" alt=""> NUPE
+            <img src="/public/img/nupe.png" alt=""> NUPE
           </li>
         </ul>
       </div>
