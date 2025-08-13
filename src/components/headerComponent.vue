@@ -1,5 +1,7 @@
 <script setup>
-
+  import { ref } from 'vue'
+  import configPanelComponent from './configPanelComponent.vue'
+  const visivel = ref(false)
 </script>
 
 <template>
@@ -16,7 +18,8 @@
       <div class="icons">
         <span class="mdi mdi-bell"></span>
         <span class="mdi mdi-circle-outline"></span>
-        <span class="mdi mdi-cog" @click="mostrarConfig = true"></span>
+        <span class="mdi mdi-cog" @click="visivel = true"></span>
+        <config-panel-component :visivel="visivel" @fechar="visivel = false" />
       </div>
     </section>
 </template>

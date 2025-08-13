@@ -50,5 +50,6 @@ input:focus {
 }
 @import url("https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css");
 
-
-
+body {
+	background-color: #d3d3d3;
+}
