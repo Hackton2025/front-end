@@ -13,7 +13,7 @@
       <p>Usuário: user.usuario</p>
     </div>
   </div>
-</template>
+</template> 
 
 <script setup>
 defineProps(['visivel'])

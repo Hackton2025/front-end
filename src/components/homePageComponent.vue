@@ -1,7 +1,10 @@
-faça o card nesse estilo e me mande o codigo inteiro:
 
 <script setup>
 import { ref } from 'vue'
+
+import headerComponent from './headerComponent.vue'
+import instituicaoComponent from './instituicaoComponent.vue'
+import comunidadesComponent from './comunidadesComponent.vue'
 
 const mostrarConfig = ref(false)
 const isOn = ref(false)
@@ -9,69 +12,12 @@ const isOn = ref(false)
 
 <template>
   <main>
-    <section class="topo">
-      <img src="/public/img/logo.horizontal.ifc-Photoroom.png" alt="logo ifc" class="logo" />
-      
-      <div class="input-area">
-        <div class="input-wrapper">
-          <span class="mdi mdi-magnify search-icon"></span>
-          <input type="text" placeholder="Pesquisar..." />
-        </div>
-      </div>
+   <header-component />
+   <instituicao-component />
+   <comunidades-component />
 
-      <div class="icons">
-        <span class="mdi mdi-bell"></span>
-        <span class="mdi mdi-circle-outline"></span>
-        <span class="mdi mdi-cog" @click="mostrarConfig = true"></span>
-      </div>
-    </section>
 
-    <section class="lula">
-      <div class="instituicao">
-        
-        <ul>
-        <div class="cima">
-       
-          <li>
-            <img src="/public/img/Logo_IFC_vertical_araquari.png" alt="Logo IFC">
-          </li>
-           </div>
-          <div class="baixo">
-          <h3>Araquari</h3>
-          <p>@araquari</p>
-          <h3>Instituto Federal Catarinense Campus Araquari</h3>
-          </div>
-        </ul>
-        
-      </div>
 
-      <div class="comunidades">
-        <h3>Minhas Comunidades:</h3>
-        <ul>
-          <li>
-            <img src="/public/img/Logo_IFC_vertical_araquari.png" alt="D-geral"> 
-            <p>Direção-Geral</p>
-          </li>
-          <li>
-            <img src="" alt=""> CECOM
-          </li>
-          <li>
-            <img src="" alt=""> Agropecuária
-          </li>
-          <li>
-            <img src="" alt=""> Informática
-          </li>
-          <li>
-            <img src="" alt=""> Química
-          </li>
-          <li>
-            <img src="" alt=""> NUPE
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Painel de Configurações -->
     <div class="config-panel" :class="{ aberto: mostrarConfig }">
       <div class="fechar">
         <button @click="mostrarConfig = false">❌</button>
@@ -141,112 +87,6 @@ main {
   background-color: #E1E1E1;
 }
 
-.topo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2vh 4vw;
-  gap: 20px;
-}
-
-.logo {
-  width: 16%;
-}
-
-.input-area {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
-
-.input-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-}
-
-input {
-  width: 100%;
-  padding: 10px 15px 10px 35px;
-  border: none;
-  border-radius: 5px;
-  background-color: white;
-  font-size: 1rem;
-  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
-  text-align: center;
-}
-
-.search-icon {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #888;
-  pointer-events: none;
-}
-
-.icons {
-  display: flex;
-  gap: 10px;
-}
-
-span.mdi {
-  font-size: 35px;
-  color: #2c3e50;
-  cursor: pointer;
-  padding: 5px;
-}
-
-
-.instituicao {
-  background-color: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 350px;
-  margin: 2vw 3vw 2vw 3vw;
-  text-align: center;
-}
-
-.instituicao .cima {
-  background-color: green;
-}
-.instituicao img {
-  width: 80px;
-  height: auto;
-  margin: 10px 0;
-}
-
-.instituicao ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.instituicao li {
-  margin-bottom: 8px;
-}
-
-.instituicao h3 {
-  margin: 8px 0;
-  color: #2c3e50;
-}
-
-.instituicao p {
-  margin: 4px 0;
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.lula .comunidades img {
-  width: 9%;
-  border-radius: 20px;
-}
-
-.lula .comunidades ul li {
-  display: flex;
-}
 
 .config-panel {
   position: fixed;
