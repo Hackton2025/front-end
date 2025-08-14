@@ -180,21 +180,25 @@ const isOn = ref(true)
 }
 
 .acoes {
-  border: 1px solid #d34141;
-  padding: 16px;
-  border-radius: 10px;
-  margin-top: 24px;
+  border: 2px solid #FF0000;
+  padding: 1vw;
+  border-radius: 1vw;
+  margin-top: 50%;
   display: flex;
   flex-direction: column;
 }
 
 .acoes button {
-  padding: 1px;
+  color: #FF0000;
+  font-size: x-large;
+  padding: 1vw;
   border: none;
   cursor: pointer;
   text-align: left;
-  border-radius: 5px;
-  color: black;
+}
+.acoes button:hover {
+  background-color: #cccc;
+  transition: 0.5s  ;
 }
 
 .danger-button {
@@ -203,7 +207,7 @@ const isOn = ref(true)
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #eaeaea;
+  background-color: transparent;
   border: none;
   border-radius: 6px;
   cursor: pointer;
