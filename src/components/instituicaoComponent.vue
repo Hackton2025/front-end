@@ -23,7 +23,7 @@
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  margin: 2vw 3vw 2vw 3vw;
+  margin: 0.5vw 3vw 2vw 6vw;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   text-align: center;
   font-family: sans-serif;
@@ -60,7 +60,7 @@
   background: #2c9c49;
   color: white;
   border: none;
-  padding: 8px 20px;
+  padding: 8px 100px;
   border-radius: 8px;
   cursor: pointer;
   margin-bottom: 15px;
