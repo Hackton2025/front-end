@@ -52,4 +52,6 @@ input:focus {
 
 body {
 	background-color: #d3d3d3;
+	font-family: "Average Sans", sans-serif;
+	color: black;
 }

@@ -29,12 +29,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2vh 4vw;
+  padding: 1vw 4vw 0 3vw;
   gap: 20px;
 }
 
 .logo {
-  width: 16%;
+  width: 13%;
 }
 
 .input-area {
