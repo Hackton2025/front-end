@@ -42,12 +42,12 @@ import api from '@/plugins/axios';
 console.log('api', api);
 
 const usuario = reactive({
-  email: 'pt@gmail.com',
-  fullname: 'teste',
-  name: 'teste',
-  phone: '1234567890',
-  birthday: '2000-01-01',
-  password: 'teste123',
+  email: '',
+  fullname: '',
+  name: '',
+  phone: '',
+  birthday: '',
+  password: '',
   accept_notification: false,
   is_master: false,
 });
