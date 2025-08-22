@@ -6,10 +6,15 @@ import headerComponent from './headerComponent.vue'
 import instituicaoComponent from './instituicaoComponent.vue'
 import comunidadesComponent from './comunidadesComponent.vue'
 import configPanelComponent from './configPanelComponent.vue'
+import storysComponent from './storysComponent.vue'
+import homeContentComponent from './homeContentComponent.vue'
 
-async def getContent() {
+async function getContent() {
     const response = await api.get("/content/")
-    console.log(response)
+    const data = response.data
+    for (const c of data) {
+        console.log(c)
+    }
     return response
 }
 
@@ -22,10 +27,45 @@ const isOn = ref(false)
 
 <template>
     <header-component />
-    <instituicao-component />
-    <comunidades-component />
+    <main>
+        <div class="sidebar-left">
+            <instituicao-component />
+            <comunidades-component />
+        </div>
+        <div class="center">
+            <storys-component />
+            <home-content-component />
+        </div>
+        <div class="sidebar-right">
+            <div>
+                vamos ver..
+            </div>
+        </div>
+    </main>
 </template>
+
 <style scoped>
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-areas: 
+        'left center right';
+    width: 100vw;
+}
+
+.sidebar-left {
+    grid-area: left;
+}
+
+.sidebar-right {
+    grid-area: right;
+}
+.center {
+    grid-area: center;
+}
+
+
 
 </style>
 
