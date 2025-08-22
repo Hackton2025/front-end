@@ -1,13 +1,23 @@
 <script setup>
 import { ref } from 'vue'
+import api from '@/plugins/axios'
 
 import headerComponent from './headerComponent.vue'
 import instituicaoComponent from './instituicaoComponent.vue'
 import comunidadesComponent from './comunidadesComponent.vue'
 import configPanelComponent from './configPanelComponent.vue'
 
+async def getContent() {
+    const response = await api.get("/content/")
+    console.log(response)
+    return response
+}
+
+getContent()
+
 const mostrarConfig = ref(false)
 const isOn = ref(false)
+
 </script>
 
 <template>
