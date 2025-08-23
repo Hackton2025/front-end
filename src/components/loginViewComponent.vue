@@ -4,13 +4,13 @@
       <div id="dados-do-usuario">
         <img src="/img/Logo_IFC_horizontal_Araquari.png" alt="LogoIFC" class="logotype" />
 
-        <form action="#" method="get">
+        <form @submit.prevent="loginUser">
           <div id="email-password">
             <p>
-              <input type="email" placeholder="E-Mail" />
+              <input v-model="usuario.email" type="email" placeholder="E-Mail" />
             </p>
             <p>
-              <input type="password" placeholder="Senha" />
+              <input v-model="usuario.password" type="password" placeholder="Senha" />
             </p>
           </div>
 
@@ -23,7 +23,7 @@
             </p>
           </div>
 
-          <div id="cadastre-se"><p><button id="cadastro">Entrar</button></p></div>
+          <div id="cadastre-se"><p><button type="submit" id="cadastro">Entrar</button></p></div>
         </form>
         <p id="create-account"><router-link to="/nova-conta">Criar uma conta</router-link> </p>
         <p id="copyright">2025 &copy; Todos direitos reservados</p>
@@ -35,6 +35,31 @@
     </main>
 
   </template>
+
+  <script setup>
+    import { ref, reactive } from 'vue';
+    import api from '@/plugins/axios';
+
+    const usuario = reactive({
+      email: '',
+      password: '',
+    });
+
+    async function loginUser() {
+      try {
+        const response = await api.post('/users/login/', {
+          email: usuario.email,
+          password: usuario.password,
+        });
+        console.log('Login bem-sucedido:', response.data);
+        alert('Login bem-sucedido!');
+        window.location.href = '/home';
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+        alert('Erro ao fazer login. Verifique suas credenciais e tente novamente.');
+      }
+    }
+  </script>
 
   <style scoped>
     main{
