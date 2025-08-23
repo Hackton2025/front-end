@@ -14,7 +14,7 @@
           <p><input v-model="confirmPassword" type="password" placeholder="Confirme a Senha" /></p>
         </div>
 
-        <div id="apple-google">
+        <div id="apple-google" style="display: none;">
           <p><button type="button" id="google"><span class="mdi mdi-google" style="color: #000; margin-right: 1vw;"></span> Cadastre-se com o Google</button></p>
           <p><button type="button" id="apple"><span class="mdi mdi-apple" style="color: #000; margin-right: 1vw;"></span> Cadastre-se com a Apple</button></p>
         </div>

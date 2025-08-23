@@ -14,7 +14,7 @@
             </p>
           </div>
 
-          <div id="apple-google">
+          <div id="apple-google" style="display: none;">
             <p>
               <button id="google"><span id="google" style="color: #000; margin: 0 1vw 0 0;" class="mdi mdi-google"></span>Entrar com o Google</button>
             </p>
