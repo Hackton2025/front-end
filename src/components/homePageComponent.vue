@@ -36,11 +36,7 @@ const isOn = ref(false)
             <storys-component />
             <home-content-component />
         </div>
-        <div class="sidebar-right">
-            <div>
-                vamos ver..
-            </div>
-        </div>
+     
     </main>
 </template>
 
