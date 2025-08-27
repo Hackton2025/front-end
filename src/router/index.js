@@ -3,6 +3,7 @@ import loginView from '@/views/loginView.vue'
 import HomeView from '@/views/HomeView.vue'
 import CreateAccountViews from '@/views/CreateAccountViews.vue'
 import createCommunityView from '@/views/createCommunityView.vue'
+import userInstituicaoView from '@/views/userInstituicaoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/criar-comunidade',
       name: 'criarComunidade',
       component: createCommunityView,
+    },
+    {
+      path: '/instituicao',
+      name: 'instituicao',
+      component: userInstituicaoView,
     }
 
   ],
