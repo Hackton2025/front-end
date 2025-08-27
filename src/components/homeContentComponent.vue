@@ -24,7 +24,7 @@
 .new-post {
     background-color: white;
     padding: 20px;
-    border-radius: 20px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -49,7 +49,8 @@
 input.pensamentos {
 
     width: 100%;
-    padding: 0.8vw;
+    padding: 1vw 0 0.6vw 1vw;
+    align-items: center;
     border: none;
     border-radius: 5px;
     background-color: #D3D3D3;
