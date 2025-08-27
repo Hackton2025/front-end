@@ -82,15 +82,16 @@ main {
     align-items: center;
     margin-left: 2vw;
     gap: 10px;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     margin-bottom: 1.5vw;
     background: none;
     border: none;
     text-decoration: none;
     color: inherit;
+    margin-top: 1vw;
 }
 .voltar span {
-    font-size: 3vw;
+    font-size: 2.5vw;
     margin-left: 1px;
 }
 .geral div.botoes {
