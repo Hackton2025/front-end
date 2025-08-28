@@ -1,110 +1,12 @@
-    <script setup>
-    import { ref, reactive, onMounted, computed } from 'vue';
-    import api from '@/plugins/axios';
+<script setup>
+import { onMounted } from 'vue';
+    import { useComunittyStore } from '@/stores/comunitty';
 
-    const community = reactive({
-        name: '',
-        image: null,
-        legend: '',
-    });
-
-    const communities = ref([]);
-    const search = ref('');
-    const imagepreview = ref(null);
-
-    function onFileChange(event) {
-        const file = event.target.files[0];
-        if (file) {
-            imagepreview.value = URL.createObjectURL(file);
-            community.image = file;
-        }
-    }
-
-
-
-    async function uploudImage() {
-        try {
-            const formData = new FormData();
-            formData.append('file', community.image); // use community.image, não file
-
-            const response = await api.post('/image-uploader/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            console.log('Image uploaded:', response.data);
-            return response.data;
-        } catch (error) {
-            console.error('Error uploading image:', error);
-            throw error;
-        }
-    }
-
-
-
-
-
-    async function submitCommunity() {
-        try {
-            let imageKey = null;
-
-            if (community.image) {
-                const uploaded = await uploudImage();
-                imageKey = uploaded.attachment_key;
-            }
-
-            const response = await api.post('/community/', {
-                name: community.name,       // ✅ campo certo
-                image: imageKey,            // ✅ attachment_key
-                legend: community.legend,   // ✅ campo certo
-            });
-
-            alert('Comunidade criada com sucesso!');
-            console.log('Community created:', response.data);
-            // Reset form
-            community.name = '';
-            community.image = null;
-            community.legend = '';
-            imagepreview.value = null;
-            // Refetch communities to include the new one
-            fetchCommunities();
-
-        } catch (error) {
-            console.error('Error creating community:', error.response?.data || error);
-        }
-    }
-
-
-
-
-
-
-    async function fetchCommunities() {
-        try {
-            const response = await api.get('/community/');
-            console.log('Fetched communities:', response.data);
-            communities.value = response.data; // ✅ agora salva no estado
-        } catch (error) {
-            console.error('Error fetching communities:', error);
-        }
-    }
-
-    const filteredCommunities = computed(() => {
-        if (!search.value) {
-            return communities.value;
-        }
-        return communities.value.filter(comn =>
-            comn.name.toLowerCase().includes(search.value.toLowerCase())
-        );
-    });
-
-
+    const store = useComunittyStore();
 
     onMounted(() => {
-        fetchCommunities();
-    });
-
+  store.fetchCommunities();
+});
 </script>
 
     <template>
@@ -116,11 +18,11 @@
                 </section>
                 <section class="comunidades-existentes">
                     <div class="input-wrapper">
-                        <input type="text" v-model="search" placeholder="Pesquisar..." />
+                        <input type="text" v-model="store.search" placeholder="Pesquisar..." />
                         <span class="mdi mdi-magnify search-icon"></span>
                     </div>
                     <ul>
-                        <li v-for="comn in communities" :key="comn.id">
+                        <li v-for="comn in store.communities" :key="comn.id">
                             <img :src="comn.image" alt="comunidade" />
                             <h3>{{ comn.name }}</h3>
                         </li>
@@ -130,25 +32,25 @@
             </section>
 
             <section class="criar-comunidade">
-                <form @submit.prevent="submitCommunity">
-                    <div class="uploud-wrapper" :class="{ 'has-image': imagepreview }">
-                        <label for="file-input" class="uploud-box" :class="{ 'has-image': imagepreview }">
-                            <div class="image-preview" v-if="imagepreview">
-                                <img :src="imagepreview" alt="Preview" />
+                <form @submit.prevent="store.submitCommunity">
+                    <div class="uploud-wrapper" :class="{ 'has-image': store.imagepreview }">
+                        <label for="file-input" class="uploud-box" :class="{ 'has-image': store.imagepreview }">
+                            <div class="image-preview" v-if="store.imagepreview">
+                                <img :src="store.imagepreview" alt="Preview" />
                             </div>
                             <div class="placeholder" v-else>
                                 <span class="mdi mdi-camera-plus"></span>
                                 <p>Clique para adicionar uma imagem</p>
                             </div>
                         </label>
-                        <input id="file-input" type="file" @change="onFileChange" style="display: none;" />
+                        <input id="file-input" type="file" @change="store.onFileChange" style="display: none;" />
                     </div>
 
                     <div class="abaixo-da-img">
                         <div class="left-column">
                             <div class="input-group">
                                 <label for="communityName">Nome da Comunidade</label>
-                                <input type="text" id="name" v-model="community.name"
+                                <input type="text" id="name" v-model="store.community.name"
                                     placeholder="Nome da Comunidade" />
                             </div>
                             <!-- <div class="input-group">
@@ -157,7 +59,7 @@
                             </div> -->
                             <div class="input-group">
                                 <label for="admins">Administradores</label>
-                                <input type="text" id="admins" v-model="community.admins"
+                                <input type="text" id="admins" v-model="store.community.admins"
                                     placeholder="Administradores" />
                             </div>
                         </div>
@@ -165,7 +67,7 @@
                         <div class="right-column">
                             <div class="legend-group">
                                 <label for="legend">Legenda</label>
-                                <textarea id="legend" v-model="community.legend" placeholder="Legenda"></textarea>
+                                <textarea id="legend" v-model="store.community.legend" placeholder="Legenda"></textarea>
                             </div>
                             <button type="submit" class="btn-submit">Enviar</button>
                         </div>
