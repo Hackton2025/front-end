@@ -1,12 +1,13 @@
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 import api from "@/plugins/axios";
+import router from "@/router";
 
 export const useUserStore = defineStore("user", () => {
-  const usuario = reactive({
-    email: localStorage.getItem("userEmail") || "",
-    fullname: localStorage.getItem("userFullname") || "",
-    name: localStorage.getItem("userName") || "",
+  const usuario = ref({
+    email: '',
+    fullname: '',
+    name: '',
     phone: "",
     birthday: "",
     password: "",
@@ -14,11 +15,7 @@ export const useUserStore = defineStore("user", () => {
     is_master: false,
   });
 
-  const usuarioLogin = reactive({
-    email: "",
-    password: "",
-  });
-  const profile = reactive({
+  const profile = ref({
     is_man: true,
     links1: "",
     links2: "",
@@ -37,7 +34,7 @@ export const useUserStore = defineStore("user", () => {
       const response = await api.post("/users/", usuario);
       console.log("Usuário cadastrado:", response.data);
       alert("Conta criada com sucesso!");
-      window.location.href = "/login";
+      router.push("/");
     } catch (error) {
       console.error("Erro ao criar conta:", error);
       alert("Erro ao criar conta. Tente novamente.");
@@ -46,32 +43,29 @@ export const useUserStore = defineStore("user", () => {
 
   const token = ref(localStorage.getItem("token") || null);
 
-  async function loginUser() {
+  async function loginUser(usuarioLogin) {
     try {
-      const response = await api.post("/users/login/", {
+      const {data} = await api.post("/users/login/", {
         email: usuarioLogin.email,
         password: usuarioLogin.password,
       });
 
-      const { access, refresh, user, profile } = response.data;
+      console.log("Login bem-sucedido:", data);
+      token.value = data.access;
+      localStorage.setItem("token", data.access);
+      localStorage.setItem("refresh", data.refresh);
 
-      // Salva token JWT
-      token.value = access;
-      localStorage.setItem("token", access);
-      localStorage.setItem("refresh", refresh);
+      usuario.value.email = data.user.email;
+      usuario.value.fullname = data.user.fullname;
+      usuario.value.name = data.user.name;
 
-      // Atualiza dados do usuário
-      usuario.email = user.email;
-      usuario.fullname = user.fullname;
-      usuario.name = user.name;
-
-      // Atualiza profile
-      if (profile) {
-        Object.assign(store.profile, profile);
+      if (data.user.profile) {
+        Object.assign(profile.value, data.user.profile);
       }
 
       alert("Login bem-sucedido!");
-      window.location.href = "/home";
+      // const router = useRouter();
+      router.push("/home");
     } catch (error) {
       console.error("Erro ao fazer login:", error);
       alert(
@@ -87,8 +81,9 @@ export const useUserStore = defineStore("user", () => {
       });
 
       if (response.data.length > 0) {
-        Object.assign(profile, response.data[0]); // Carrega dados
+        Object.assign(profile, response.data[0]); 
       }
+      
     } catch (error) {
       console.error("Erro ao buscar perfil:", error);
     }
@@ -109,11 +104,10 @@ export const useUserStore = defineStore("user", () => {
   return {
     usuario,
     confirmPassword,
-    createAccount,
-    usuarioLogin,
-    loginUser,
     token,
     profile,
+    createAccount,
+    loginUser,
     fetchProfile,
     updateProfile,
   };

@@ -24,9 +24,9 @@ onMounted(() => {
 
     <div class="conteudo">
       <div class="perfil">
-        <img :src="store.profile.first_profile_image_url || 'https://i.imgur.com/L7rJjpt.png'" class="avatar" />
+        <img :src="store.profile.second_profile_image_url" class="avatar" />
         <div>
-          <h2>{{ store.usuario.fullname || 'Nome não disponível' }}</h2>
+          <h2>{{ store.usuario.fullname }}</h2>
           <p class="usuario">{{ store.usuario.name }}</p>
           <p class="email">{{ store.usuario.email }}</p>
           <p>Link 1: {{ store.profile.links1 }}</p>
