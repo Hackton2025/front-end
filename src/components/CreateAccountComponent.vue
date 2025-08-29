@@ -3,15 +3,15 @@
     <div id="dados-do-usuario">
       <img src="/img/Logo_IFC_horizontal_Araquari.png" alt="LogoIFC" class="logotype" />
 
-      <form @submit.prevent="createAccount">
+      <form @submit.prevent="userStore.createAccount">
         <div id="email-password">
-          <p><input v-model="usuario.email" type="email" placeholder="E-Mail" /></p>
-          <p><input v-model="usuario.fullname" type="text" placeholder="Nome Completo" /></p>
-          <p><input v-model="usuario.name" type="text" placeholder="Nome de usuário" /></p>
-          <p><input v-model="usuario.phone" type="text" placeholder="Telefone" /></p>
-          <p><input v-model="usuario.birthday" type="date" style="color: gray;" /></p>
-          <p><input v-model="usuario.password" type="password" placeholder="Senha" /></p>
-          <p><input v-model="confirmPassword" type="password" placeholder="Confirme a Senha" /></p>
+          <p><input v-model="userStore.usuario.email" type="email" placeholder="E-Mail" /></p>
+          <p><input v-model="userStore.usuario.fullname" type="text" placeholder="Nome Completo" /></p>
+          <p><input v-model="userStore.usuario.name" type="text" placeholder="Nome de usuário" /></p>
+          <p><input v-model="userStore.usuario.phone" type="text" placeholder="Telefone" /></p>
+          <p><input v-model="userStore.usuario.birthday" type="date" style="color: gray;" /></p>
+          <p><input v-model="userStore.usuario.password" type="password" placeholder="Senha" /></p>
+          <p><input v-model="userStore.confirmPassword" type="password" placeholder="Confirme a Senha" /></p>
         </div>
 
         <div id="apple-google" style="display: none;">
@@ -35,41 +35,9 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/stores/user';
 
-import { ref, reactive } from 'vue';
-import api from '@/plugins/axios';
-
-console.log('api', api);
-
-const usuario = reactive({
-  email: '',
-  fullname: '',
-  name: '',
-  phone: '',
-  birthday: '',
-  password: '',
-  accept_notification: false,
-  is_master: false,
-});
-
-console.log(usuario)
-const confirmPassword = ref('');
-
-async function createAccount() {
-  if (usuario.password !== confirmPassword.value) {
-    alert('As senhas não coincidem!');
-    return;
-  }
-
-  try {
-    const response = await api.post('/users/', usuario);
-    console.log('Usuário cadastrado:', response.data);
-    alert('Conta criada com sucesso!');
-  } catch (error) {
-    console.error('Erro ao criar conta:', error);
-    alert('Erro ao criar conta. Tente novamente.');
-  }
-}
+const userStore = useUserStore();
 </script>
 
 <style scoped>

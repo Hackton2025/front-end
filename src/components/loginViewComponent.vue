@@ -4,13 +4,13 @@
       <div id="dados-do-usuario">
         <img src="/img/Logo_IFC_horizontal_Araquari.png" alt="LogoIFC" class="logotype" />
 
-        <form @submit.prevent="loginUser">
+        <form @submit.prevent="userStore.loginUser">
           <div id="email-password">
             <p>
-              <input v-model="usuario.email" type="email" placeholder="E-Mail" />
+              <input v-model="userStore.usuarioLogin.email" type="email" placeholder="E-Mail" />
             </p>
             <p>
-              <input v-model="usuario.password" type="password" placeholder="Senha" />
+              <input v-model="userStore.usuarioLogin.password" type="password" placeholder="Senha" />
             </p>
           </div>
 
@@ -37,28 +37,10 @@
   </template>
 
   <script setup>
-    import { ref, reactive } from 'vue';
-    import api from '@/plugins/axios';
+  import { useUserStore } from '@/stores/user';
 
-    const usuario = reactive({
-      email: '',
-      password: '',
-    });
+  const userStore = useUserStore();
 
-    async function loginUser() {
-      try {
-        const response = await api.post('/users/login/', {
-          email: usuario.email,
-          password: usuario.password,
-        });
-        console.log('Login bem-sucedido:', response.data);
-        alert('Login bem-sucedido!');
-        window.location.href = '/home';
-      } catch (error) {
-        console.error('Erro ao fazer login:', error);
-        alert('Erro ao fazer login. Verifique suas credenciais e tente novamente.');
-      }
-    }
   </script>
 
   <style scoped>
