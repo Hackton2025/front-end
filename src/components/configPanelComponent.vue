@@ -1,10 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useUserStore } from '@/stores/user'
+const store = useUserStore();
+
 
 const props = defineProps(['visivel'])
 const emit = defineEmits(['fechar'])
 
 const isOn = ref(true)
+onMounted(() => {
+  if (store.token) {
+    store.fetchProfile()
+  }
+});
+
 </script>
 
 <template>
@@ -15,13 +24,16 @@ const isOn = ref(true)
 
     <div class="conteudo">
       <div class="perfil">
-        <img src="https://i.imgur.com/L7rJjpt.png" class="avatar" />
+        <img :src="store.profile.first_profile_image_url || 'https://i.imgur.com/L7rJjpt.png'" class="avatar" />
         <div>
-          <h2>user_name</h2>
-          <p class="usuario">user.usuario</p>
-          <p class="email">email@gmail.com</p>
+          <h2>{{ store.usuario.fullname || 'Nome não disponível' }}</h2>
+          <p class="usuario">{{ store.usuario.name }}</p>
+          <p class="email">{{ store.usuario.email }}</p>
+          <p>Link 1: {{ store.profile.links1 }}</p>
+          <p>Link 2: {{ store.profile.links2 }}</p>
         </div>
       </div>
+
 
       <div class="descricao">
         <p><strong>Descrição:</strong></p>
