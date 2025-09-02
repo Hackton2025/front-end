@@ -28,7 +28,7 @@ import { onMounted } from 'vue';
                         </li>
                     </ul>
 
-                </section>
+                </section>    
             </section>
 
             <section class="criar-comunidade">
