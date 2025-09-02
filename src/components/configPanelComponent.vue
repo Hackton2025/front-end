@@ -1,19 +1,31 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useUserStore } from '@/stores/user'
-const store = useUserStore();
+import { useUiStore } from '@/stores/refreshPage'
 
+const store = useUserStore()
+const uiStore = useUiStore()
 
 const props = defineProps(['visivel'])
 const emit = defineEmits(['fechar'])
 
 const isOn = ref(true)
+const fileInputRef = ref(null)
+
+const triggerFileSelect = () => {
+  fileInputRef.value?.click()
+}
+
 onMounted(() => {
   if (store.token) {
     store.fetchProfile()
   }
-});
+  uiStore.ativarAvisoSaida()
+})
 
+onBeforeUnmount(() => {
+  uiStore.desativarAvisoSaida()
+})
 </script>
 
 <template>
@@ -24,32 +36,66 @@ onMounted(() => {
 
     <div class="conteudo">
       <div class="perfil">
-        <img :src="store.profile.second_profile_image_url" class="avatar" />
+        <!-- IMAGEM do perfil clicável -->
+        <img
+          :src="store.profileImagePreview || store.profile.second_profile_image_url"
+          class="avatar"
+          @click="triggerFileSelect"
+        />
+
+        <!-- INPUT de arquivo invisível -->
+        <input
+          type="file"
+          ref="fileInputRef"
+          @change="store.onFileChange"
+          accept="image/*"
+          style="display: none;"
+        />
+
         <div>
-          <h2>{{ store.usuario.fullname }}</h2>
-          <p class="usuario">{{ store.usuario.name }}</p>
+          <input v-model="store.usuario.fullname" class="h2" />
+          <input v-model="store.usuario.name" class="usuario" />
           <p class="email">{{ store.usuario.email }}</p>
-          <p>Link 1: {{ store.profile.links1 }}</p>
-          <p>Link 2: {{ store.profile.links2 }}</p>
+          <input
+            placeholder="Adicione um link"
+            v-model="store.profile.links1"
+            class="links"
+            style="margin-top: 10px;"
+          />
+          <input
+            placeholder="Adicione um link"
+            v-model="store.profile.links2"
+            class="links"
+          />
         </div>
       </div>
 
-
       <div class="descricao">
-        <p><strong>Descrição:</strong></p>
-        <ul>
-          <li>Suricato</li>
-          <li>Amigo do Maia</li>
-          <li>Flamengo no coração ❤️🖤</li>
-          <li>Joinville - 17y</li>
-        </ul>
+        <textarea
+          name="legend"
+          id="legend"
+          placeholder="Adicione uma legenda"
+          v-model="store.profile.legend"
+        ></textarea>
       </div>
+
+      <button @click="store.updateProfile">Salvar alterações</button>
 
       <div class="notificacoes">
         <span>🔔 Notificações</span>
         <div class="toggle-box">
-          <button :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">ON</button>
-          <button :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">OFF</button>
+          <button
+            :class="['toggle-btn', isOn ? 'ativo' : '']"
+            @click="isOn = true"
+          >
+            ON
+          </button>
+          <button
+            :class="['toggle-btn', !isOn ? 'negativo' : '']"
+            @click="isOn = false"
+          >
+            OFF
+          </button>
         </div>
       </div>
 
@@ -83,8 +129,12 @@ onMounted(() => {
   <div v-if="props.visivel" class="fundo" @click="emit('fechar')"></div>
 </template>
 
-
 <style scoped>
+input {
+  border: none;
+  background: transparent;
+}
+
 .config-panel {
   position: fixed;
   top: 0;
@@ -125,6 +175,11 @@ onMounted(() => {
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.avatar:hover {
+  opacity: 0.8;
 }
 
 .usuario,
@@ -137,9 +192,12 @@ onMounted(() => {
   margin-top: 20px;
 }
 
-.descricao ul {
-  margin: 5px 0 0 15px;
-  padding: 0;
+.descricao input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .notificacoes {
@@ -223,5 +281,28 @@ onMounted(() => {
 
 .mdi.mdi-delete {
   color: red;
+}
+
+textarea {
+  width: 100%;
+  height: 20vh;
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
+  border: none;
+  transition: 0.5s;
+}
+
+.h2 {
+  font-size: 1.5rem;
+}
+
+.links:nth-child(1) {
+  margin-top: 10px;
 }
 </style>
