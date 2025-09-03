@@ -9,26 +9,46 @@ export const usePostStore = defineStore("post", () => {
     const video = ref(null);
     const videopreview = ref(null);
 
-    function onFileChange(event, type) {
-        const file = event.target.files[0];
-        if (!file) return;
+ function onFileChange(event, type) {
+  const file = event.target.files[0];
+  if (!file) return;
 
-        if (type === 'image') {
-            image.value = file;
-            imagepreview.value = URL.createObjectURL(file);
-        } else if (type === 'video') {
-            video.value = file;
-            videopreview.value = URL.createObjectURL(file);
-        }
-    }
+  event.target.value = null;
 
-    function onFileChange(event) {
-        const file = event.target.files[0];
-        if (file) {
-            image.value = file;
-            imagepreview.value = URL.createObjectURL(file);
-        }
-    }
+  if (type === "image") {
+    if (imagepreview.value) URL.revokeObjectURL(imagepreview.value);
+    image.value = null;      
+    imagepreview.value = null;
+
+    setTimeout(() => {
+      image.value = file;
+      imagepreview.value = URL.createObjectURL(file);
+
+      if (videopreview.value) {
+        URL.revokeObjectURL(videopreview.value);
+        video.value = null;
+        videopreview.value = null;
+      }
+    }, 0);
+
+  } else if (type === "video") {
+    if (videopreview.value) URL.revokeObjectURL(videopreview.value);
+    video.value = null;
+    videopreview.value = null;
+
+    setTimeout(() => {
+      video.value = file;
+      videopreview.value = URL.createObjectURL(file);
+
+      if (imagepreview.value) {
+        URL.revokeObjectURL(imagepreview.value);
+        image.value = null;
+        imagepreview.value = null;
+      }
+    }, 0);
+  }
+}
+
 
     async function uploadImage() {
         try {
@@ -47,6 +67,7 @@ export const usePostStore = defineStore("post", () => {
             console.error("Error uploading image:", error);
             throw error;
         }
+
     }
 
 
