@@ -37,6 +37,7 @@ const store = usePostStore();
          @change="e => store.onFileChange(e, 'image')" style="display: none;" />
 </div>
 
+
 <div class="video">
   <label for="file-input-video" class="uploud-box">
     <template v-if="store.videopreview && !store.imagepreview">
@@ -59,7 +60,7 @@ const store = usePostStore();
 
             <div class="legend">
                 <h3>Adicionar Legenda</h3>
-                <input type="text">
+                <textarea> </textarea>
             </div>
 
             <div class="opitions">
@@ -97,7 +98,7 @@ main {
 
 .sidebar.right {
     grid-area: right;
-    margin-left: 10vw;
+    
 }
 
 form {
@@ -114,15 +115,18 @@ div.image-video {
     color: white;
     text-align: center;
 }
-
+.traco{
+    border: solid black 0.1px;
+    margin-right: 12px;
+}
 .image,
 .video {
     background-color: #00000040;
     margin-right: 1vw;
-    width: 250px;
-    height: 260px;
+    width: 350px;
+    height: 360px;
     border-radius: 8px;
-    border: 1.8px black dashed;
+    border: 1.  8px black dashed;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -130,7 +134,8 @@ div.image-video {
     position: relative;
 }
 
-.placeholder {
+
+.placeholder{
     cursor: pointer;
 }
 
@@ -157,23 +162,40 @@ div.image-video {
     padding: 0;
     margin: 0;
     width: 100%;
-    height: 100%;
+    height: 50vh;
     object-fit: cover;
     transition: 1s;
 }
 .legend{
     margin-top: 1.5vw;  
     margin-bottom: 3vw;
+    flex-direction: column;
+    margin: 2vw 0 0 0;
 }
-.legend input{
-    width: 100%;
-    height: 4vw;
+.legend textarea{
+    width: 100%; 
+    height: 12vh;
     border-radius: 5px;
     border: none;
     padding-left: 0.5vw;
     margin-top: 0.5vw;
+    margin-bottom: 3vw;
 }
 .marcar-pessoas, .localizacao{
     display: flex;
+    background-color: white;
+    margin-top: 1vw;
+    padding:10px 10px;
+    font-size:1.1rem;
+    border-radius:5px;
+    align-items: center;
+}
+.mdi.mdi-map-marker{
+    font-size: 1.3rem;
+    margin-right: 0.5vw;
+}
+.mdi.mdi-account{
+    font-size:1.4rem;
+    margin-right: 0.5vw;
 }
 </style>
