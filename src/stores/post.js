@@ -70,7 +70,7 @@ export const usePostStore = defineStore("post", () => {
 
     }
 
-
+    const legenda = ref("")
 
     return {
         imagepreview,
@@ -79,6 +79,7 @@ export const usePostStore = defineStore("post", () => {
         uploadImage,
         video,
         videopreview,
+        legenda,
     }
 }
 )
