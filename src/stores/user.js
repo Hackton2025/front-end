@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { defineStore } from "pinia";
 import api from "@/plugins/axios";
 import router from "@/router";
@@ -21,18 +21,17 @@ export const useUserStore = defineStore("user", () => {
     is_man: true,
     links1: "",
     links2: "",
-    first_profile_image_url: null,
-    second_profile_image_url: null,
+    firstProfileImage: null,
+    secondProfileImage: null,
   });
 
   const confirmPassword = ref("");
   const token = ref(localStorage.getItem("token") || null);
-  const profileImageFile = ref(null);
   const profileImagePreview = ref(null);
 
-  // ========================
+
   // Criar conta
-  // ========================
+
   async function createAccount() {
     if (usuario.value.password !== confirmPassword.value) {
       alert("As senhas não coincidem!");
@@ -65,9 +64,9 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  // ========================
+
   // Login
-  // ========================
+
   async function loginUser(usuarioLogin) {
     try {
       const { data } = await api.post("/users/login/", {
@@ -106,9 +105,9 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  // ========================
+
   // Buscar perfil (agora pega o último do array)
-  // ========================
+
   async function fetchProfile() {
     try {
       const response = await api.get("/profile/", {
@@ -127,19 +126,19 @@ export const useUserStore = defineStore("user", () => {
   function onFileChange(event) {
     const file = event.target.files[0];
     if (file) {
-      profileImageFile.value = file;
       profileImagePreview.value = URL.createObjectURL(file);
+      profile.value.firstProfileImage = file;
     }
   }
 
   async function uploadProfileImage() {
-    if (!profileImageFile.value || !profile.value.uuid) {
-      alert("Nenhum arquivo selecionado ou perfil inválido.");
-      return null;
-    }
+    // if (!profileImageFile.value || !profile.value.uuid) {
+    //   alert("Nenhum arquivo selecionado ou perfil inválido.");
+    //   return null;
+    // }
 
     const formData = new FormData();
-    formData.append("file", selectedImageFile);
+    formData.append("file", profile.value.firstProfileImage.value);
 
     try {
       const response = await api.post(
@@ -152,12 +151,13 @@ export const useUserStore = defineStore("user", () => {
           },
         }
       );
+      console.log("Imagem de perfil enviada:", response.data);
 
       // Atualiza a URL da imagem no perfil
-      if (response.data.second_profile_image_url) {
-        profile.value.second_profile_image_url = response.data.second_profile_image_url;
+      if (response.data.firstProfileImage) {
+        profile.value.firstProfileImage = response.data.firstProfileImage;
         alert("Imagem de perfil enviada com sucesso!");
-        return response.data.second_profile_image_url;  // Retorna a URL da imagem atualizada
+        return response.data.firstProfileImage;  // Retorna a URL da imagem atualizada
       }
 
       return null;
@@ -168,14 +168,14 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  // ========================
+
   // Atualizar perfil
-  // ========================
+
   async function updateProfile() {
     try {
       let imageUrl = null;
 
-      if (profileImageFile.value) {
+      if (profile.value.firstProfileImage.value) {
         imageUrl = await uploadProfileImage();
       }
 
@@ -183,19 +183,20 @@ export const useUserStore = defineStore("user", () => {
         links1: profile.value.links1,
         links2: profile.value.links2,
         legend: profile.value.legend,
+        profileImagePreview: profile.value.profileImagePreview,
       };
 
       if (imageUrl) {
-        updates.second_profile_image_url = imageUrl;  // Atualize com o campo correto
+        updates.profileImagePreview = imageUrl;  // Atualize com o campo correto
       }
-
+      console.log('Atualizações do perfil:', updates);
       const response = await api.patch(`/profile/${profile.value.uuid}/`, updates, {
         headers: { Authorization: `Bearer ${token.value}` },
       });
 
       Object.assign(profile.value, response.data);
       alert('Perfil atualizado!');
-      profileImageFile.value = null;
+      profile.value.firstProfileImage = null;
       profileImagePreview.value = null;
 
     } catch (error) {
@@ -207,9 +208,9 @@ export const useUserStore = defineStore("user", () => {
 
 
 
-  // ========================
+
   // Atualizar dados do usuário
-  // ========================
+
   async function updateUser(updates) {
     try {
       const response = await api.patch(
@@ -226,6 +227,14 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  onMounted(() => {
+    if (token.value) {
+      fetchProfile();
+    }
+  });
+
+  
+
   return {
     usuario,
     confirmPassword,
@@ -239,6 +248,5 @@ export const useUserStore = defineStore("user", () => {
     onFileChange,
     profileImagePreview,
     uploadProfileImage,
-    profileImageFile,
   };
 });
