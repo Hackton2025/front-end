@@ -70,6 +70,34 @@ export const usePostStore = defineStore("post", () => {
 
     }
 
+  async function createPost() {
+  try {
+    const formData = new FormData();
+
+    if (image.value) {
+      formData.append("image", image.value);  
+    }
+
+    if (video.value) {
+      formData.append("video", video.value);   
+    }
+
+    formData.append("content", legenda.value); 
+
+    const response = await api.post("/posts/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log("Post criado:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao criar post:", error);
+    throw error;
+  }
+}
+
     const legenda = ref("")
 
     return {
@@ -80,6 +108,7 @@ export const usePostStore = defineStore("post", () => {
         video,
         videopreview,
         legenda,
+        createPost,
     }
 }
 )

@@ -77,14 +77,15 @@ const store = usePostStore();
 
         </form>
 
-        <section class="sidebar.left" style="background-color: white; border-radius: 15px;">
+        <section class="sidebar.left">
 
-            <div class="profile">
+            <div class="previsualizacao">
+                 <div class="profile">
                 <img src="/public/img/agropecuaria.png" alt="" class="imageProfile">
 
                 <div class="name">
-                    <p>name</p>
-                    <p>fullname</p>
+                    <p class="fullname">@fullname</p>
+                    <p class="usuarioName">MarcoRojas</p>
                 </div>
             </div>
             <div class="exibicaolegend">
@@ -93,6 +94,11 @@ const store = usePostStore();
             <div v-if="store.imagepreview" class="WrapperImage">
                 <img :src="store.imagepreview" alt="imagePost" class="imagePost">
             </div>
+            </div>
+           
+                <button class="publicar" @click="store.createPost">
+                    Publicar
+                </button>
 
         </section>
     </main>
@@ -221,21 +227,64 @@ div.image-video {
 }
 .profile{
     display: flex;
+    margin: 1vw;
 }
 .imageProfile{
     border-radius: 10px;
-    box-shadow: 1px 1px 1px #00000040;
+    border: 4px solid black;
 }
 .WrapperImage{
     object-fit: cover;
+    text-align: center;
 }
 .exibicaolegend{
-    width: 50;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 1vw 1vw 0 1vw;
 }
 .imagePost{
     object-fit: cover;
     overflow: hidden ;
-    height: 40vh;
-    width: 80vh;
+    height: 45vh;
+    width: 82vh;
+    border-radius: 20px;
+    margin: 1vw;
+}
+.publicar{
+    background-color: #0A7C00;
+    color: #fff;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 110px;
+    font-size: 1.05rem;
+    cursor: pointer;
+    margin-top: 1vw;
+    margin-left: 31.9vw;
+}
+.publicar:hover{
+    padding: 7px 111px;
+    transition: 0.5s;
+    margin-left: 31.8vw;
+    background-color: #097000;
+}
+.previsualizacao{
+    background-color: white; 
+    border-radius: 15px; 
+    width: 90vh;
+    max-width: 90vh;
+    height: 73vh;
+    overflow-y: auto; 
+}
+.name{
+    margin-left: 1vw;
+}
+.fullname{
+    color: #00000070;
+
+}
+.usuarioName{
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-top: 1vw;
 }
 </style>
