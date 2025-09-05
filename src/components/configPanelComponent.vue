@@ -36,64 +36,40 @@ onBeforeUnmount(() => {
 
     <div class="conteudo">
       <div class="perfil">
-        <!-- IMAGEM do perfil clicável -->
-        <img
-          :src="store.profileImagePreview || store.profile.second_profile_image_url"
-          class="avatar"
-          @click="triggerFileSelect"
-        />
+        <img :src="store.profileImagePreview
+          || (typeof store.profile.first_profile_image_url === 'string'
+            ? store.profile.first_profile_image_url  
+            : null)" class="avatar" @click="triggerFileSelect" />
 
-        <!-- INPUT de arquivo invisível -->
-        <input
-          type="file"
-          ref="fileInputRef"
-          @change="store.onFileChange"
-          accept="image/*"
-          style="display: none;"
-        />
+
+        <input type="file" ref="fileInputRef" @change="store.onFileChange" accept="image/*" style="display: none;" />
 
         <div>
           <input v-model="store.usuario.fullname" class="h2" />
           <input v-model="store.usuario.name" class="usuario" />
           <p class="email">{{ store.usuario.email }}</p>
-          <input
-            placeholder="Adicione um link"
-            v-model="store.profile.links1"
-            class="links"
-            style="margin-top: 10px;"
-          />
-          <input
-            placeholder="Adicione um link"
-            v-model="store.profile.links2"
-            class="links"
-          />
+          <input placeholder="Adicione um link" v-model="store.profile.links1" class="links"
+            style="margin-top: 10px;" />
+          <input placeholder="Adicione um link" v-model="store.profile.links2" class="links" />
         </div>
       </div>
 
       <div class="descricao">
-        <textarea
-          name="legend"
-          id="legend"
-          placeholder="Adicione uma legenda"
-          v-model="store.profile.legend"
-        ></textarea>
+        <textarea name="legend" id="legend" placeholder="Adicione uma legenda"
+          v-model="store.profile.legend"></textarea>
       </div>
 
-      <button @click="store.updateProfile">Salvar alterações</button>
+      <button @click="store.uploadProfileImage">Salvar alterações</button>
+      
+      <button @click="store.updateProfile">teste</button>
 
       <div class="notificacoes">
         <span>🔔 Notificações</span>
         <div class="toggle-box">
-          <button
-            :class="['toggle-btn', isOn ? 'ativo' : '']"
-            @click="isOn = true"
-          >
+          <button :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">
             ON
           </button>
-          <button
-            :class="['toggle-btn', !isOn ? 'negativo' : '']"
-            @click="isOn = false"
-          >
+          <button :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">
             OFF
           </button>
         </div>
@@ -178,6 +154,7 @@ input {
   cursor: pointer;
   transition: 0.2s;
 }
+
 .avatar:hover {
   opacity: 0.8;
 }

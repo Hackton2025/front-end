@@ -21,16 +21,13 @@ export const useUserStore = defineStore("user", () => {
     is_man: true,
     links1: "",
     links2: "",
-    firstProfileImage: null,
+    first_profile_image_url: null,
     secondProfileImage: null,
   });
 
   const confirmPassword = ref("");
   const token = ref(localStorage.getItem("token") || null);
   const profileImagePreview = ref(null);
-
-
-  // Criar conta
 
   async function createAccount() {
     if (usuario.value.password !== confirmPassword.value) {
@@ -48,7 +45,7 @@ export const useUserStore = defineStore("user", () => {
 
       console.log("Usuário cadastrado:", response.data);
       alert("Conta criada com sucesso!");
-      router.push("/"); // volta para login
+      router.push("/");
     } catch (error) {
       console.error("Erro ao criar conta:", error.response?.data || error);
       if (error.response?.data) {
@@ -64,9 +61,6 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-
-  // Login
-
   async function loginUser(usuarioLogin) {
     try {
       const { data } = await api.post("/users/login/", {
@@ -80,7 +74,6 @@ export const useUserStore = defineStore("user", () => {
       localStorage.setItem("token", data.access);
       localStorage.setItem("refresh", data.refresh);
 
-      // Atualiza dados do usuário
       usuario.value.email = data.user.email;
       usuario.value.fullname = data.user.fullname;
       usuario.value.name = data.user.name;
@@ -88,7 +81,7 @@ export const useUserStore = defineStore("user", () => {
       usuario.value.birthday = data.user.birthday;
       usuario.value.accept_notification = data.user.accept_notification;
       usuario.value.is_master = data.user.is_master;
-      usuario.value.uuid = data.user.uuid; // ✅ ESSENCIAL
+      usuario.value.uuid = data.user.uuid;
 
       if (data.user.profile) {
         Object.assign(profile.value, data.user.profile);
@@ -105,9 +98,6 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-
-  // Buscar perfil (agora pega o último do array)
-
   async function fetchProfile() {
     try {
       const response = await api.get("/profile/", {
@@ -115,7 +105,6 @@ export const useUserStore = defineStore("user", () => {
       });
 
       if (response.data.length > 0) {
-        // Pega o último perfil do array (perfil atual)
         Object.assign(profile.value, response.data[response.data.length - 1]);
       }
     } catch (error) {
@@ -127,89 +116,68 @@ export const useUserStore = defineStore("user", () => {
     const file = event.target.files[0];
     if (file) {
       profileImagePreview.value = URL.createObjectURL(file);
-      profile.value.firstProfileImage = file;
+      profile.value.first_profile_image_url = file;
     }
   }
 
   async function uploadProfileImage() {
-    // if (!profileImageFile.value || !profile.value.uuid) {
-    //   alert("Nenhum arquivo selecionado ou perfil inválido.");
-    //   return null;
-    // }
-
     const formData = new FormData();
-    formData.append("file", profile.value.firstProfileImage.value);
+    formData.append("file", profile.value.first_profile_image_url);
 
     try {
-      const response = await api.post(
-        `/image-uploader/`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token.value}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+      const response = await api.post("/image-uploader/", formData, {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
       console.log("Imagem de perfil enviada:", response.data);
 
-      // Atualiza a URL da imagem no perfil
-      if (response.data.firstProfileImage) {
-        profile.value.firstProfileImage = response.data.firstProfileImage;
-        alert("Imagem de perfil enviada com sucesso!");
-        return response.data.firstProfileImage;  // Retorna a URL da imagem atualizada
-      }
+      profile.value.firstProfileImage = response.data.uuid || response.data.attachment_key;
 
-      return null;
+      return response.data.uuid || response.data.attachment_key;
+
     } catch (error) {
-      console.error("Erro ao enviar imagem de perfil:", error.response?.data || error);
+      console.error("Erro ao enviar imagem de perfil:", error);
       alert("Erro ao enviar imagem de perfil. Tente novamente.");
       return null;
     }
   }
 
-
-  // Atualizar perfil
-
   async function updateProfile() {
     try {
-      let imageUrl = null;
+      let imageUrl = null
 
-      if (profile.value.firstProfileImage.value) {
-        imageUrl = await uploadProfileImage();
+      if (profile.value.first_profile_image_url instanceof File) {
+        imageUrl = await uploadProfileImage()
       }
 
       const updates = {
         links1: profile.value.links1,
         links2: profile.value.links2,
-        legend: profile.value.legend,
-        profileImagePreview: profile.value.profileImagePreview,
-      };
-
-      if (imageUrl) {
-        updates.profileImagePreview = imageUrl;  // Atualize com o campo correto
       }
-      console.log('Atualizações do perfil:', updates);
-      const response = await api.patch(`/profile/${profile.value.uuid}/`, updates, {
-        headers: { Authorization: `Bearer ${token.value}` },
-      });
 
-      Object.assign(profile.value, response.data);
-      alert('Perfil atualizado!');
-      profile.value.firstProfileImage = null;
-      profileImagePreview.value = null;
+      if (profile.value.firstProfileImage) {
+        updates.firstProfileImage = profile.value.firstProfileImage;
+      }
 
+      const response = await api.patch(
+        `/profile/${profile.value.uuid}/`,
+        updates,
+        { headers: { Authorization: `Bearer ${token.value}` } }
+      )
+
+      Object.assign(profile.value, response.data)
+      alert('Perfil atualizado!')
+
+      profile.value.first_profile_image_url = null
+      profileImagePreview.value = null
     } catch (error) {
-      console.error('Erro ao atualizar perfil:', error);
-      alert('Erro ao atualizar perfil.');
+      console.error('Erro ao atualizar perfil:', error)
+      alert('Erro ao atualizar perfil.')
     }
   }
-
-
-
-
-
-  // Atualizar dados do usuário
 
   async function updateUser(updates) {
     try {
@@ -232,8 +200,6 @@ export const useUserStore = defineStore("user", () => {
       fetchProfile();
     }
   });
-
-  
 
   return {
     usuario,
