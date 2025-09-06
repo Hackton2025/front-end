@@ -26,6 +26,27 @@ onMounted(() => {
 onBeforeUnmount(() => {
   uiStore.desativarAvisoSaida()
 })
+
+
+const saveChanges = async () => {
+  try {
+    // Atualizar perfil (incluindo imagem)
+    await store.updateProfile()
+
+    // Atualizar usuário
+    const userUpdates = {
+      fullname: store.usuario.fullname,
+      name: store.usuario.name,
+      email: store.usuario.email
+    }
+    await store.updateUser(userUpdates)
+
+    alert('Alterações salvas com sucesso!')
+  } catch (error) {
+    console.error("Erro ao salvar alterações:", error)
+    alert("Ocorreu um erro ao salvar as alterações. Tente novamente.")
+  }
+}
 </script>
 
 <template>
@@ -59,7 +80,7 @@ onBeforeUnmount(() => {
           v-model="store.profile.legend"></textarea>
       </div>
 
-      <button @click="store.uploadProfileImage">Salvar alterações</button>
+      <button @click="saveChanges">Salvar alterações</button>
       
       <button @click="store.updateProfile">teste</button>
 

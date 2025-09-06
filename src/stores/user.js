@@ -6,9 +6,9 @@ import router from "@/router";
 export const useUserStore = defineStore("user", () => {
   const usuario = ref({
     uuid: null,
-    email: '',
-    fullname: '',
-    name: '',
+    email: "",
+    fullname: "",
+    name: "",
     phone: "",
     birthday: "",
     password: "",
@@ -21,8 +21,11 @@ export const useUserStore = defineStore("user", () => {
     is_man: true,
     links1: "",
     links2: "",
-    first_profile_image_url: null,
-    secondProfileImage: null,
+    first_profile_image_url: null, // string da API
+    second_profile_image_url: null,
+    image_test: null,
+    firstProfileImage: null, // attachment_key que vai no PATCH
+    firstProfileImageFile: null, // arquivo local (File) antes do upload
   });
 
   const confirmPassword = ref("");
@@ -51,9 +54,9 @@ export const useUserStore = defineStore("user", () => {
       if (error.response?.data) {
         alert(
           "Erro ao criar conta:\n" +
-          Object.entries(error.response.data)
-            .map(([campo, msg]) => `${campo}: ${msg}`)
-            .join("\n")
+            Object.entries(error.response.data)
+              .map(([campo, msg]) => `${campo}: ${msg}`)
+              .join("\n")
         );
       } else {
         alert("Erro ao criar conta. Tente novamente.");
@@ -116,28 +119,28 @@ export const useUserStore = defineStore("user", () => {
     const file = event.target.files[0];
     if (file) {
       profileImagePreview.value = URL.createObjectURL(file);
-      profile.value.first_profile_image_url = file;
+      profile.value.firstProfileImageFile = file; // guarda só o File aqui
     }
   }
 
   async function uploadProfileImage() {
+    if (!profile.value.firstProfileImageFile) {
+      return null;
+    }
+
     const formData = new FormData();
-    formData.append("file", profile.value.first_profile_image_url);
+    formData.append("file", profile.value.firstProfileImageFile);
 
     try {
       const response = await api.post("/image-uploader/", formData, {
         headers: {
           Authorization: `Bearer ${token.value}`,
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
 
       console.log("Imagem de perfil enviada:", response.data);
-
-      profile.value.firstProfileImage = response.data.uuid || response.data.attachment_key;
-
-      return response.data.uuid || response.data.attachment_key;
-
+      return response.data.attachment_key; // string, não objeto!
     } catch (error) {
       console.error("Erro ao enviar imagem de perfil:", error);
       alert("Erro ao enviar imagem de perfil. Tente novamente.");
@@ -147,35 +150,39 @@ export const useUserStore = defineStore("user", () => {
 
   async function updateProfile() {
     try {
-      let imageUrl = null
+      let imageKey = null;
 
-      if (profile.value.first_profile_image_url instanceof File) {
-        imageUrl = await uploadProfileImage()
+      if (profile.value.firstProfileImageFile) {
+        imageKey = await uploadProfileImage();
       }
 
       const updates = {
         links1: profile.value.links1,
         links2: profile.value.links2,
+      };
+
+      if (imageKey) {
+        updates.firstProfileImage = imageKey; // só o attachment_key
       }
 
-      if (profile.value.firstProfileImage) {
-        updates.firstProfileImage = profile.value.firstProfileImage;
-      }
+      console.log("Payload enviado:", updates);
 
       const response = await api.patch(
         `/profile/${profile.value.uuid}/`,
         updates,
         { headers: { Authorization: `Bearer ${token.value}` } }
-      )
+      );
 
-      Object.assign(profile.value, response.data)
-      alert('Perfil atualizado!')
+      Object.assign(profile.value, response.data);
 
-      profile.value.first_profile_image_url = null
-      profileImagePreview.value = null
+      alert("Perfil atualizado!");
+
+      // limpar apenas o File local
+      profile.value.firstProfileImageFile = null;
+      profileImagePreview.value = null;
     } catch (error) {
-      console.error('Erro ao atualizar perfil:', error)
-      alert('Erro ao atualizar perfil.')
+      console.error("Erro ao atualizar perfil:", error.response?.data || error);
+      alert("Erro ao atualizar perfil.");
     }
   }
 
@@ -190,7 +197,10 @@ export const useUserStore = defineStore("user", () => {
       Object.assign(usuario.value, response.data);
       alert("Usuário atualizado!");
     } catch (error) {
-      console.error("Erro ao atualizar usuário:", error.response?.data || error);
+      console.error(
+        "Erro ao atualizar usuário:",
+        error.response?.data || error
+      );
       alert("Erro ao atualizar usuário. Verifique os dados e tente novamente.");
     }
   }
