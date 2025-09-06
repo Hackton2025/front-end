@@ -12,7 +12,9 @@
         <p class="arroba">@Araquari</p>
         <p class="descricao">Instituto Federal Catarinense<br>Campus Araquari</p>
 
-        <button class="btn-ver">Ver perfil</button>
+        <RouterLink to="/instituicao">
+  <button class="btn-ver">Ver perfil</button>
+        </RouterLink>
       </div>
     </section>
 </template>
