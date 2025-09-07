@@ -4,10 +4,6 @@ import { ref } from 'vue'
 import headerComponent from './headerComponent.vue'
 import instituicaoComponent from './instituicaoComponent.vue'
 import comunidadesComponent from './comunidadesComponent.vue'
-import configPanelComponent from './configPanelComponent.vue'
-
-const mostrarConfig = ref(false)
-const isOn = ref(false)
 </script>
 
 <template>
@@ -15,6 +11,7 @@ const isOn = ref(false)
     <instituicao-component />
     <comunidades-component />
 </template>
+
 <style scoped>
 
 </style>
