@@ -1,7 +1,9 @@
 <script setup>
   import { ref } from 'vue'
   import configPanelComponent from './configPanelComponent.vue'
+  import pagUserComponent from './pagUserComponent.vue'
   const visivel = ref(false)
+  const visivelPerfil = ref(false)
 </script>
 
 <template>
@@ -17,7 +19,9 @@
 
       <div class="icons">
         <span class="mdi mdi-bell"></span>
-        <span class="mdi mdi-circle-outline"></span>
+        <span class="mdi mdi-circle-outline" @click="visivelPerfil = true"></span>
+        <pag-user-component :visivelPerfil="visivelPerfil" @fecharPerfil="visivelPerfil = false" />
+
         <span class="mdi mdi-cog" @click="visivel = true"></span>
         <config-panel-component :visivel="visivel" @fechar="visivel = false" />
       </div>
