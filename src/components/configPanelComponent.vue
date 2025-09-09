@@ -82,7 +82,6 @@ const saveChanges = async () => {
 
       <button @click="saveChanges">Salvar alterações</button>
       
-      <button @click="store.updateProfile">teste</button>
 
       <div class="notificacoes">
         <span>🔔 Notificações</span>

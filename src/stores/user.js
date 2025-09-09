@@ -21,11 +21,12 @@ export const useUserStore = defineStore("user", () => {
     is_man: true,
     links1: "",
     links2: "",
-    first_profile_image_url: null, // string da API
+    first_profile_image_url: null,
     second_profile_image_url: null,
     image_test: null,
-    firstProfileImage: null, // attachment_key que vai no PATCH
-    firstProfileImageFile: null, // arquivo local (File) antes do upload
+    firstProfileImage: null,
+    firstProfileImageFile: null,
+    legend: "",
   });
 
   const confirmPassword = ref("");
@@ -46,11 +47,9 @@ export const useUserStore = defineStore("user", () => {
         password: usuario.value.password,
       });
 
-      console.log("Usuário cadastrado:", response.data);
       alert("Conta criada com sucesso!");
       router.push("/");
     } catch (error) {
-      console.error("Erro ao criar conta:", error.response?.data || error);
       if (error.response?.data) {
         alert(
           "Erro ao criar conta:\n" +
@@ -71,8 +70,6 @@ export const useUserStore = defineStore("user", () => {
         password: usuarioLogin.password,
       });
 
-      console.log("Login bem-sucedido:", data);
-
       token.value = data.access;
       localStorage.setItem("token", data.access);
       localStorage.setItem("refresh", data.refresh);
@@ -91,27 +88,20 @@ export const useUserStore = defineStore("user", () => {
       }
 
       alert("Login bem-sucedido!");
-      console.log(usuario.value);
       router.push("/home");
     } catch (error) {
-      console.error("Erro ao fazer login:", error.response?.data || error);
-      alert(
-        "Erro ao fazer login. Verifique suas credenciais e tente novamente."
-      );
+      alert("Erro ao fazer login. Verifique suas credenciais e tente novamente.");
     }
   }
 
   async function fetchProfile() {
     try {
-      const response = await api.get("/profile/", {
-        headers: { Authorization: `Bearer ${token.value}` },
-      });
-
+      const response = await api.get("/profile/");
       if (response.data.length > 0) {
         Object.assign(profile.value, response.data[response.data.length - 1]);
       }
     } catch (error) {
-      console.error("Erro ao buscar perfil:", error.response?.data || error);
+      // Erro ignorado intencionalmente
     }
   }
 
@@ -119,7 +109,7 @@ export const useUserStore = defineStore("user", () => {
     const file = event.target.files[0];
     if (file) {
       profileImagePreview.value = URL.createObjectURL(file);
-      profile.value.firstProfileImageFile = file; // guarda só o File aqui
+      profile.value.firstProfileImageFile = file;
     }
   }
 
@@ -134,15 +124,12 @@ export const useUserStore = defineStore("user", () => {
     try {
       const response = await api.post("/image-uploader/", formData, {
         headers: {
-          Authorization: `Bearer ${token.value}`,
           "Content-Type": "multipart/form-data",
         },
       });
 
-      console.log("Imagem de perfil enviada:", response.data);
-      return response.data.attachment_key; // string, não objeto!
+      return response.data.attachment_key;
     } catch (error) {
-      console.error("Erro ao enviar imagem de perfil:", error);
       alert("Erro ao enviar imagem de perfil. Tente novamente.");
       return null;
     }
@@ -159,30 +146,24 @@ export const useUserStore = defineStore("user", () => {
       const updates = {
         links1: profile.value.links1,
         links2: profile.value.links2,
+        legend: profile.value.legend,
       };
 
       if (imageKey) {
-        updates.firstProfileImage = imageKey; // só o attachment_key
+        updates.firstProfileImage = imageKey;
       }
-
-      console.log("Payload enviado:", updates);
 
       const response = await api.patch(
         `/profile/${profile.value.uuid}/`,
-        updates,
-        { headers: { Authorization: `Bearer ${token.value}` } }
+        updates
       );
 
       Object.assign(profile.value, response.data);
 
-      alert("Perfil atualizado!");
-
-      // limpar apenas o File local
       profile.value.firstProfileImageFile = null;
       profileImagePreview.value = null;
     } catch (error) {
-      console.error("Erro ao atualizar perfil:", error.response?.data || error);
-      alert("Erro ao atualizar perfil.");
+      // alert("Erro ao atualizar perfil.");
     }
   }
 
@@ -190,18 +171,13 @@ export const useUserStore = defineStore("user", () => {
     try {
       const response = await api.patch(
         `/users/${usuario.value.uuid}/`,
-        updates,
-        { headers: { Authorization: `Bearer ${token.value}` } }
+        updates
       );
 
       Object.assign(usuario.value, response.data);
-      alert("Usuário atualizado!");
+      // alert("Usuário atualizado com sucesso!");
     } catch (error) {
-      console.error(
-        "Erro ao atualizar usuário:",
-        error.response?.data || error
-      );
-      alert("Erro ao atualizar usuário. Verifique os dados e tente novamente.");
+      // alert("Erro ao atualizar usuário. Verifique os dados e tente novamente.");
     }
   }
 
