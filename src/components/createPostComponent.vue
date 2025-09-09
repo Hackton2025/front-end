@@ -1,7 +1,9 @@
 <script setup>
 import { usePostStore } from '@/stores/post'
+import { useUserStore } from '@/stores/user';
 
 const store = usePostStore();   
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -81,10 +83,10 @@ const store = usePostStore();
 
             <div class="previsualizacao">
                  <div class="profile">
-                <img src="/public/img/agropecuaria.png" alt="" class="imageProfile">
+                <img  alt="" class="imageProfile">
 
                 <div class="name">
-                    <p class="fullname">@fullname</p>
+                    <p class="fullname">{{ userStore.usuario.fullname }}</p>
                     <p class="usuarioName">MarcoRojas</p>
                 </div>
             </div>

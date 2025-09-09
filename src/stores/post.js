@@ -4,10 +4,15 @@ import { ref } from "vue";
 
 export const usePostStore = defineStore("post", () => {
 
-    const image = ref(null);
-    const imagepreview = ref(null);
-    const video = ref(null);
-    const videopreview = ref(null);
+  const post = ref({
+    image: null,
+    imagepreview: null,
+    video: null,
+    videopreview:null,
+    content: '',
+  }
+  )
+
 
  function onFileChange(event, type) {
   const file = event.target.files[0];
@@ -18,7 +23,7 @@ export const usePostStore = defineStore("post", () => {
   if (type === "image") {
     if (imagepreview.value) URL.revokeObjectURL(imagepreview.value);
     image.value = null;      
-    imagepreview.value = null;
+    post.value.imagepreview = null;
 
     setTimeout(() => {
       image.value = file;
