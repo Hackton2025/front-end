@@ -86,8 +86,6 @@ export const useUserStore = defineStore("user", () => {
       if (data.user.profile) {
         Object.assign(profile.value, data.user.profile);
       }
-
-      alert("Login bem-sucedido!");
       router.push("/home");
     } catch (error) {
       alert("Erro ao fazer login. Verifique suas credenciais e tente novamente.");
