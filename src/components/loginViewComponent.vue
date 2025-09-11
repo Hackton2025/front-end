@@ -240,3 +240,4 @@ main div#imagem-lateral img {
 
 /* @media (min-width: 1024px) and (max-width: 1920px) */
 </style>
+
