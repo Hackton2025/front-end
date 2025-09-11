@@ -7,7 +7,7 @@ export const useUserStore = defineStore("user", () => {
   const usuario = ref({
     uuid: null,
     email: "",
-    fullname: "OLA",
+    fullname: "",
     name: "",
     phone: "",
     birthday: "",

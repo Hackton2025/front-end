@@ -1,17 +1,35 @@
 <script setup>
+import { onMounted, ref } from 'vue'
 import { usePostStore } from '@/stores/post'
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user'
 
-const store = usePostStore();   
-const userStore = useUserStore();
+const store = usePostStore()
+const userStore = useUserStore()
+
+const errorMessage = ref('')
+const successMessage = ref('')
+
+async function handlePublish() {
+    try {
+        errorMessage.value = ''
+        successMessage.value = ''
+        const data = await store.publicarPost()
+        successMessage.value = 'Post criado com sucesso!'
+    } catch (error) {
+        errorMessage.value = error.response?.data || 'Erro ao criar post.'
+    }
+}
+
+onMounted(() => {
+    store.fetchPosts();
+})
 </script>
 
+
+
 <template>
-
     <main>
-
         <form class="sidebar.right">
-
             <div class="voltar">
                 <RouterLink to="/home" class="return">
                     <span class="mdi mdi-arrow-left"></span>
@@ -20,12 +38,11 @@ const userStore = useUserStore();
             </div>
 
             <div class="image-video">
-
                 <div class="image">
                     <label for="file-input" class="uploud-box">
-                        <template v-if="store.imagepreview && !store.videopreview">
+                        <template v-if="store.post.imagepreview && !store.post.videopreview">
                             <div class="image-preview">
-                                <img :src="store.imagepreview" alt="Preview" />
+                                <img :src="store.post.imagepreview" alt="Preview" />
                             </div>
                         </template>
                         <template v-else>
@@ -34,18 +51,16 @@ const userStore = useUserStore();
                                 <p>Clique para adicionar uma imagem</p>
                             </div>
                         </template>
-
                     </label>
                     <input id="file-input" type="file" accept="image/*" @change="e => store.onFileChange(e, 'image')"
                         style="display: none;" />
                 </div>
 
-
                 <div class="video">
                     <label for="file-input-video" class="uploud-box">
-                        <template v-if="store.videopreview && !store.imagepreview">
+                        <template v-if="store.post.videopreview && !store.post.imagepreview">
                             <div class="video-preview">
-                                <video :src="store.videopreview" controls></video>
+                                <video :src="store.post.videopreview" controls></video>
                             </div>
                         </template>
                         <template v-else>
@@ -60,10 +75,9 @@ const userStore = useUserStore();
                 </div>
             </div>
 
-            
             <div class="legend">
                 <h3>Adicionar Legenda</h3>
-                <textarea v-model="store.legenda"> </textarea>
+                <textarea v-model="store.legenda"></textarea>
             </div>
 
             <div class="opitions">
@@ -76,35 +90,52 @@ const userStore = useUserStore();
                     <p>Localização</p>
                 </div>
             </div>
-
         </form>
 
         <section class="sidebar.left">
-
             <div class="previsualizacao">
-                 <div class="profile">
-                <img  alt="" class="imageProfile">
-
-                <div class="name">
-                    <p class="fullname">{{ userStore.usuario.fullname }}</p>
-                    <p class="usuarioName">MarcoRojas</p>
+                <div class="profile">
+                    <img :src="userStore.profileImagePreview || (typeof userStore.profile.first_profile_image_url === 'string' ? userStore.profile.first_profile_image_url : null)"
+                        class="avatar" @click="triggerFileSelect" />
+                    <div class="name">
+                        <p class="fullname">{{ userStore.usuario.fullname }}</p>
+                        <p class="usuarioName">{{ userStore.usuario.name }}</p>
+                    </div>
+                </div>
+                <div class="exibicaolegend">
+                    {{ store.legenda }}
+                </div>
+                <div v-if="store.post.imagepreview" class="WrapperImage">
+                    <img :src="store.post.imagepreview" alt="imagePost" class="imagePost" />
                 </div>
             </div>
-            <div class="exibicaolegend">
-                {{ store.legenda }}
-            </div>
-            <div v-if="store.imagepreview" class="WrapperImage">
-                <img :src="store.imagepreview" alt="imagePost" class="imagePost">
-            </div>
-            </div>
-           
-                <button class="publicar" @click="store.createPost">
-                    Publicar
-                </button>
 
+            <button class="publicar" @click.prevent="handlePublish">
+                Publicar
+            </button>
+            <p v-if="errorMessage" style="color:red;">{{ errorMessage }}</p>
+            <p v-if="successMessage" style="color:green;">{{ successMessage }}</p>
         </section>
     </main>
+
+    <!-- <div v-for="item in store.posts" :key="item.uuid" class="post-item">
+        <div class="post-author">
+            <img v-if="item.author.first_profile_image_url" :src="item.author.first_profile_image_url"
+                alt="Foto do usuário" class="author-avatar" />
+            <p class="author-name">
+                {{ item.author.user.fullname || item.author.user.name || "Usuário" }}
+            </p>
+        </div>
+
+        <p>{{ item.content }}</p>
+
+        <img v-if="item.image_url" :src="item.image_url" alt="Imagem do post" />
+        <video v-if="item.video_url" controls :src="item.video_url"></video>
+    </div> -->
+
+
 </template>
+
 
 <style scoped>
 main {
@@ -227,32 +258,38 @@ div.image-video {
     font-size: 1.4rem;
     margin-right: 0.5vw;
 }
-.profile{
+
+.profile {
     display: flex;
     margin: 1vw;
 }
-.imageProfile{
+
+.imageProfile {
     border-radius: 10px;
     border: 4px solid black;
 }
-.WrapperImage{
+
+.WrapperImage {
     object-fit: cover;
     text-align: center;
 }
-.exibicaolegend{
+
+.exibicaolegend {
     white-space: pre-wrap;
     word-wrap: break-word;
     margin: 1vw 1vw 0 1vw;
 }
-.imagePost{
+
+.imagePost {
     object-fit: cover;
-    overflow: hidden ;
+    overflow: hidden;
     height: 45vh;
     width: 82vh;
     border-radius: 20px;
     margin: 1vw;
 }
-.publicar{
+
+.publicar {
     background-color: #0A7C00;
     color: #fff;
     border-radius: 10px;
@@ -263,30 +300,41 @@ div.image-video {
     margin-top: 1vw;
     margin-left: 31.9vw;
 }
-.publicar:hover{
+
+.publicar:hover {
     padding: 7px 111px;
     transition: 0.5s;
     margin-left: 31.8vw;
     background-color: #097000;
 }
-.previsualizacao{
-    background-color: white; 
-    border-radius: 15px; 
+
+.previsualizacao {
+    background-color: white;
+    border-radius: 15px;
     width: 90vh;
     max-width: 90vh;
     height: 73vh;
-    overflow-y: auto; 
+    overflow-y: auto;
 }
-.name{
+
+.name {
     margin-left: 1vw;
 }
-.fullname{
+
+.fullname {
     color: #00000070;
 
 }
-.usuarioName{
+
+.usuarioName {
     font-size: 1.3rem;
     font-weight: 500;
     margin-top: 1vw;
+}
+
+.avatar {
+    width: 10%;
+    height: 8vh;
+    border-radius: 100%;
 }
 </style>
