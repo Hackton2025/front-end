@@ -61,7 +61,7 @@ export const useContentStore = defineStore('content', () => {
         loading,
         error,
         newContent,
-        fetchContents,
+        buscarContents,
         createContent,
     };
 });

@@ -1,9 +1,14 @@
 <script setup>
 import headerComponent from './headerComponent.vue';
 import { useUserStore } from '@/stores/user';
-const storeUser = useUserStore()
+import { useFollowerStore } from '@/stores/follower';
+import { useContentStore } from '@/stores/content';
 
-console.log('Dados do usuário:', storeUser.usuario);
+const storeUser = useUserStore();
+const followerStore = useFollowerStore();
+const contentStore = useContentStore();
+
+
 </script>
 
 <template>
@@ -17,10 +22,16 @@ console.log('Dados do usuário:', storeUser.usuario);
     <section class="card-ifc">
       <div class="card-top"></div>
       <div class="card-content">
-        <img src="" alt="">
+        <img :src="storeUser.profile.first_profile_image_url" alt="">
         <h2>{{ storeUser.usuario.fullname }}</h2>
+        <h3> {{ storeUser.usuario.name }}</h3>
+        <ul>
+          <li> <h3> Seguidores {{ followerStore.followers.length }}</h3></li>|
+          <li> <h3>Seguindo {{ followerStore.following.length }}</h3></li>|
+          <li> <h3> Postagens {{ contentStore.contents.length  }}</h3></li>
+        </ul>
       </div>
-      <button class="btn-seguir">Seguir</button>
+      <button @click="followerStore.follow(storeUser.usuario.id)" class="btn-seguir">Seguir</button>
     </section>
 </template>
 
@@ -71,6 +82,15 @@ main {
   background: linear-gradient(#0A7C00, #0A7C00);
   height: 70px;
 }
+.card-content ul {
+  display: flex;
+  justify-content: center;
+  margin: 2vw;
+} 
+.card-content ul li {
+  padding: 2vw;
+}
+
 .btn-seguir {
   background: #0A7C00;
   color: white;
