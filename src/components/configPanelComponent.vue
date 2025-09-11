@@ -1,43 +1,97 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { useUiStore } from '@/stores/refreshPage'
+
+const store = useUserStore()
+const uiStore = useUiStore()
 
 const props = defineProps(['visivel'])
 const emit = defineEmits(['fechar'])
 
 const isOn = ref(true)
+const fileInputRef = ref(null)
+
+const triggerFileSelect = () => {
+  fileInputRef.value?.click()
+}
+
+onMounted(() => {
+  if (store.token) {
+    store.fetchProfile()
+  }
+  uiStore.ativarAvisoSaida()
+})
+
+onBeforeUnmount(() => {
+  uiStore.desativarAvisoSaida()
+})
+
+
+const saveChanges = async () => {
+  try {
+    // Atualizar perfil (incluindo imagem)
+    await store.updateProfile()
+
+    // Atualizar usuário
+    const userUpdates = {
+      fullname: store.usuario.fullname,
+      name: store.usuario.name,
+      email: store.usuario.email
+    }
+    await store.updateUser(userUpdates)
+
+    alert('Alterações salvas com sucesso!')
+  } catch (error) {
+    console.error("Erro ao salvar alterações:", error)
+    alert("Ocorreu um erro ao salvar as alterações. Tente novamente.")
+  }
+}
 </script>
 
 <template>
   <div class="config-panel" :class="{ aberto: props.visivel }">
     <div class="fechar">
-      <button @click="emit('fechar')">❌</button>
+      <button @click="emit('fechar')"><span class="mdi mdi-close-thick"></span></button>
     </div>
 
     <div class="conteudo">
       <div class="perfil">
-        <img src="https://i.imgur.com/L7rJjpt.png" class="avatar" />
-        <div>
-          <h2>user_name</h2>
-          <p class="usuario">user.usuario</p>
-          <p class="email">email@gmail.com</p>
-        </div>
+        <img :src="store.profileImagePreview
+          || (typeof store.profile.first_profile_image_url === 'string'
+            ? store.profile.first_profile_image_url  
+            : null)" class="avatar" @click="triggerFileSelect" />
+
+
+        <input type="file" ref="fileInputRef" @change="store.onFileChange" accept="image/*" style="display: none;" />
+
+        <div class="user-info">
+        <input v-model="store.usuario.fullname" class="fullname" />
+        <input v-model="store.usuario.name" class="username" />
+        <p class="email">{{ store.usuario.email }}</p>
+        <input placeholder="Adicione um link" v-model="store.profile.links1" class="links" />
+        <input placeholder="Adicione um link" v-model="store.profile.links2" class="links" />
+      </div>
+
       </div>
 
       <div class="descricao">
-        <p><strong>Descrição:</strong></p>
-        <ul>
-          <li>Suricato</li>
-          <li>Amigo do Maia</li>
-          <li>Flamengo no coração ❤️🖤</li>
-          <li>Joinville - 17y</li>
-        </ul>
+        <textarea name="legend" id="legend" placeholder="Adicione uma legenda"
+          v-model="store.profile.legend"></textarea>
       </div>
+
+      <button @click="saveChanges">Salvar alterações</button>
+      
 
       <div class="notificacoes">
         <span>🔔 Notificações</span>
         <div class="toggle-box">
-          <button :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">ON</button>
-          <button :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">OFF</button>
+          <button :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">
+            ON
+          </button>
+          <button :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">
+            OFF
+          </button>
         </div>
       </div>
 
@@ -71,8 +125,12 @@ const isOn = ref(true)
   <div v-if="props.visivel" class="fundo" @click="emit('fechar')"></div>
 </template>
 
-
 <style scoped>
+input {
+  border: none;
+  background: transparent;
+}
+
 .config-panel {
   position: fixed;
   top: 0;
@@ -102,7 +160,11 @@ const isOn = ref(true)
   display: flex;
   justify-content: flex-end;
 }
-
+.fechar button{
+  background-color: white;
+  border: none;
+  font-size: 2rem;
+}
 .perfil {
   display: flex;
   gap: 15px;
@@ -113,6 +175,12 @@ const isOn = ref(true)
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.avatar:hover {
+  opacity: 0.8;
 }
 
 .usuario,
@@ -125,9 +193,12 @@ const isOn = ref(true)
   margin-top: 20px;
 }
 
-.descricao ul {
-  margin: 5px 0 0 15px;
-  padding: 0;
+.descricao input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .notificacoes {
@@ -212,4 +283,40 @@ const isOn = ref(true)
 .mdi.mdi-delete {
   color: red;
 }
+
+textarea {
+  width: 100%;
+  height: 20vh;
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
+  border: none;
+  transition: 0.5s;
+}
+
+.h2 {
+  font-size: 1.5rem;
+}
+
+.links:nth-child(1) {
+  margin-top: 10px;
+}
+.fullname {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.username {
+  display: block;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 2px; /* distância do nome completo */
+}
+
 </style>

@@ -10,12 +10,13 @@ import pagUserComponent from './pagUserComponent.vue'
 const mostrarConfig = ref(false)
 const mostrarUser = ref(false)
 const isOn = ref(false)
+
 </script>
 
 <template>
     <header-component />
     <pag-user-component />
-    <config-panel-component />
+    <config-panel-component />    
     <instituicao-component />
     <comunidades-component />
 </template>

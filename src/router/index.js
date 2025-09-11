@@ -4,6 +4,8 @@ import HomeView from '@/views/HomeView.vue'
 import CreateAccountViews from '@/views/CreateAccountViews.vue'
 import createCommunityView from '@/views/createCommunityView.vue'
 import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
+import pagUserComponent from '@/components/pagUserComponent.vue'
+import configPanelComponent from '@/components/configPanelComponent.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,7 +35,16 @@ const router = createRouter({
       name: 'enviarMensagemEmMassa',
       component: sendMassiveMessageView,
     }, 
-
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: pagUserComponent,
+    },
+    {
+      path: '/config',
+      name: 'config',
+      component: configPanelComponent,
+    },    
   ],
 })
 
