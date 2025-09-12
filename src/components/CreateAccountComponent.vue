@@ -62,7 +62,7 @@ main {
   justify-content: center;
   width: 35%;
   height: 80vh;
-  margin-right: 5vw;
+  margin-right: 5vw;justify-content: center;
   border-radius: 15px;
   padding: 0 2vw;
 }
@@ -159,5 +159,12 @@ form button:hover {
     width: 85%;
     height: 2rem;
   }
+}
+#copyright {
+  margin: 1vw;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #a8a8a8;
 }
 </style>

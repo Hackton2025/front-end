@@ -166,7 +166,7 @@ main div#dados-do-usuario {
   & p#copyright {
     text-align: center;
     font-size: 0.8rem;
-    margin: 10px;
+    margin: 1vw;
     font-weight: bold;
     color: #a8a8a8;
   }
