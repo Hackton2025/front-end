@@ -65,14 +65,14 @@ const saveChanges = async () => {
 
         <input type="file" ref="fileInputRef" @change="store.onFileChange" accept="image/*" style="display: none;" />
 
-        <div class="user-info">
-        <input v-model="store.usuario.fullname" class="fullname" />
-        <input v-model="store.usuario.name" class="username" />
-        <p class="email">{{ store.usuario.email }}</p>
-        <input placeholder="Adicione um link" v-model="store.profile.links1" class="links" />
-        <input placeholder="Adicione um link" v-model="store.profile.links2" class="links" />
-      </div>
-
+        <div>
+          <input v-model="store.usuario.fullname" class="h2" />
+          <input v-model="store.usuario.name" class="usuario" />
+          <p class="email">{{ store.usuario.email }}</p>
+          <input placeholder="Adicione um link" v-model="store.profile.links1" class="links"
+            style="margin-top: 10px;" />
+          <input placeholder="Adicione um link" v-model="store.profile.links2" class="links" />
+        </div>
       </div>
 
       <div class="descricao">

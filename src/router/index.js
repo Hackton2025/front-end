@@ -6,6 +6,7 @@ import createCommunityView from '@/views/createCommunityView.vue'
 import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
 import pagUserComponent from '@/components/pagUserComponent.vue'
 import configPanelComponent from '@/components/configPanelComponent.vue'
+import CreatePostView from '@/views/CreatePostView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,15 +37,10 @@ const router = createRouter({
       component: sendMassiveMessageView,
     }, 
     {
-      path: '/perfil',
-      name: 'perfil',
-      component: pagUserComponent,
+      path: '/criar-postagem',
+      name: 'criarPostagem',
+      component: CreatePostView,
     },
-    {
-      path: '/config',
-      name: 'config',
-      component: configPanelComponent,
-    },    
   ],
 })
 

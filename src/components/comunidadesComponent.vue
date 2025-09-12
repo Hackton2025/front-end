@@ -1,4 +1,10 @@
 <script setup>
+import { useComunittyStore } from '@/stores/comunitty';
+import { onMounted } from 'vue';
+const store = useComunittyStore();
+onMounted(() => {
+  store.fetchCommunities();
+});
 </script>
 
 <template>
@@ -6,17 +12,11 @@
         <h3>Minhas Comunidades:</h3>
         <ul>
 
-          <li><img src="/public/img/direcao-g.png" alt="D-geral"> <p>Direção-Geral</p> </li>
+          <li v-for="comn in store.filteredCommunities" :key="comn.id">
+            <img :src="comn.image || 'https://i.imgur.com/L7rJjpt.png'" alt="Imagem da Comunidade" />
+            <p>{{ comn.name }}</p>
 
-          <li> <img src="/public/img/cecom.png" alt="cecom"> <p>CECOM</p> </li>
-
-          <li> <img src="/public/img/agropecuaria.png" alt="agro"> <p>Agropecuária</p> </li>
-
-          <li> <img src="/public/img/informatica.png" alt="info"> <p>Informática</p> </li>
-
-          <li> <img src="/public/img/quimica.png" alt="quimi"> <p>Quimica</p> </li>
-
-          <li> <img src="/public/img/nupe.png" alt="nupe"> <p>NUPE</p> </li>
+          </li>
 
         </ul>
       </div>

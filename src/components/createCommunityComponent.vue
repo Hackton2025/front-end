@@ -20,7 +20,7 @@ import { onMounted } from 'vue';
                     <div class="input-wrapper">
                         <input type="text" v-model="store.search" placeholder="Pesquisar..." />
                         <span class="mdi mdi-magnify search-icon"></span>
-                    </div>
+         </div>
                     <ul>
                         <li v-for="comn in store.communities" :key="comn.id">
                             <img :src="comn.image" alt="comunidade" />
@@ -28,7 +28,7 @@ import { onMounted } from 'vue';
                         </li>
                     </ul>
 
-                </section>
+                </section>    
             </section>
 
             <section class="criar-comunidade">
