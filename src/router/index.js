@@ -4,6 +4,8 @@ import HomeView from '@/views/HomeView.vue'
 import CreateAccountViews from '@/views/CreateAccountViews.vue'
 import createCommunityView from '@/views/createCommunityView.vue'
 import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
+import pagUserComponent from '@/components/pagUserComponent.vue'
+import configPanelComponent from '@/components/configPanelComponent.vue'
 import CreatePostView from '@/views/CreatePostView.vue'
 
 const router = createRouter({

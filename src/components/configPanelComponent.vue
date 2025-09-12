@@ -52,7 +52,7 @@ const saveChanges = async () => {
 <template>
   <div class="config-panel" :class="{ aberto: props.visivel }">
     <div class="fechar">
-      <button @click="emit('fechar')">❌</button>
+      <button @click="emit('fechar')"><span class="mdi mdi-close-thick"></span></button>
     </div>
 
     <div class="conteudo">
@@ -160,7 +160,11 @@ input {
   display: flex;
   justify-content: flex-end;
 }
-
+.fechar button{
+  background-color: white;
+  border: none;
+  font-size: 2rem;
+}
 .perfil {
   display: flex;
   gap: 15px;
@@ -302,5 +306,17 @@ textarea:focus {
 .links:nth-child(1) {
   margin-top: 10px;
 }
-</style>
+.fullname {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
 
+.username {
+  display: block;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 2px; /* distância do nome completo */
+}
+
+</style>
