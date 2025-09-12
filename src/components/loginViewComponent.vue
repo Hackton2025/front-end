@@ -2,7 +2,6 @@
   <main>
     <div id="dados-do-usuario">
       <img src="/img/Logo_IFC_horizontal_Araquari.png" alt="LogoIFC" class="logotype" />
-
       <form @submit.prevent="userStore.loginUser({...usuarioLogin})">
         <div id="email-password">
           <p>

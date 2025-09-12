@@ -4,6 +4,7 @@ import HomeView from '@/views/HomeView.vue'
 import CreateAccountViews from '@/views/CreateAccountViews.vue'
 import createCommunityView from '@/views/createCommunityView.vue'
 import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
+import verOutrasInstituicoesComponent from '@/components/verOutrasInstituicoesComponent.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       name: 'enviarMensagemEmMassa',
       component: sendMassiveMessageView,
     }, 
+     {
+      path: '/instituicao',
+      name: 'verInstituicao',
+      component: verOutrasInstituicoesComponent,
+    },
 
   ],
 })
