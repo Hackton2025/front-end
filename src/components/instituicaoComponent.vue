@@ -23,7 +23,7 @@
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  margin: 0.5vw 3vw 2vw 6vw;
+  margin: 0 3vw 2vw 6vw;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   text-align: center;
   font-family: sans-serif;

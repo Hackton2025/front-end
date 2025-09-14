@@ -31,6 +31,7 @@
   justify-content: space-between;
   padding: 1vw 4vw 0 3vw;
   gap: 20px;
+
 }
 
 .logo {
@@ -41,12 +42,13 @@
   flex: 1;
   display: flex;
   justify-content: center;
+ 
 }
 
 .input-wrapper {
   position: relative;
-  width: 100%;
-  max-width: 600px;
+  width: 80%;
+  
 }
 
 input {
