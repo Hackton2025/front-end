@@ -19,10 +19,10 @@ import headerComponent from "./headerComponent.vue";
           <button class="gerenciar">
             <span class="mdi mdi-account-edit"></span>
             <p class="gerenciar">Criar Comunidade</p></button>
-          <button class="acess">
+          <RouterLink to="/controle-acesso" class="button-link acess">
             <span class="mdi mdi-key-variant"></span>
             <p class="controle">Controle de Acesso</p>
-          </button>
+          </RouterLink>
           <button class="massivas">
             <span class="mdi mdi-alert"></span>
             <p class="massivas">Mensagens Massivas</p>
@@ -49,7 +49,7 @@ main {
     height: 100vh;
     padding: auto 0;
 }
-.geral div button {
+.geral div button, .button-link.acess{
     display: flex;
     align-items: center;
     gap: 8px;
@@ -64,6 +64,7 @@ main {
     margin: 0 auto;
     font-size: 1.2rem;
     border: none;
+    text-decoration: none;
     &:nth-child(1) {
         margin-top: 2vw;
     }

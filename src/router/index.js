@@ -4,6 +4,7 @@ import HomeView from '@/views/HomeView.vue'
 import CreateAccountViews from '@/views/CreateAccountViews.vue'
 import createCommunityView from '@/views/createCommunityView.vue'
 import userInstituicaoView from '@/views/userInstituicaoView.vue'
+import ControleDeAcessoView from '@/views/controleDeAcessoView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,7 +33,12 @@ const router = createRouter({
       path: '/instituicao',
       name: 'instituicao',
       component: userInstituicaoView,
-    }
+    },
+    {
+      path: '/controle-acesso',
+      name: 'controleDeAcesso',
+      component: ControleDeAcessoView
+    },
 
   ],
 })
