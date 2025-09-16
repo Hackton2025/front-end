@@ -32,6 +32,7 @@ export const useUserStore = defineStore("user", () => {
   const confirmPassword = ref("");
   const token = ref(localStorage.getItem("token") || null);
   const profileImagePreview = ref(null);
+  const usersFetched = ref([])
 
   async function createAccount() {
     if (usuario.value.password !== confirmPassword.value) {
@@ -186,6 +187,16 @@ export const useUserStore = defineStore("user", () => {
       fetchProfile();
     }
   });
+  async function fetchUsers() {
+  try {
+    const response = await api.get("/users/");
+    usersFetched.value = response.data;
+  } catch (error) {
+    alert("Erro ao buscar usuários.");
+    console.error(error);
+  }
+}
+
 
   return {
     usuario,
@@ -200,6 +211,8 @@ export const useUserStore = defineStore("user", () => {
     onFileChange,
     profileImagePreview,
     uploadProfileImage,
+    usersFetched,
+    fetchUsers,
   };
 });
 
