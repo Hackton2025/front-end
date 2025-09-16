@@ -1,5 +1,5 @@
 <script setup>
-import userInstituicao from '@/components/userInstituicao.vue';
+import userInstituicao from '@/components/userInstituicaoComponent.vue';
 </script>
 
 <template>

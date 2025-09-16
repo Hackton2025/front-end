@@ -38,8 +38,8 @@ const router = createRouter({
     },
     {
 
-      path: '/instituicao',
-      name: 'instituicao',
+      path: '/user-instituicao',
+      name: 'userInstituicao',
       component: userInstituicaoView,
     },
     {
@@ -47,7 +47,7 @@ const router = createRouter({
       name: 'controleDeAcesso',
       component: ControleDeAcessoView
     },
-
+    {
       path: '/enviar-mensagem-em-massa',
       name: 'enviarMensagemEmMassa',
       component: sendMassiveMessageView,
@@ -63,6 +63,7 @@ const router = createRouter({
       component: verOutrosUsersView,
       props: true,
     }
+
   ],
 })
 
