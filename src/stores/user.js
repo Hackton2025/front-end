@@ -14,6 +14,7 @@ export const useUserStore = defineStore("user", () => {
     password: "",
     accept_notification: false,
     is_master: false,
+    is_institute: false,
   });
 
   const profile = ref({
@@ -32,7 +33,7 @@ export const useUserStore = defineStore("user", () => {
   const confirmPassword = ref("");
   const token = ref(localStorage.getItem("token") || null);
   const profileImagePreview = ref(null);
-  const usersFetched = ref([])
+  const usersFetched = ref([]);
 
   async function createAccount() {
     if (usuario.value.password !== confirmPassword.value) {
@@ -46,6 +47,11 @@ export const useUserStore = defineStore("user", () => {
         fullname: usuario.value.fullname,
         name: usuario.value.name,
         password: usuario.value.password,
+        phone: usuario.value.phone,
+        birthday: usuario.value.birthday,
+        accept_notification: usuario.value.accept_notification,
+        is_master: usuario.value.is_master,
+        is_institute: usuario.value.is_institute,
       });
 
       alert("Conta criada com sucesso!");
@@ -75,23 +81,57 @@ export const useUserStore = defineStore("user", () => {
       localStorage.setItem("token", data.access);
       localStorage.setItem("refresh", data.refresh);
 
-      usuario.value.email = data.user.email;
-      usuario.value.fullname = data.user.fullname;
-      usuario.value.name = data.user.name;
-      usuario.value.phone = data.user.phone;
-      usuario.value.birthday = data.user.birthday;
-      usuario.value.accept_notification = data.user.accept_notification;
-      usuario.value.is_master = data.user.is_master;
-      usuario.value.uuid = data.user.uuid;
+      // 🔄 Resetar o usuario antes de aplicar o novo
+      Object.assign(usuario.value, {
+        uuid: null,
+        email: "",
+        fullname: "",
+        name: "",
+        phone: "",
+        birthday: "",
+        password: "",
+        accept_notification: false,
+        is_master: false,
+        is_institute: false,
+      });
+      Object.assign(usuario.value, data.user);
 
+      // 🔄 Resetar o profile também
+      Object.assign(profile.value, {
+        uuid: null,
+        is_man: true,
+        links1: "",
+        links2: "",
+        first_profile_image_url: null,
+        second_profile_image_url: null,
+        image_test: null,
+        firstProfileImage: null,
+        firstProfileImageFile: null,
+        legend: "",
+      });
+
+      // aplica dados do backend
       if (data.user.profile) {
         Object.assign(profile.value, data.user.profile);
       }
 
+      // força recarregar imagem ou zera
+      if (profile.value.first_profile_image_url) {
+        profile.value.first_profile_image_url =
+          profile.value.first_profile_image_url + `?t=${Date.now()}`;
+      } else {
+        profile.value.first_profile_image_url = null;
+      }
+
+      // reset preview
+      profileImagePreview.value = null;
+
       alert("Login bem-sucedido!");
       router.push("/home");
     } catch (error) {
-      alert("Erro ao fazer login. Verifique suas credenciais e tente novamente.");
+      alert(
+        "Erro ao fazer login. Verifique suas credenciais e tente novamente."
+      );
     }
   }
 
@@ -188,15 +228,14 @@ export const useUserStore = defineStore("user", () => {
     }
   });
   async function fetchUsers() {
-  try {
-    const response = await api.get("/users/");
-    usersFetched.value = response.data;
-  } catch (error) {
-    alert("Erro ao buscar usuários.");
-    console.error(error);
+    try {
+      const response = await api.get("/users/");
+      usersFetched.value = response.data;
+    } catch (error) {
+      alert("Erro ao buscar usuários.");
+      console.error(error);
+    }
   }
-}
-
 
   return {
     usuario,
@@ -215,4 +254,3 @@ export const useUserStore = defineStore("user", () => {
     fetchUsers,
   };
 });
-

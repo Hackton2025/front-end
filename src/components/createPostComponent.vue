@@ -28,7 +28,7 @@ onMounted(() => {
 
 
 <template>
-    <main>
+    <main v-if="userStore.usuario.is_institute == true">
         <form class="sidebar.right">
             <div class="voltar">
                 <RouterLink to="/home" class="return">

@@ -47,7 +47,7 @@ const router = createRouter({
       name: 'controleDeAcesso',
       component: ControleDeAcessoView
     },
-
+    {
       path: '/enviar-mensagem-em-massa',
       name: 'enviarMensagemEmMassa',
       component: sendMassiveMessageView,

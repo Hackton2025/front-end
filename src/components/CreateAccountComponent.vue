@@ -26,7 +26,7 @@ const userStore = useUserStore();
       </form>
 
       <p id="create-account"><router-link to="/">Já tem uma conta?</router-link></p>
-      <p id="copyright">2025 &copy; Todos direitos reservados</p>
+      <p @click="userStore.usuario.is_institute = true" id="copyright">2025 &copy; Todos direitos reservados</p>
     </div>
 
     <div id="imagem-lateral">
