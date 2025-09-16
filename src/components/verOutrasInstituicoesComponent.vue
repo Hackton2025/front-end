@@ -53,8 +53,12 @@ const contentStore = useContentStore();
       Seguir
     </button>
   </section>
+  <section class="post">
+    <div></div>
+    
+  </section>
 </template>
-
+ 
 <style scoped>
 .voltar {
   margin: 3vw 0 1vw 5vw;
@@ -71,14 +75,16 @@ const contentStore = useContentStore();
   background: white;
   border-radius: 12px;
   overflow: hidden;
+  text-align: center;
   margin: 0.5vw auto 2vw auto;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   font-family: sans-serif;
   position: relative;
 }
 .username {
-  margin: 0.5vw 0 0 28vw;
+  margin:1vw 27vw 0 0;
   color: grey;
+  font-size: 1rem;
 }
 
 .card-top {
@@ -88,8 +94,8 @@ const contentStore = useContentStore();
 }
 
 .card-top h2 {
-  margin: 0 0 0 27vw;
-  font-size: 1.4rem;
+  margin: 0 17vw 0 0vw;
+  font-size: 1.6rem;
 }
 
 .avatar-wrapper {

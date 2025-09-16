@@ -9,6 +9,5 @@ function irParaInstituicao() {
 </script>
 
 <template>
-  <button @click="irParaInstituicao">teste</button>
   <RouterView></RouterView>
 </template>
