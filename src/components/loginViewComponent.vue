@@ -1,3 +1,15 @@
+<script setup>
+import { reactive } from 'vue';
+import { useUserStore } from '@/stores/user';
+
+const usuarioLogin = reactive({
+  email: "",
+  password: "",
+});
+
+const userStore = useUserStore();
+</script>
+
 <template>
   <main>
     <div id="dados-do-usuario">
@@ -39,19 +51,6 @@
 
 </template>
 
-<script setup>
-
-import { reactive } from 'vue';
-import { useUserStore } from '@/stores/user';
-
-const usuarioLogin = reactive({
-  email: "",
-  password: "",
-});
-
-const userStore = useUserStore();
-
-</script>
 
 <style scoped>
 main {
@@ -60,12 +59,23 @@ main {
   align-items: center;
   justify-content: center;
   height: 100vh;
-
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/Rectangle 66.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+#email-password p {
+  padding: 0.3rem;
+}
+
+#email-password {
+  margin-bottom: 3vw;
+}
+
+#email-password input {
+  font-size: 1rem;
 }
 
 main div#dados-do-usuario {
@@ -76,108 +86,93 @@ main div#dados-do-usuario {
   width: 35%;
   height: 70vh;
   margin-right: 5vw;
-  ;
   border-radius: 15px;
   padding: 0 2vw;
-
-
-  & img {
-    width: 50%;
-    margin: 0 auto 0 auto;
-    margin-top: 2vw;
-    text-align: center;
-
-  }
-
-  & form {
-    /* width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%; */
-    height: 100%;
-    margin-top: 10%;
-
-
-    & p {
-      text-align: center;
-      margin: 0 0 10px 0;
-      font-size: 1.5rem;
-
-      & input {
-        width: 85%;
-        margin: 0 auto;
-        height: 1.8vw;
-        padding: 10px;
-        border: none;
-        background-color: #D3D3D360;
-        border-radius: 10px;
-      }
-
-      & input:focus {
-        outline: none;
-        border: 1px solid #2F9E41;
-        width: 80%;
-
-        transition: 0.5s;
-        height: 1.8vw;
-      }
-
-      & button {
-        width: 85%;
-        background-color: #D3D3D360;
-        height: 1.8vw;
-        border-radius: 10px;
-        border: none;
-        cursor: pointer;
-
-        &:hover {
-          width: 80%;
-          background-color: #D3D3D3;
-
-          transition: 0.5s;
-          height: 1.8vw;
-
-        }
-
-        &#cadastro {
-          background-color: #2F9E41;
-          color: white;
-          font-weight: bold;
-          margin-top: 5vw;
-          font-size: 1.3rem;
-          height: 2.5vw;
-        }
-      }
-    }
-
-    & #email-password {
-      padding-bottom: 7.5%;
-    }
-
-    & div#apple-google {
-      padding-top: 7.5%;
-      border-top: black 1px solid;
-
-    }
-  }
-
-  & p#copyright {
-    text-align: center;
-    font-size: 0.8rem;
-    margin: 1vw;
-    font-weight: bold;
-    color: #a8a8a8;
-  }
 }
 
-#google {
-  font-size: 1rem;
+main div#dados-do-usuario img {
+  width: 50%;
+  margin: 2vw auto 0 auto;
+  text-align: center;
+  transition: all 0.5s ease;
 }
 
-#apple {
-  font-size: 1rem;
+main div#dados-do-usuario form {
+  height: 100%;
+  margin-top: 10%;
+}
+
+main div#dados-do-usuario form p {
+  text-align: center;
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+}
+
+main div#dados-do-usuario form p input {
+  width: 85%;
+  margin: 0 auto;
+  height: 1.8vw;
+  padding: 10px;
+  border: none;
+  background-color: #D3D3D360;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+main div#dados-do-usuario form p input:focus {
+  outline: none;
+  border: 1px solid #2F9E41;
+  width: 80%;
+}
+
+main div#dados-do-usuario form p input:hover {
+  background-color: #c9c9c9;
+}
+
+main div#dados-do-usuario form p button {
+  width: 85%;
+  background-color: #D3D3D360;
+  height: 1.8vw;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+main div#dados-do-usuario form p button:hover {
+  width: 80%;
+  background-color: #bfbfbf;
+}
+
+main div#dados-do-usuario form p button#cadastro {
+  background-color: #2F9E41;
+  color: white;
+  font-weight: bold;
+  margin-top: 5vw;
+  font-size: 1.3rem;
+  height: 2.5vw;
+  transition: all 1s ease;
+}
+
+main div#dados-do-usuario form p button#cadastro:hover {
+  background-color: #1d6328;
+}
+
+main div#dados-do-usuario form #email-password {
+  padding-bottom: 7.5%;
+}
+
+main div#dados-do-usuario form div#apple-google {
+  padding-top: 7.5%;
+  border-top: black 1px solid;
+}
+
+main div#dados-do-usuario p#copyright {
+  text-align: center;
+  font-size: 0.8rem;
+  margin: 1vw;
+  font-weight: bold;
+  color: #a8a8a8;
 }
 
 #create-account {
@@ -185,12 +180,16 @@ main div#dados-do-usuario {
 }
 
 main div#imagem-lateral img {
-  width: 90%;
-  height: 80vh;
-  margin-left: 5vw;
-  /*filter: drop-shadow(2px 2px 2px #2F9E41);*/
+  width: 68%;
+  height: 68%;
+  margin-left: 8vw;
+  transition: all 0.5s ease;
 }
 
+main div#imagem-lateral img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
 
 @media (max-width: 768px) {
   main div#imagem-lateral img {
@@ -204,40 +203,27 @@ main div#imagem-lateral img {
   main div#dados-do-usuario {
     width: 100%;
     margin: 0;
+  }
 
-    & img {
-      width: 80%;
-    }
+  main div#dados-do-usuario img {
+    width: 80%;
+  }
 
-    & form {
-      height: 100%;
+  main div#dados-do-usuario form div#email-password input {
+    width: 85%;
+    height: 2rem;
+  }
 
-      & div#email-password input {
-        width: 85%;
-        height: 2rem;
+  main div#dados-do-usuario form div button {
+    width: 85%;
+    height: 2rem;
+  }
 
-        &:first-child {
-          margin-bottom: 1.5vw;
-        }
-      }
-
-      & div button {
-        width: 85%;
-        height: 2rem;
-
-        &:first-child {
-          margin-bottom: 1.5vw;
-        }
-      }
-
-      & div button#cadastro {
-        width: 85%;
-        height: 2rem;
-      }
-    }
+  main div#dados-do-usuario form div button#cadastro {
+    width: 85%;
+    height: 2rem;
   }
 }
 
-/* @media (min-width: 1024px) and (max-width: 1920px) */
 </style>
 

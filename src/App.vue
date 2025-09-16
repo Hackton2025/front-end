@@ -5,7 +5,6 @@
 
 
 <template>
-  <button @click="router.push('/criar-postagem')">teste</button>
   <RouterView></RouterView>
 </template>
 
