@@ -15,7 +15,7 @@ const getProfileImageUrl = (filePath) => {
   // Se for Cloudinary (vem com "image/upload")
   if (filePath.includes('image/upload')) {
     return `https://res.cloudinary.com/<seu-cloud-name>/${filePath}`
-  }
+  } 
 
   // Se já for URL absoluta
   if (filePath.startsWith('http')) return filePath

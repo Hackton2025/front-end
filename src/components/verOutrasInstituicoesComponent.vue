@@ -54,7 +54,9 @@ const contentStore = useContentStore();
     </button>
   </section>
   <section class="post">
-    <div></div>
+    <div>
+      
+    </div>
     
   </section>
 </template>
