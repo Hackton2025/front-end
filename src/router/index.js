@@ -7,6 +7,7 @@ import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
 import pagUserComponent from '@/components/pagUserComponent.vue'
 import configPanelComponent from '@/components/configPanelComponent.vue'
 import CreatePostView from '@/views/CreatePostView.vue'
+import ChatView from '@/views/chatView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +41,11 @@ const router = createRouter({
       path: '/criar-postagem',
       name: 'criarPostagem',
       component: CreatePostView,
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: ChatView,
     },
   ],
 })

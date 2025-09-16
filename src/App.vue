@@ -5,7 +5,7 @@
 
 
 <template>
-  <button @click="router.push('/criar-postagem')">teste</button>
+  <button @click="router.push('/chat')">teste</button>
   <RouterView></RouterView>
 </template>
 
