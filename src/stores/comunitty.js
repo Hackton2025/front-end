@@ -26,7 +26,7 @@ export const useComunittyStore = defineStore("comunitty", () => {
     async function uploudImage() {
         try {
             const formData = new FormData();
-            formData.append('file', community.image); // use community.image, não file
+            formData.append('file', community.image);
 
             const response = await api.post('/image-uploader/', formData, {
                 headers: {
