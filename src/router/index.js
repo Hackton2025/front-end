@@ -4,6 +4,10 @@ import HomeView from '@/views/HomeView.vue'
 import CreateAccountViews from '@/views/CreateAccountViews.vue'
 import createCommunityView from '@/views/createCommunityView.vue'
 import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
+import pagUserComponent from '@/components/pagUserComponent.vue'
+import configPanelComponent from '@/components/configPanelComponent.vue'
+import CreatePostView from '@/views/CreatePostView.vue'
+import verOutrosUsersView from '@/views/verOutrosUsersView.vue'
 import verOutrasInstituicoesComponent from '@/components/verOutrasInstituicoesComponent.vue'
 
 const router = createRouter({
@@ -39,7 +43,11 @@ const router = createRouter({
       name: 'verInstituicao',
       component: verOutrasInstituicoesComponent,
     },
-
+ {
+      path: '/criar-postagem',
+      name: 'criarPostagem',
+      component: CreatePostView,
+    },
   ],
 })
 

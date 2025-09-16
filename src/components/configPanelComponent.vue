@@ -52,7 +52,7 @@ const saveChanges = async () => {
 <template>
   <div class="config-panel" :class="{ aberto: props.visivel }">
     <div class="fechar">
-      <button @click="emit('fechar')">❌</button>
+      <button @click="emit('fechar')"><span class="mdi mdi-close-thick"></span></button>
     </div>
 
     <div class="conteudo">
@@ -65,14 +65,13 @@ const saveChanges = async () => {
 
         <input type="file" ref="fileInputRef" @change="store.onFileChange" accept="image/*" style="display: none;" />
 
-        <div>
-          <input v-model="store.usuario.fullname" class="h2" />
-          <input v-model="store.usuario.name" class="usuario" />
-          <p class="email">{{ store.usuario.email }}</p>
-          <input placeholder="Adicione um link" v-model="store.profile.links1" class="links"
-            style="margin-top: 10px;" />
-          <input placeholder="Adicione um link" v-model="store.profile.links2" class="links" />
-        </div>
+      <div class="user-info">
+        <input v-model="store.usuario.fullname" class="fullname" />
+        <input v-model="store.usuario.name" class="username" />
+        <p class="email">{{ store.usuario.email }}</p>
+        <input placeholder="Adicione um link" v-model="store.profile.links1" class="links" />
+        <input placeholder="Adicione um link" v-model="store.profile.links2" class="links" />
+      </div>
       </div>
 
       <div class="descricao">
@@ -80,7 +79,7 @@ const saveChanges = async () => {
           v-model="store.profile.legend"></textarea>
       </div>
 
-      <button @click="saveChanges">Salvar alterações</button>
+      <button @click="saveChanges" class="saveChanges">Salvar alterações</button>
       
 
       <div class="notificacoes">
@@ -160,7 +159,11 @@ input {
   display: flex;
   justify-content: flex-end;
 }
-
+.fechar button{
+  background-color: white;
+  border: none;
+  font-size: 2rem;
+}
 .perfil {
   display: flex;
   gap: 15px;
@@ -178,7 +181,21 @@ input {
 .avatar:hover {
   opacity: 0.8;
 }
-
+.saveChanges {
+  background-color: green;
+  border: none;
+  color: white;
+  margin: 0 0 2vw 0;
+  width: 35%;
+  height: 2.5vw;
+  font-size: 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  &:hover{
+    background-color: rgb(0, 150, 0);
+  }
+  transition: 0.5s;
+}
 .usuario,
 .email {
   color: #666;
@@ -302,4 +319,20 @@ textarea:focus {
 .links:nth-child(1) {
   margin-top: 10px;
 }
+.links {
+  display: flex;
+}
+.fullname {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.username {
+  display: block;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 2px; 
+}
+
 </style>
