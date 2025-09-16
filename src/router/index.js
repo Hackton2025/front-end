@@ -7,6 +7,7 @@ import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
 import pagUserComponent from '@/components/pagUserComponent.vue'
 import configPanelComponent from '@/components/configPanelComponent.vue'
 import CreatePostView from '@/views/CreatePostView.vue'
+import verOutrosUsersView from '@/views/verOutrosUsersView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,12 @@ const router = createRouter({
       name: 'criarPostagem',
       component: CreatePostView,
     },
+    {
+      path:"/usuario/:uuid",
+      name:"verUsuario",
+      component: verOutrosUsersView,
+      props: true,
+    }
   ],
 })
 
