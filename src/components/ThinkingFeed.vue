@@ -13,7 +13,7 @@
   background-color: #FFFFFF;
   border-radius: 10px;
   margin-bottom: 20px;
-  width: 95%;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 9fr; 
   align-items: center; 

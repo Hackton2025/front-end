@@ -24,7 +24,7 @@ onMounted(() => {
 
 <style scoped>
 .comunidades{
-  margin: 2vw 0 0 6vw;
+  margin: 2vw 0 0 2vw;
 }
 h3 {
   font-size: 1.5rem;
