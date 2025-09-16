@@ -6,6 +6,13 @@ import createCommunityView from '@/views/createCommunityView.vue'
 import userInstituicaoView from '@/views/userInstituicaoView.vue'
 import ControleDeAcessoView from '@/views/controleDeAcessoView.vue'
 
+import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
+import pagUserComponent from '@/components/pagUserComponent.vue'
+import configPanelComponent from '@/components/configPanelComponent.vue'
+import CreatePostView from '@/views/CreatePostView.vue'
+import verOutrosUsersView from '@/views/verOutrosUsersView.vue'
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -30,6 +37,7 @@ const router = createRouter({
       component: createCommunityView,
     },
     {
+
       path: '/instituicao',
       name: 'instituicao',
       component: userInstituicaoView,
@@ -40,6 +48,21 @@ const router = createRouter({
       component: ControleDeAcessoView
     },
 
+      path: '/enviar-mensagem-em-massa',
+      name: 'enviarMensagemEmMassa',
+      component: sendMassiveMessageView,
+    }, 
+    {
+      path: '/criar-postagem',
+      name: 'criarPostagem',
+      component: CreatePostView,
+    },
+    {
+      path:"/usuario/:uuid",
+      name:"verUsuario",
+      component: verOutrosUsersView,
+      props: true,
+    }
   ],
 })
 

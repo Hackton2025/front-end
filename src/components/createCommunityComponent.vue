@@ -1,88 +1,81 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { onMounted } from 'vue';
+    import { useComunittyStore } from '@/stores/comunitty';
 
-const community = reactive({
-    communityName: '',
-    name: '',
-    legend: '',
-    admins: '',
+    const store = useComunittyStore();
+
+    onMounted(() => {
+  store.fetchCommunities();
 });
-
-const search = ref('');
-const imagepreview = ref(null);
-
-function onFileChange(event) {
-    const file = event.target.files[0];
-    if (file) {
-        imagepreview.value = URL.createObjectURL(file);
-    }
-}
 </script>
 
-<template>
-    <main>
-        <section class="voltar-mais-comunidades">
-            <section class="voltar">
-                <span class="mdi mdi-arrow-left"></span>
-                <RouterLink to="/home" class="return">Voltar</RouterLink>
+    <template>
+        <main>
+            <section class="voltar-mais-comunidades">
+                <section class="voltar">
+                    <span class="mdi mdi-arrow-left"></span>
+                    <RouterLink to="/home" class="return">Voltar</RouterLink>
+                </section>
+                <section class="comunidades-existentes">
+                    <div class="input-wrapper">
+                        <input type="text" v-model="store.search" placeholder="Pesquisar..." />
+                        <span class="mdi mdi-magnify search-icon"></span>
+         </div>
+                    <ul>
+                        <li v-for="comn in store.communities" :key="comn.id">
+                            <img :src="comn.image" alt="comunidade" />
+                            <h3>{{ comn.name }}</h3>
+                        </li>
+                    </ul>
+
+                </section>    
             </section>
-            <section class="comunidades-existentes">
-                <div class="input-wrapper">
-                    <input type="text" v-model="search" placeholder="Pesquisar..." />
-                    <span class="mdi mdi-magnify search-icon"></span>
-                </div>
-                <ul>
-                    <li>
-                        <img src="/img/cecom.png" alt="cecom" />
-                        <h3>CECOM</h3>
-                    </li>
-                </ul>
+
+            <section class="criar-comunidade">
+                <form @submit.prevent="store.submitCommunity">
+                    <div class="uploud-wrapper" :class="{ 'has-image': store.imagepreview }">
+                        <label for="file-input" class="uploud-box" :class="{ 'has-image': store.imagepreview }">
+                            <div class="image-preview" v-if="store.imagepreview">
+                                <img :src="store.imagepreview" alt="Preview" />
+                            </div>
+                            <div class="placeholder" v-else>
+                                <span class="mdi mdi-camera-plus"></span>
+                                <p>Clique para adicionar uma imagem</p>
+                            </div>
+                        </label>
+                        <input id="file-input" type="file" @change="store.onFileChange" style="display: none;" />
+                    </div>
+
+                    <div class="abaixo-da-img">
+                        <div class="left-column">
+                            <div class="input-group">
+                                <label for="communityName">Nome da Comunidade</label>
+                                <input type="text" id="name" v-model="store.community.name"
+                                    placeholder="Nome da Comunidade" />
+                            </div>
+                            <!-- <div class="input-group">
+                                <label for="name">Nome de usuário</label>
+                                <input type="text" id="name" v-model="community.name" placeholder="Nome de usuário" />
+                            </div> -->
+                            <div class="input-group">
+                                <label for="admins">Administradores</label>
+                                <input type="text" id="admins" v-model="store.community.admins"
+                                    placeholder="Administradores" />
+                            </div>
+                        </div>
+
+                        <div class="right-column">
+                            <div class="legend-group">
+                                <label for="legend">Legenda</label>
+                                <textarea id="legend" v-model="store.community.legend" placeholder="Legenda"></textarea>
+                            </div>
+                            <button type="submit" class="btn-submit">Enviar</button>
+                        </div>
+                    </div>
+                </form>
             </section>
-        </section>
-
-        <section class="criar-comunidade">
-            <form @submit.prevent="">
-                <div class="uploud-wrapper" :class="{ 'has-image': imagepreview }">
-                    <label for="file-input" class="uploud-box" :class="{ 'has-image': imagepreview }">
-                        <div class="image-preview" v-if="imagepreview">
-                            <img :src="imagepreview" alt="Preview" />
-                        </div>
-                        <div class="placeholder" v-else>
-                            <span class="mdi mdi-camera-plus"></span>
-                            <p>Clique para adicionar uma imagem</p>
-                        </div>
-                    </label>
-                    <input id="file-input" type="file" @change="onFileChange" style="display: none;" />
-                </div>
-
-                <div class="abaixo-da-img">
-                  <div class="left-column">
-                    <div class="input-group">
-                      <label for="communityName">Nome da Comunidade</label>
-                      <input type="text" id="communityName" v-model="community.communityName" placeholder="Nome da Comunidade" />
-                    </div>
-                    <div class="input-group">
-                      <label for="name">Nome de usuário</label>
-                      <input type="text" id="name" v-model="community.name" placeholder="Nome de usuário" />
-                    </div>
-                    <div class="input-group">
-                      <label for="admins">Administradores</label>
-                      <input type="text" id="admins" v-model="community.admins" placeholder="Administradores" />
-                    </div>
-                  </div>
-
-                  <div class="right-column">
-                    <div class="legend-group">
-                      <label for="legend">Legenda</label>
-                      <textarea id="legend" v-model="community.legend" placeholder="Legenda"></textarea>
-                    </div>
-                    <button type="submit" class="btn-submit">Enviar</button>
-                  </div>
-                </div>
-            </form>
-        </section>
-    </main>
-</template>
+        </main>
+    </template>
 
 <style scoped>
 main {
@@ -268,92 +261,93 @@ main {
 }
 
 .abaixo-da-img {
-  display: flex;
-  gap: 2vw;
-  align-items: flex-start;
-  margin-top: 1rem;
+    display: flex;
+    gap: 2vw;
+    align-items: flex-start;
+    margin-top: 1rem;
 }
 
 /* Coluna esquerda com os inputs */
 .left-column {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  flex: 1;
-  max-width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex: 1;
+    max-width: 60%;
 }
 
 /* Cada grupo de label + input */
 .input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .input-group label {
-  font-size: 0.9rem;
-  margin-left: 0.5rem;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
 }
 
 .input-group input {
-  padding: 0.7rem;
-  border: none;
-  background-color: #d9d9d9;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  letter-spacing: 0.05rem;
+    padding: 0.7rem;
+    border: none;
+    background-color: #d9d9d9;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
 }
 
 /* Coluna direita com legenda e botão */
 .right-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: 1rem;
-  width: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    width: 35%;
 }
 
 /* Grupo da legenda */
 .legend-group {
-  display: flex;
-  flex-direction: column;
-  height: calc(2 * (3.5rem + 1rem)); /* altura aproximada dos dois primeiros inputs + gap */
+    display: flex;
+    flex-direction: column;
+    height: calc(2 * (3.5rem + 1rem));
+    /* altura aproximada dos dois primeiros inputs + gap */
 }
 
 .legend-group label {
-  font-size: 0.9rem;
-  margin-left: 0.5rem;
-  margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .legend-group textarea {
-  flex-grow: 2;
-  padding: 0.5rem;
-  border: none;
-  background-color: #d9d9d9;
-  border-radius: 5px;
-  font-size: 0.9rem;
-  resize: none;
-  height: 100%;
+    flex-grow: 2;
+    padding: 0.5rem;
+    border: none;
+    background-color: #d9d9d9;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    resize: none;
+    height: 100%;
 }
 
 /* Botão alinhado à direita e no final da coluna */
 .btn-submit {
-  align-self: flex-end;
-  padding: 0.7rem 2rem;
-  font-size: 1rem;
-  background-color: #2F9E41;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  margin-top: auto;
-  width: 100%;
-  margin-top: 1.6vw;
+    align-self: flex-end;
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
+    background-color: #2F9E41;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: auto;
+    width: 100%;
+    margin-top: 1.6vw;
 
-  &:hover {
-    background-color: #267c33;
-    transition: 0.4s;
-  }
+    &:hover {
+        background-color: #267c33;
+        transition: 0.4s;
+    }
 }
 </style>

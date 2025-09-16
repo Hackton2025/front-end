@@ -1,7 +1,12 @@
 <script setup>
   import { ref } from 'vue'
+  import { useUserStore } from '@/stores/user'
+
+  const store = useUserStore()
   import configPanelComponent from './configPanelComponent.vue'
+  import pagUserComponent from './pagUserComponent.vue'
   const visivel = ref(false)
+  const visivelPerfil = ref(false)
 </script>
 
 <template>
@@ -17,7 +22,12 @@
 
       <div class="icons">
         <span class="mdi mdi-bell"></span>
-        <span class="mdi mdi-circle-outline"></span>
+        <img :src="store.profileImagePreview
+          || (typeof store.profile.first_profile_image_url === 'string'
+            ? store.profile.first_profile_image_url  
+            : null)" class="avatar" @click="visivelPerfil = true"></img>
+        <pag-user-component :visivelPerfil="visivelPerfil" @fecharPerfil="visivelPerfil = false" />
+
         <span class="mdi mdi-cog" @click="visivel = true"></span>
         <config-panel-component :visivel="visivel" @fechar="visivel = false" />
       </div>
@@ -82,4 +92,14 @@ span.mdi {
   padding: 5px;
 }
 
+
+.avatar {
+  width: 25%;
+  height: 4vh;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  border: solid 2px black;
+  margin-top: 3%;
+}
 </style>

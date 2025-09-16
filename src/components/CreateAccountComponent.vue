@@ -1,22 +1,23 @@
+<script setup>
+import { useUserStore } from '@/stores/user';
+
+const userStore = useUserStore();
+</script>
+
 <template>
   <main>
     <div id="dados-do-usuario">
       <img src="/img/Logo_IFC_horizontal_Araquari.png" alt="LogoIFC" class="logotype" />
 
-      <form @submit.prevent="createAccount">
+      <form @submit.prevent="userStore.createAccount">
         <div id="email-password">
-          <p><input v-model="usuario.email" type="email" placeholder="E-Mail" /></p>
-          <p><input v-model="usuario.fullname" type="text" placeholder="Nome Completo" /></p>
-          <p><input v-model="usuario.name" type="text" placeholder="Nome de usuário" /></p>
-          <p><input v-model="usuario.phone" type="text" placeholder="Telefone" /></p>
-          <p><input v-model="usuario.birthday" type="date" style="color: gray;" /></p>
-          <p><input v-model="usuario.password" type="password" placeholder="Senha" /></p>
-          <p><input v-model="confirmPassword" type="password" placeholder="Confirme a Senha" /></p>
-        </div>
-
-        <div id="apple-google" style="display: none;">
-          <p><button type="button" id="google"><span class="mdi mdi-google" style="color: #000; margin-right: 1vw;"></span> Cadastre-se com o Google</button></p>
-          <p><button type="button" id="apple"><span class="mdi mdi-apple" style="color: #000; margin-right: 1vw;"></span> Cadastre-se com a Apple</button></p>
+          <p><input v-model="userStore.usuario.email" type="email" placeholder="E-Mail" /></p>
+          <p><input v-model="userStore.usuario.fullname" type="text" placeholder="Nome Completo" /></p>
+          <p><input v-model="userStore.usuario.name" type="text" placeholder="Nome de usuário" /></p>
+          <p><input v-model="userStore.usuario.phone" type="text" placeholder="Telefone" /></p>
+          <p><input v-model="userStore.usuario.birthday" type="date" style="color: gray;" /></p>
+          <p><input v-model="userStore.usuario.password" type="password" placeholder="Senha" /></p>
+          <p><input v-model="userStore.confirmPassword" type="password" placeholder="Confirme a Senha" /></p>
         </div>
 
         <div id="cadastre-se">
@@ -34,44 +35,6 @@
   </main>
 </template>
 
-<script setup>
-
-import { ref, reactive } from 'vue';
-import api from '@/plugins/axios';
-
-console.log('api', api);
-
-const usuario = reactive({
-  email: '',
-  fullname: '',
-  name: '',
-  phone: '',
-  birthday: '',
-  password: '',
-  accept_notification: false,
-  is_master: false,
-});
-
-console.log(usuario)
-const confirmPassword = ref('');
-
-async function createAccount() {
-  if (usuario.password !== confirmPassword.value) {
-    alert('As senhas não coincidem!');
-    return;
-  }
-
-  try {
-    const response = await api.post('/users/', usuario);
-    console.log('Usuário cadastrado:', response.data);
-    alert('Conta criada com sucesso!');
-  } catch (error) {
-    console.error('Erro ao criar conta:', error);
-    alert('Erro ao criar conta. Tente novamente.');
-  }
-}
-</script>
-
 <style scoped>
 main {
   padding: 0 10vw;
@@ -80,11 +43,23 @@ main {
   justify-content: center;
   height: 100vh;
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('/img/Rectangle 66.png');
+  linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+  url('/img/Rectangle 66.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+#email-password p {
+  padding: 0.3vw;
+}
+
+#email-password {
+  margin-bottom: 3vw;
+}
+
+#email-password input {
+  font-size: 1rem;
 }
 
 #dados-do-usuario {
@@ -97,23 +72,27 @@ main {
   margin-right: 5vw;
   border-radius: 15px;
   padding: 0 2vw;
+  transition: all 0.5s ease;
 }
 
 #dados-do-usuario img {
   width: 50%;
   margin: 1vw auto 0;
   text-align: center;
+  transition: all 0.5s ease;
 }
 
 form {
   height: 100%;
   margin-top: 5%;
+  transition: all 0.5s ease;
 }
 
 form p {
   text-align: center;
   margin: 0 0 10px 0;
   font-size: 1.5rem;
+  transition: all 0.5s ease;
 }
 
 form input {
@@ -124,13 +103,13 @@ form input {
   background-color: #d3d3d360;
   border-radius: 10px;
   color: gray;
+  transition: all 0.8s ease;
 }
 
 form input:focus {
   outline: none;
   border: 1px solid #2f9e41;
   width: 80%;
-  transition: 0.5s;
 }
 
 form button {
@@ -140,12 +119,12 @@ form button {
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  transition: all 0.8s ease;
 }
 
 form button:hover {
   width: 80%;
   background-color: #d3d3d3;
-  transition: 0.5s;
 }
 
 #cadastro {
@@ -155,21 +134,23 @@ form button:hover {
   margin-top: 2.5vw;
   font-size: 1.3rem;
   height: 2.5rem;
+  transition: all 0.8s ease;
 }
 
-#apple-google {
-  padding-top: 7.5%;
-  border-top: 1px solid black;
+#cadastro:hover {
+  background-color: #1d6328;
 }
 
 #create-account {
   text-align: center;
+  transition: all 0.5s ease;
 }
 
 #imagem-lateral img {
-  width: 90%;
-  margin-left: 5vw;
-  height: 80vh;
+  width: 68%;
+  margin-left: 8vw;
+  height: 68%;
+  transition: all 0.8s ease;
 }
 
 @media (max-width: 768px) {
@@ -187,9 +168,19 @@ form button:hover {
   #dados-do-usuario img {
     display: none;
   }
-  form input, form button {
+  form input,
+  form button {
     width: 85%;
     height: 2rem;
   }
+}
+
+#copyright {
+  margin: 1vw;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #a8a8a8;
+  transition: all 0.5s ease;
 }
 </style>
