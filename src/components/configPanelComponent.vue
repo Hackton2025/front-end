@@ -192,7 +192,7 @@ input {
   width: 35%;
   height: 2.5vw;
   font-size: 1rem;
-  border-radius: 20px;
+  border-radius: 10px;
   cursor: pointer;
 }
 

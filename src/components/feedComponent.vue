@@ -8,6 +8,7 @@ const store = usePostStore();
   <ul>
     <li v-for="post in store.posts" :key="post.uuid">
       <div class="post">
+      <div class="total">
         <div class="author">
           <img
             v-if="post.author.first_profile_image_url"
@@ -27,14 +28,27 @@ const store = usePostStore();
 
           <video v-if="post.video_url" :src="post.video_url" controls></video>
         </div>
+        </div>
       </div>
     </li>
   </ul>
 </template>
 <style scoped>
+ul{
+  justify-content: center;
+}
 .post {
   width: 60%;
+  min-width:60%;
 }
+.total{
+  background-color: white;
+  margin-bottom: 2vw;
+  width: 100%;
+  padding: 2vw 3vw;
+  border-radius: 10px;
+}
+
 .author {
   display: flex;
   justify-content: left;
@@ -52,15 +66,18 @@ const store = usePostStore();
   margin-left: 1vw;
 }
 
+
 .content img {
   width: 100%;
   height: 50vh;
+  border-radius: 10px;
 }
 
 .content p {
   font-size: 1rem;
-  white-space: pre-wrap; /* respeita quebras de linha manuais */
-  word-wrap: break-word; /* força quebra de palavras grandes */
-  overflow-wrap: anywhere; /* quebra em qualquer lugar se necessário */
+  white-space: pre-wrap; 
+  word-wrap: break-word; 
+  overflow-wrap: anywhere;
+  margin: 20px 0; 
 }
 </style>
