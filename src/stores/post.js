@@ -121,9 +121,10 @@ export const usePostStore = defineStore("post", () => {
 
 
   async function publicarPost() {
-    const data = await createPost();
-    return data;
-  }
+  const data = await createPost();
+  await fetchPosts(); // atualiza a lista de posts
+  return data;
+}
 
   async function fetchPosts() {
     try {

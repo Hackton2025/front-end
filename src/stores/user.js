@@ -135,7 +135,7 @@ export const useUserStore = defineStore("user", () => {
       }
 
       alert("Login bem-sucedido!");
-      store.fetchPosts
+      await store.fetchPosts();
       router.push("/home");
     } catch (error) {
       console.error(error);
