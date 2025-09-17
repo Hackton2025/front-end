@@ -22,7 +22,7 @@
 
          <!-- <RouterLink to="/instituicao"> -->
         <button class="btn-ver">Ver perfil</button>
-        <button v-if="store.usuario.is_institute" @click="router.push('/instituicao')" class="btn-ver">
+        <button v-if="store.usuario.is_institute" @click="router.push('/verInstituicao')" class="btn-ver">
           Pagina de admin
         </button>
       </div>
