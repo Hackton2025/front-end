@@ -1,7 +1,7 @@
 <script setup>
-import { useComunittyStore } from '@/stores/comunitty.js'; 
-import { onMounted } from 'vue';
 
+import { useComunittyStore } from '@/stores/comunitty';
+import { onMounted } from 'vue';
 const store = useComunittyStore();
 
 onMounted(() => {
@@ -21,7 +21,7 @@ onMounted(() => {
       </div>
     </router-link>
   </div>
-</template>+
+</template>
 
 <style scoped>
 h1 {

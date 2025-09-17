@@ -1,43 +1,97 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useUserStore } from '@/stores/user'
+import { useUiStore } from '@/stores/refreshPage'
+
+const store = useUserStore()
+const uiStore = useUiStore()
 
 const props = defineProps(['visivel'])
 const emit = defineEmits(['fechar'])
 
 const isOn = ref(true)
+const fileInputRef = ref(null)
+
+const triggerFileSelect = () => {
+  fileInputRef.value?.click()
+}
+
+onMounted(() => {
+  uiStore.ativarAvisoSaida()
+})
+
+onBeforeUnmount(() => {
+  uiStore.desativarAvisoSaida()
+})
+
+const logoutUser = () => {
+  store.resetStore(); // Usa a função resetStore para limpar tudo
+  store.logout(); // Redireciona para login
+};
+
+const saveChanges = async () => {
+  try {
+    // Atualizar perfil (incluindo imagem)
+    await store.updateProfile()
+
+    // Atualizar usuário
+    const userUpdates = {
+      fullname: store.usuario.fullname,
+      name: store.usuario.name,
+      email: store.usuario.email
+    }
+    await store.updateUser(userUpdates)
+
+    // alert('Alterações salvas com sucesso!')
+  } catch (error) {
+    console.error("Erro ao salvar alterações:", error)
+    alert("Ocorreu um erro ao salvar as alterações. Tente novamente.")
+  }
+}
 </script>
 
 <template>
   <div class="config-panel" :class="{ aberto: props.visivel }">
     <div class="fechar">
-      <button @click="emit('fechar')">❌</button>
+      <button @click="emit('fechar')"><span class="mdi mdi-close-thick"></span></button>
     </div>
 
     <div class="conteudo">
       <div class="perfil">
-        <img src="https://i.imgur.com/L7rJjpt.png" class="avatar" />
-        <div>
-          <h2>user_name</h2>
-          <p class="usuario">user.usuario</p>
-          <p class="email">email@gmail.com</p>
+        <img :src="store.profileImagePreview
+          || (store.profile.first_profile_image_url
+            ? store.profile.first_profile_image_url
+            : '/img/default-avatar.png')" class="avatar" @click="triggerFileSelect" />
+
+        <input type="file" ref="fileInputRef" @change="store.onFileChange" accept="image/*" style="display: none;" />
+
+        <div class="user-info">
+          <input v-model="store.usuario.fullname" class="fullname" />
+          <input v-model="store.usuario.name" class="username" />
+          <p class="email">{{ store.usuario.email }}</p>
+          <input placeholder="Adicione um link" v-model="store.profile.links1" class="links" />
+          <input placeholder="Adicione um link" v-model="store.profile.links2" class="links" />
         </div>
       </div>
 
       <div class="descricao">
-        <p><strong>Descrição:</strong></p>
-        <ul>
-          <li>Suricato</li>
-          <li>Amigo do Maia</li>
-          <li>Flamengo no coração ❤️🖤</li>
-          <li>Joinville - 17y</li>
-        </ul>
+        <textarea name="legend" id="legend" placeholder="Adicione uma legenda"
+          v-model="store.profile.legend"></textarea>
+      </div>
+      <div style="display: flex;">
+        <button @click="saveChanges" class="saveChanges">Salvar alterações</button>
+        <button @click="logoutUser" class="saveChanges">Sair</button>
       </div>
 
       <div class="notificacoes">
         <span>🔔 Notificações</span>
         <div class="toggle-box">
-          <button :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">ON</button>
-          <button :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">OFF</button>
+          <button :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">
+            ON
+          </button>
+          <button :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">
+            OFF
+          </button>
         </div>
       </div>
 
@@ -55,7 +109,7 @@ const isOn = ref(true)
           <span>Alterar senha</span>
         </button>
 
-        <button class="danger-button">
+        <button class="danger-button" @click="logoutUser">
           <span class="mdi mdi-exit-run"></span>
           <span>Sair da conta</span>
         </button>
@@ -71,8 +125,12 @@ const isOn = ref(true)
   <div v-if="props.visivel" class="fundo" @click="emit('fechar')"></div>
 </template>
 
-
 <style scoped>
+input {
+  border: none;
+  background: transparent;
+}
+
 .config-panel {
   position: fixed;
   top: 0;
@@ -103,6 +161,12 @@ const isOn = ref(true)
   justify-content: flex-end;
 }
 
+.fechar button {
+  background-color: white;
+  border: none;
+  font-size: 2rem;
+}
+
 .perfil {
   display: flex;
   gap: 15px;
@@ -113,6 +177,29 @@ const isOn = ref(true)
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.avatar:hover {
+  opacity: 0.8;
+}
+
+.saveChanges {
+  background-color: green;
+  border: none;
+  color: white;
+  margin: 0 0 2vw 0;
+  width: 35%;
+  height: 2.5vw;
+  font-size: 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.saveChanges:hover {
+  background-color: rgb(0, 150, 0);
+  transition: 0.5s;
 }
 
 .usuario,
@@ -125,9 +212,12 @@ const isOn = ref(true)
   margin-top: 20px;
 }
 
-.descricao ul {
-  margin: 5px 0 0 15px;
-  padding: 0;
+.descricao input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .notificacoes {
@@ -211,5 +301,45 @@ const isOn = ref(true)
 
 .mdi.mdi-delete {
   color: red;
+}
+
+textarea {
+  width: 100%;
+  height: 20vh;
+  border: none;
+  border-radius: 4px;
+  padding: 8px;
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
+  border: none;
+  transition: 0.5s;
+}
+
+.h2 {
+  font-size: 1.5rem;
+}
+
+.links:nth-child(1) {
+  margin-top: 10px;
+}
+
+.links {
+  display: flex;
+}
+
+.fullname {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.username {
+  display: block;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 2px;
 }
 </style>
