@@ -4,42 +4,39 @@ import { ref } from "vue";
 export const useSeguidoresStore = defineStore("seguidores", () => {
   const seguidoresInstituto = ref(13);
   const seguidoresUsuario = ref(Math.floor(Math.random() * 11));
-  const seguidoresComunidade = ref(10);
 
-  const seguindoInstituto = ref(1);
-  const seguindoComunidades = ref(2);
-  const seguindoUsuario = ref(Math.floor(Math.random() * 11));
+  // Guardamos os seguidores de cada comunidade
+  const seguidoresComunidade = ref({
+    // exemplo: "uuidDaComunidade": 10
+  });
 
-  function addSeguidores(adicionar) {
-    adicionar.value++;
-  }
+  // Guardamos se o botão foi clicado (para alternar aumentar/diminuir)
+  const clicadoComunidade = ref({
+    // exemplo: "uuidDaComunidade": true/false
+  });
 
-  function addSeguindo(adicionar) {
-    adicionar.value++;
-  }
-
-  function removerSeguidores(remover) {
-    if (remover.value > 0) {
-      remover.value--;
+  function toggleSeguidor(uuid) {
+    if (!(uuid in seguidoresComunidade.value)) {
+      seguidoresComunidade.value[uuid] = 0;
+      clicadoComunidade.value[uuid] = false;
     }
-  }
 
-  function removerSeguindo(remover) {
-    if (remover.value > 0) {
-      remover.value--;
+    if (clicadoComunidade.value[uuid]) {
+      // Já clicado → diminuir
+      seguidoresComunidade.value[uuid]--;
+      clicadoComunidade.value[uuid] = false;
+    } else {
+      // Não clicado → aumentar
+      seguidoresComunidade.value[uuid]++;
+      clicadoComunidade.value[uuid] = true;
     }
   }
 
   return {
     seguidoresInstituto,
-    addSeguidores,
-    seguidoresComunidade,
     seguidoresUsuario,
-    seguindoComunidades,
-    seguindoInstituto,
-    seguindoUsuario,
-    addSeguindo,
-    removerSeguidores,
-    removerSeguindo,
+    seguidoresComunidade,
+    clicadoComunidade,
+    toggleSeguidor,
   };
 });

@@ -1,9 +1,11 @@
 <script setup>
 import { useComunittyStore } from '@/stores/comunitty'; 
+import { useSeguidoresStore } from '@/stores/seguidores';
 import { onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const store = useComunittyStore();
+const seguidoresStore = useSeguidoresStore();
 const route = useRoute();
 
 onMounted(async () => {
@@ -33,29 +35,29 @@ watch(
         </div>
 
         <div class="informacoes">
-
           <div class="seguidores">
             <p>Seguidores</p>
-            <p>{{ store.currentCommunity.followers_count }}</p>
+            <p>{{ seguidoresStore.seguidoresComunidade[store.currentCommunity.uuid] || 0 }}</p>
           </div>
 
           <div class="seguindo">
             <p>Seguindo</p>
-            <p>0</p> 
+            <p>{{ seguidoresStore.seguindoComunidades[store.currentCommunity.uuid] ? 1 : 0 }}</p>
           </div>
 
           <div class="publicacoes">
             <p>Publicações</p>
             <p>0</p>
           </div>
-
         </div>
 
         <div class="descricao">
           <p>{{ store.currentCommunity.legend }}</p>
         </div>
 
-        <button>Entrar na comunidade</button> 
+        <button @click="seguidoresStore.toggleSeguirComunidade(store.currentCommunity.uuid)">
+          {{ seguidoresStore.seguindoComunidades[store.currentCommunity.uuid] ? 'Seguindo' : 'Entrar na comunidade' }}
+        </button>
       </div>
     </section>
   </main>
@@ -63,6 +65,7 @@ watch(
     <p>Carregando...</p>
   </div>
 </template>
+
 <style scoped>
 section{
     margin-right: 6vw;
