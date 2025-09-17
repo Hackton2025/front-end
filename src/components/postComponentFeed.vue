@@ -1,42 +1,12 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted } from "vue";
+import { usePostsStore } from "@/stores/feed";
 
-const posts = ref([
-  {
-    id: 1,
-    user: {
-      handle: "@Senhor dessa makita",
-      verified: true,
-      name: "Kaua Martins Barros",
-      time: "1 hora atrás",
-      avatar: "/img/motomoto.png",
-    },
-    post: {
-      image: "/img/motomoto.png",
-    },
-    likes: 0,
-    comments: 0,
-    shares: 0,
-    saved: false,
-  },
-  {
-    id: 2,
-    user: {
-      handle: "@Stálin Hitler",
-      verified: false,
-      name: "Adolf Joseph",
-      time: "2 horas atrás",
-      avatar: "/img/motomoto.png",
-    },
-    post: {
-      image: "/img/motomoto.png",
-    },
-    likes: 5,
-    comments: 2,
-    shares: 1,
-    saved: false,
-  },
-]);
+const feedStore = usePostsStore();
+
+onMounted(() => {
+  feedStore.fetchPosts();
+});
 
 function likePost(post) {
   post.likes++;
@@ -54,6 +24,7 @@ function toggleSavePost(post) {
   post.saved = !post.saved;
 }
 </script>
+
 
 <template>
   <div>
