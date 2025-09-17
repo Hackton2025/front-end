@@ -24,7 +24,7 @@ import router from "@/router";
             <span class="mdi mdi-key-variant"></span>
             <p class="controle">Controle de Acesso</p>
           </RouterLink>
-          <button class="massivas">
+          <button @click="router.push('/enviar-mensagem-em-massa')" class="massivas">
             <span class="mdi mdi-alert"></span>
             <p class="massivas">Mensagens Massivas</p>
           </button>
