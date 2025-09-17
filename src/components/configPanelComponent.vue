@@ -164,6 +164,7 @@ input {
   background-color: white;
   border: none;
   font-size: 2rem;
+  cursor: pointer;
 }
 
 .perfil {
@@ -292,10 +293,11 @@ input {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #eaeaea;
+  background-color: transparent;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 1.2rem;
 }
 
 .mdi.mdi-delete {

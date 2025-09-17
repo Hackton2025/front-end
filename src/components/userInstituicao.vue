@@ -36,20 +36,22 @@ import router from "@/router";
 <style scoped>
 main {
     padding: 0 2vw 2vw 2vw;
+  
+
+    
+    
 }
 .geral {
     display: flex;
     align-items: center;
-    gap: 30px;
     font-size: 20px;
-    margin-bottom: 10px;
     flex-direction: column;
     background-color: #FFFF;
-    width: 30%;
+    width: 25%;
     border-radius: 5px;
-    height: 100vh;
     padding: auto 0;
 }
+
 .geral div button, .button-link.acess{
     display: flex;
     align-items: center;

@@ -21,7 +21,7 @@
       </div>
 
       <div class="icons">
-        <span class="mdi mdi-bell"></span>
+    
         <img :src="store.profileImagePreview
           || (typeof store.profile.first_profile_image_url === 'string'
             ? store.profile.first_profile_image_url  
@@ -96,8 +96,8 @@ span.mdi {
 
 
 .avatar {
-  width: 6vh;
-  height: 6vh;
+  width: 4vh;
+  height: 4vh;
   border-radius: 50%;
   cursor: pointer;
   object-fit: cover;
