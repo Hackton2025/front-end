@@ -2,19 +2,18 @@
 import { ref, computed } from 'vue'
 
 const items = ref([
-  { id: 1, img: 'https://via.placeholder.com/80x80?text=1', name: 1 },
-  { id: 2, img: 'https://via.placeholder.com/80x80?text=2', name: 2 },
-  { id: 3, img: 'https://via.placeholder.com/80x80?text=3', name: 3 },
-  { id: 4, img: 'https://via.placeholder.com/80x80?text=4', name: 4 },
-  { id: 5, img: 'https://via.placeholder.com/80x80?text=5', name: 5 },
-  { id: 6, img: 'https://via.placeholder.com/80x80?text=6', name: 6 },
-  { id: 7, img: 'https://via.placeholder.com/80x80?text=7', name: 7 },
-  { id: 8, img: 'https://via.placeholder.com/80x80?text=8', name: 8 },
-  { id: 9, img: 'https://via.placeholder.com/80x80?text=9', name: 9 },
-  { id: 10, img: 'https://via.placeholder.com/80x80?text=10', name: 10 },
+  { id: 1, img: "/img/motomoto.png", name: 1 },
+  { id: 2, img: "/img/motomoto.png", name: 2 },
+  { id: 3, img: "/img/motomoto.png", name: 3 },
+  { id: 4, img: "/img/motomoto.png", name: 4 },
+  { id: 5, img: "/img/motomoto.png", name: 5 },
+  { id: 6, img: "/img/motomoto.png", name: 6 },
+  { id: 7, img: "/img/motomoto.png", name: 7 },
+  { id: 8, img: "/img/motomoto.png", name: 8 },
+  { id: 9, img: "/img/motomoto.png", name: 9 },
+  { id: 10, img: "/img/motomoto.png", name: 10 },
 ])
 
-// configurações visuais
 const visibleCount = 5
 const itemWidth = 80
 const gap = 40
@@ -45,7 +44,6 @@ const scrollRight = () => {
       <div class="carousel-inner" :style="{ transform: translate }">
         <div v-for="item in items" :key="item.id" class="bubble">
           <img :src="item.img" />
-          <p>{{ item.name }}</p>
         </div>
       </div>
     </div>
@@ -99,12 +97,14 @@ const scrollRight = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: white;
+  border-radius: 10px;
 }
 
 .bubble img {
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 8px;
-  object-fit: cover;
+  width: 92%;
+  height: 92%;
+
+
 }
 </style>

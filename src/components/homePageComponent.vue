@@ -35,7 +35,7 @@ const isOn = ref(false)
 <style scoped>
 nav {
   display: grid;
-  grid-template-columns: 1fr 4fr 1.6fr;
+  grid-template-columns: 1fr 4fr 2fr;
   gap: 0px; 
   padding: 10px;
   align-items: start;
@@ -50,12 +50,9 @@ nav {
 
 }
 .center {
-  border: 1px solid white;
   height: 100%
 }
-.left, .right {
-  border: 1px solid black;
-}
+
 .left {
   align-items: start;
 }

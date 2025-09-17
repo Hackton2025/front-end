@@ -1,85 +1,134 @@
 <script setup>
 import { ref } from "vue";
 
-const user = ref({
-  handle: "@Criador do mundo",
-  verified: true,
-  name: "Kaua Martins Barros",
-  time: "1 hora atrás",
-  avatar: "/img/motomoto.png", 
-});
+const posts = ref([
+  {
+    id: 1,
+    user: {
+      handle: "@Senhor dessa makita",
+      verified: true,
+      name: "Kaua Martins Barros",
+      time: "1 hora atrás",
+      avatar: "/img/motomoto.png",
+    },
+    post: {
+      image: "/img/motomoto.png",
+    },
+    likes: 0,
+    comments: 0,
+    shares: 0,
+    saved: false,
+  },
+  {
+    id: 2,
+    user: {
+      handle: "@Stálin Hitler",
+      verified: false,
+      name: "Adolf Joseph",
+      time: "2 horas atrás",
+      avatar: "/img/motomoto.png",
+    },
+    post: {
+      image: "/img/motomoto.png",
+    },
+    likes: 5,
+    comments: 2,
+    shares: 1,
+    saved: false,
+  },
+]);
 
-const post = ref({
-  image: "/img/motomoto.png", 
-});
+function likePost(post) {
+  post.likes++;
+}
 
-const likes = ref(0);
-const comments = ref(0);
-const shares = ref(0);
+function commentPost(post) {
+  post.comments++;
+}
 
-const toggleSave = ref(false);
+function sharePost(post) {
+  post.shares++;
+}
 
-function likePost() {}
-
-function commentPost() {}
-
-function sharePost() {}
-
-function toggleSavePost() {
-  toggleSave.value = !toggleSave.value;
+function toggleSavePost(post) {
+  post.saved = !post.saved;
 }
 </script>
 
 <template>
-  <div class="card">
-    <div class="card-top">
-      <div class="avatar">
-        <img v-if="user.avatar" :src="user.avatar" alt="avatar" style="width:100%;height:100%;border-radius:10px;" />
-      </div>
-      <div class="user-info">
-        <div class="handle">
-          <p>
-            {{ user.handle }}
-            <img v-if="user.verified" src="/img/verifiedIcon.png" alt="verified" />
-          </p>
+  <div>
+    <div v-for="post in posts" :key="post.id" class="card">
+      <div class="card-top">
+        <div class="avatar">
+          <img
+            v-if="post.user.avatar"
+            :src="post.user.avatar"
+            alt="avatar"
+            style="width:100%;height:100%;border-radius:10px;"
+          />
         </div>
-        <div class="username">
-          <div class="name">{{ user.name }} | {{ user.time }}</div>
+        <div class="user-info">
+          <div class="handle">
+            <p>
+              {{ post.user.handle }}
+              <img
+                v-if="post.user.verified"
+                src="/img/verifiedIcon.png"
+                alt="verified"
+              />
+            </p>
+          </div>
+          <div class="username">
+            <div class="name">{{ post.user.name }} | {{ post.user.time }}</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="card-content">
-      <div class="images">
-        <div class="img-placeholder">
-          <img v-if="post.image" :src="post.image" alt="post" style="width:100%;height:100%;border-radius:10px;" />
-        </div>
-      </div>
-    </div>
 
-    <div class="card-actions">
-      <div class="icons">
-        <div class="icon" @click="likePost"><img src="/img/like.png" /></div>
-        <div class="icon" @click="commentPost"><img src="/img/comment.png" /></div>
-        <div class="icon" @click="sharePost"><img src="/img/share.png" /></div>
+      <div class="card-content">
+        <div class="images">
+          <div class="img-placeholder">
+            <img
+              v-if="post.post.image"
+              :src="post.post.image"
+              alt="post"
+              style="width:100%;height:100%;border-radius:10px;"
+            />
+          </div>
+        </div>
       </div>
-      <button class="save" @click="toggleSavePost">
-        {{ toggleSave ? "Salvo" : "Salvar" }}
-      </button>
-    </div>
-    <div class="card-bottom">
-      <div class="comment-avatar"></div>
-      <input class="input-placeholder" placeholder="Adicione um comentário..." />
+
+      <div class="card-actions">
+        <div class="icons">
+          <div class="icon" @click="likePost(post)">
+            <img src="/img/like.png" />
+          </div>
+          <div class="icon" @click="commentPost(post)">
+            <img src="/img/comment.png" />
+          </div>
+          <div class="icon" @click="sharePost(post)">
+            <img src="/img/share.png" />
+          </div>
+        </div>
+        <button class="save" @click="toggleSavePost(post)">
+          {{ post.saved ? "Salvo" : "Salvar" }}
+        </button>
+      </div>
+
+      <div class="card-bottom">
+        <div class="comment-avatar">
+                <img v-if="post.user.avatar" :src="post.user.avatar" alt="avatar do comentário" />            
+        </div>
+        <input class="input-placeholder" placeholder="Adicione um comentário..." />
+      </div>
     </div>
   </div>
 </template>
 
-
 <style scoped>
 .card {
-  border: 1px solid #ff0000;
   border-radius: 10px;
   background: #fff;
-  width: 100%;       
+  width: 100%;
   margin: 0 auto 20px auto;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -108,15 +157,14 @@ function toggleSavePost() {
   height: 100%;
   grid-template-rows: 1fr 1fr;
   gap: 5px;
-
-
 }
+
 .username {
   align-items: start;
   margin-top: 4px;
   padding: 0; 
-  
-  }
+}
+
 .name, .time, .handle {
   height: 10px;
   border-radius: 10px;
@@ -124,12 +172,11 @@ function toggleSavePost() {
 
 .name { 
   width: 100%; 
-  }
+}
 .dot { 
   width: 6px; 
   height: 6px; 
-  }
-
+}
 
 .handle {
   display: flex;
@@ -150,7 +197,6 @@ function toggleSavePost() {
   width: 18px;          
   height: 18px;
 }
-
 
 .images {
   display: flex;
@@ -192,12 +238,13 @@ function toggleSavePost() {
   cursor: pointer;
   transition: all 0.1s ease; 
   border: none;
+
 }
 
 .save:hover {
   width: calc(15% + 1px); 
   opacity: 0.9; 
-  
+  border: none;
 }
 
 .card-bottom {
@@ -207,13 +254,22 @@ function toggleSavePost() {
   gap: 10px;
 }
 
-
 .comment-avatar {
   width: 40px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 50%;
+  overflow: hidden;
   border: 1px solid black;
+  flex-shrink: 0;
+  border-radius: 10px;
 }
+
+.comment-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 
 .input-placeholder {
   flex: 1;
@@ -221,5 +277,7 @@ function toggleSavePost() {
   border: 1px solid black;
   border-radius: 10px;
   padding-left: 8px;
+  background-color: #F0F2F5;
 }
 </style>
+
