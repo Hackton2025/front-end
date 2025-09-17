@@ -1,50 +1,68 @@
+<script setup>
+import { useComunittyStore } from '@/stores/comunitty'; 
+import { onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
+const store = useComunittyStore();
+const route = useRoute();
+
+onMounted(async () => {
+  const communityUuid = route.params.uuid;
+  await store.fetchCommunityDetails(communityUuid);
+});
+
+watch(
+  () => route.params.uuid, 
+  (newUuid) => {
+    store.fetchCommunityDetails(newUuid);
+  },
+  { immediate: true }
+);
+</script>
+
 <template>
-    <main>
-        <section>
-                <div class="corDiferente">
-                    <h1>Infromática para a Internet</h1>
-                </div>
-            <div class="conteudo">
+  <main v-if="store.currentCommunity">
+    <section>
+      <div class="corDiferente">
+        <h1>{{ store.currentCommunity.name }}</h1>
+      </div>
+      <div class="conteudo">
+        <div class="lado">
+          <img :src="store.currentCommunity.image" alt="Image of community" />
+          <h2>@{{ store.currentCommunity.name }}</h2>
+        </div>
 
-                <div class="lado">
-                    <img src="https://img.freepik.com/free-photo/closeup-scarlet-macaw-from-side-view-scarlet-macaw-closeup-head_488145-3540.jpg?semt=ais_hybrid&w=740&q=80" alt="imagem">
-                     <h2>@Informática</h2>
-                </div>
+        <div class="informacoes">
 
-                <div class="informacoes">
+          <div class="seguidores">
+            <p>Seguidores</p>
+            <p>{{ store.currentCommunity.followers_count }}</p>
+          </div>
 
-                    <div class="seguidores">
-                        <p>Seguidores</p>
-                        <p>205</p>
-                    </div>
+          <div class="seguindo">
+            <p>Seguindo</p>
+            <p>0</p> 
+          </div>
 
-                    <div class="seguindo">
-                        <p>Seguindo</p>
-                        <p>205</p>
+          <div class="publicacoes">
+            <p>Publicações</p>
+            <p>0</p>
+          </div>
 
-                    </div>
+        </div>
 
-                    <div class="publicacoes">
-                        <p>Publicações</p>
-                        <p>205</p>
-                    </div>
-                </div>
+        <div class="descricao">
+          <p>{{ store.currentCommunity.legend }}</p>
+        </div>
 
-                <div class="descricao">
-                    <p>
-                        💻 Bem-vindo à comunidade do curso Técnico em Informática para a Internet! Este é um espaço de
-                        integração entre estudantes, professores e colaboradores do curso. Aqui você encontrará
-                        conteúdos relevantes, avisos importantes, eventos, oportunidades e discussões sobre
-                        desenvolvimento web, programação, redes, design digital, e muito mais.
-                    </p>
-                </div>
-
-                <button>Entrar na comunidade</button>
-            </div>
-        </section>
-    </main>
+        <button>Entrar na comunidade</button> 
+      </div>
+    </section>
+  </main>
+  <div v-else>
+    <p>Carregando...</p>
+  </div>
 </template>
-
 <style scoped>
 section{
     margin-right: 6vw;

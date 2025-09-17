@@ -3,6 +3,7 @@ import api from "@/plugins/axios";
 import { ref, reactive, computed, onMounted } from "vue";
 
 export const useComunittyStore = defineStore("comunitty", () => {
+    
     const community = reactive({
         name: '',
         image: null,
@@ -13,6 +14,9 @@ export const useComunittyStore = defineStore("comunitty", () => {
     const search = ref('');
     const imagepreview = ref(null);
 
+    // Variável para armazenar os detalhes de uma comunidade específica
+    const currentCommunity = ref(null);
+
     function onFileChange(event) {
         const file = event.target.files[0];
         if (file) {
@@ -21,12 +25,10 @@ export const useComunittyStore = defineStore("comunitty", () => {
         }
     }
 
-
-
     async function uploudImage() {
         try {
             const formData = new FormData();
-            formData.append('file', community.image); // use community.image, não file
+            formData.append('file', community.image); // usa community.image
 
             const response = await api.post('/image-uploader/', formData, {
                 headers: {
@@ -42,10 +44,6 @@ export const useComunittyStore = defineStore("comunitty", () => {
         }
     }
 
-
-
-
-
     async function submitCommunity() {
         try {
             let imageKey = null;
@@ -56,19 +54,19 @@ export const useComunittyStore = defineStore("comunitty", () => {
             }
 
             const response = await api.post('/community/', {
-                name: community.name,       // ✅ campo certo
-                image: imageKey,            // ✅ attachment_key
-                legend: community.legend,   // ✅ campo certo
+                name: community.name,
+                image: imageKey,
+                legend: community.legend,
             });
 
             alert('Comunidade criada com sucesso!');
             console.log('Community created:', response.data);
-            // Reset form
+
             community.name = '';
             community.image = null;
             community.legend = '';
             imagepreview.value = null;
-            // Refetch communities to include the new one
+
             fetchCommunities();
 
         } catch (error) {
@@ -76,18 +74,24 @@ export const useComunittyStore = defineStore("comunitty", () => {
         }
     }
 
-
-
-
-
-
     async function fetchCommunities() {
         try {
             const response = await api.get('/community/');
             console.log('Fetched communities:', response.data);
-            communities.value = response.data; // ✅ agora salva no estado
+            communities.value = response.data;
         } catch (error) {
             console.error('Error fetching communities:', error);
+        }
+    }
+
+    // Função para buscar os detalhes de uma comunidade específica
+    async function fetchCommunityDetails(uuid) {
+        try {
+            const response = await api.get(`/community/${uuid}`);
+            console.log('Fetched community details:', response.data);
+            currentCommunity.value = response.data; // Armazenando os detalhes da comunidade
+        } catch (error) {
+            console.error('Error fetching community details:', error);
         }
     }
 
@@ -99,8 +103,6 @@ export const useComunittyStore = defineStore("comunitty", () => {
             comn.name.toLowerCase().includes(search.value.toLowerCase())
         );
     });
-
-
 
     onMounted(() => {
         fetchCommunities();
@@ -115,6 +117,9 @@ export const useComunittyStore = defineStore("comunitty", () => {
         uploudImage,
         submitCommunity,
         fetchCommunities,
+        fetchCommunityDetails, 
         filteredCommunities,
+        currentCommunity,  
+        joinCommunity,
     };
 });

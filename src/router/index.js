@@ -35,7 +35,7 @@ const router = createRouter({
       component: sendMassiveMessageView,
     }, 
     {
-      path: '/comunidade',
+      path: '/comunidade/:uuid',
       name: 'comunidade',
       component: CommunityView,
     }
