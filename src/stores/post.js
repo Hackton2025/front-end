@@ -11,6 +11,7 @@ export const usePostStore = defineStore("post", () => {
     video: null,
     videopreview: null,
     content: '',
+    emergency: false,
   });
 
   const legenda = ref("");

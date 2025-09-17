@@ -80,6 +80,12 @@ onMounted(() => {
                 <textarea v-model="store.legenda"></textarea>
             </div>
 
+            <div class="whatsapp">
+                <input type="checkbox" id="whatsapp" v-model="store.post.is_emergency" />
+                <label for="whatsapp">Compartilhar no WhatsApp</label>
+                
+            </div>
+
             <!-- <div class="opitions">
                 <div class="marcar-pessoas">
                     <span class="mdi mdi-account"></span>
