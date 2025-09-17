@@ -1,13 +1,14 @@
 <script setup>
-    import router from './router';
+import { useRouter } from 'vue-router';   
+
+const router = useRouter();
+
+function irParaInstituicao() {
+  router.push('/instituicao');
+}
+    
 </script>
-
-
 
 <template>
   <RouterView></RouterView>
 </template>
-
-<style scoped>
-
-</style>

@@ -1,4 +1,5 @@
-  <script setup>
+<script setup>
+import { RouterLink } from 'vue-router'
   import router from '@/router';
   import { useUserStore } from '@/stores/user';
   const store = useUserStore();
@@ -19,6 +20,7 @@
         <p class="arroba">@{{ store.usuario.name }}</p>
         <p class="descricao">{{ store.profile.legend }}</p>
 
+         <RouterLink to="/instituicao">
         <button class="btn-ver">Ver perfil</button>
         <button v-if="store.usuario.is_institute" @click="router.push('/criar-postagem')" class="btn-ver">
           Criar Post
