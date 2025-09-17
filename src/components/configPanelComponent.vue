@@ -58,10 +58,10 @@ const saveChanges = async () => {
 
     <div class="conteudo">
       <div class="perfil">
-        <img :src="store.profileImagePreview
-          || (store.profile.first_profile_image_url
-            ? store.profile.first_profile_image_url
-            : '/img/default-avatar.png')" class="avatar" @click="triggerFileSelect" />
+          <img :src="store.profileImagePreview
+            || (store.profile.first_profile_image_url
+              ? store.profile.first_profile_image_url
+              : '/img/default-avatar.png')" class="avatar" @click="triggerFileSelect" />
 
         <input type="file" ref="fileInputRef" @change="store.onFileChange" accept="image/*" style="display: none;" />
 

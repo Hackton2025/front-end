@@ -1,3 +1,4 @@
+// stores/user.js
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import api from "@/plugins/axios";
@@ -30,13 +31,12 @@ export const useUserStore = defineStore("user", () => {
     legend: "",
   });
 
-  
-
   const confirmPassword = ref("");
   const token = ref(localStorage.getItem("token") || null);
   const profileImagePreview = ref(null);
   const usersFetched = ref([]);
 
+  // Reset do store
   function resetStore() {
     usuario.value = {
       uuid: null,
@@ -69,45 +69,48 @@ export const useUserStore = defineStore("user", () => {
     usersFetched.value = [];
   }
 
-async function createAccount() {
-  if (usuario.value.password !== confirmPassword.value) {
-    alert("As senhas não coincidem!");
-    return;
-  }
+  // Criar conta
+  async function createAccount() {
+    if (usuario.value.password !== confirmPassword.value) {
+      alert("As senhas não coincidem!");
+      return;
+    }
 
-  try {
-    const { data } = await api.post("/users/", {
-      email: usuario.value.email,
-      fullname: usuario.value.fullname,
-      name: usuario.value.name,
-      password: usuario.value.password,
-      phone: usuario.value.phone,
-      birthday: usuario.value.birthday,
-      accept_notification: usuario.value.accept_notification,
-      is_master: usuario.value.is_master,
-      is_institute: usuario.value.is_institute,
-    });
+    try {
+      // Mando os campos explicitamente (igual ao seu original)
+      const payload = {
+        email: usuario.value.email,
+        fullname: usuario.value.fullname,
+        name: usuario.value.name,
+        password: usuario.value.password,
+        phone: usuario.value.phone,
+        birthday: usuario.value.birthday,
+        accept_notification: usuario.value.accept_notification,
+        is_master: usuario.value.is_master,
+        is_institute: usuario.value.is_institute,
+      };
 
-    usuario.value = data;
+      const { data } = await api.post("/users/", payload);
 
-    alert("Conta criada com sucesso!");
+      usuario.value = data;
 
-    router.push(`/usuario/${data.uuid}`);
-
-  } catch (error) {
-    if (error.response?.data) {
-      alert(
-        "Erro ao criar conta:\n" +
-          Object.entries(error.response.data)
-            .map(([campo, msg]) => `${campo}: ${msg}`)
-            .join("\n")
-      );
-    } else {
-      alert("Erro ao criar conta. Tente novamente.");
+      alert("Conta criada com sucesso!");
+      router.push(`/usuario/${data.uuid}`);
+    } catch (error) {
+      if (error.response?.data) {
+        alert(
+          "Erro ao criar conta:\n" +
+            Object.entries(error.response.data)
+              .map(([campo, msg]) => `${campo}: ${msg}`)
+              .join("\n")
+        );
+      } else {
+        alert("Erro ao criar conta. Tente novamente.");
+      }
     }
   }
-}
 
+  // Login
   async function loginUser(usuarioLogin) {
     try {
       resetStore();
@@ -121,11 +124,14 @@ async function createAccount() {
       localStorage.setItem("token", data.access);
       localStorage.setItem("refresh", data.refresh);
 
+      // Preenche usuário
       Object.assign(usuario.value, data.user);
 
+      // Se o usuário tem profile, aplica
       if (data.user.profile) {
         Object.assign(profile.value, data.user.profile);
 
+        // Adiciona timestamp pra forçar cache-bust da imagem
         if (profile.value.first_profile_image_url) {
           profile.value.first_profile_image_url =
             `${profile.value.first_profile_image_url}?t=${Date.now()}`;
@@ -140,6 +146,7 @@ async function createAccount() {
     }
   }
 
+  // Logout
   function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("refresh");
@@ -148,6 +155,7 @@ async function createAccount() {
     router.push("/");
   }
 
+  // Mudança de arquivo (preview)
   function onFileChange(event) {
     const file = event.target.files[0];
     if (file) {
@@ -156,6 +164,7 @@ async function createAccount() {
     }
   }
 
+  // Upload da imagem (retorna chave)
   async function uploadProfileImage() {
     if (!profile.value.firstProfileImageFile) {
       return null;
@@ -176,6 +185,7 @@ async function createAccount() {
     }
   }
 
+  // Atualizar perfil (legend, links, imagem)
   async function updateProfile() {
     try {
       let imageKey = null;
@@ -201,6 +211,7 @@ async function createAccount() {
 
       Object.assign(profile.value, response.data);
 
+      // limpa campo de arquivo e preview
       profile.value.firstProfileImageFile = null;
       profileImagePreview.value = null;
 
@@ -211,6 +222,7 @@ async function createAccount() {
     }
   }
 
+  // Atualizar dados do usuário
   async function updateUser(updates) {
     try {
       const response = await api.patch(
@@ -223,6 +235,7 @@ async function createAccount() {
     }
   }
 
+  // Buscar todos os usuários (lista)
   async function fetchUsers() {
     try {
       const response = await api.get("/users/");
@@ -233,10 +246,24 @@ async function createAccount() {
     }
   }
 
-  // Buscar usuário pelo UUID
+  // Buscar usuário pelo UUID — retorna o objeto
   async function fetchUserByUuid(uuid) {
     try {
+      // tenta buscar em cache local primeiro
+      const cached = usersFetched.value.find(u => u.uuid === uuid);
+      if (cached) {
+        return cached;
+      }
+
       const response = await api.get(`/users/${uuid}/`);
+      // atualiza cache local (evita duplicatas)
+      const existsIndex = usersFetched.value.findIndex(u => u.uuid === response.data.uuid);
+      if (existsIndex === -1) {
+        usersFetched.value.push(response.data);
+      } else {
+        usersFetched.value[existsIndex] = response.data;
+      }
+
       return response.data;
     } catch (error) {
       console.error("Erro ao buscar usuário:", error);
@@ -245,21 +272,24 @@ async function createAccount() {
   }
 
   return {
+    // state
     usuario,
     confirmPassword,
     token,
     profile,
+    profileImagePreview,
+    usersFetched,
+    // actions
     createAccount,
     loginUser,
     updateProfile,
     updateUser,
     onFileChange,
-    profileImagePreview,
     uploadProfileImage,
-    usersFetched,
     fetchUsers,
-    fetchUserByUuid, 
+    fetchUserByUuid,
     logout,
     resetStore,
   };
 });
+    

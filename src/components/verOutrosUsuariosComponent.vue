@@ -11,13 +11,10 @@ const user = ref(null)
 const isLoading = ref(true)
 
 const getProfileImageUrl = (filePath) => {
-  if (!filePath) return '/default-avatar.png'
-  if (filePath.includes('image/upload')) {
-    return `https://res.cloudinary.com/<seu-cloud-name>/${filePath}`
-  }
-  if (filePath.startsWith('http')) return filePath
-  return `http://127.0.0.1:8000/${filePath}`
+  if (!filePath || filePath === 'null') return '/default-avatar.png';
+  return filePath.startsWith('http') ? filePath : `http://127.0.0.1:8000/${filePath}?t=${Date.now()}`;
 }
+
 
 const followUser = async () => {
   try {
@@ -34,18 +31,20 @@ const followUser = async () => {
 watch(
   () => route.params.uuid,
   async (newUuid) => {
-    isLoading.value = true
+    isLoading.value = true;
+    let foundUser = userStore.usersFetched.find(u => u.uuid === newUuid);
 
-    let foundUser = userStore.usersFetched.find(u => u.uuid === newUuid)
     if (!foundUser) {
-      foundUser = await userStore.fetchUserByUuid(newUuid)
+      foundUser = await userStore.fetchUserByUuid(newUuid);
     }
 
-    user.value = foundUser
-    isLoading.value = false
+    console.log('Perfil do usuário:', foundUser.profile); // ✅ veja se o campo existe
+    user.value = foundUser;
+    isLoading.value = false;
   },
   { immediate: true }
 )
+
 </script>
 
 <template>
@@ -53,25 +52,38 @@ watch(
     <div v-if="isLoading">Carregando informações do usuário...</div>
 
     <div v-else-if="user" class="profile-card">
-      <div class="profile-header">
-        <img class="profile-avatar" :src="getProfileImageUrl(user.profile?.first_profile_image_url)" alt="Foto do usuário" />
-        <div>
-          <h2>{{ user.fullname }}</h2>
-          <p class="username">@{{ user.fullname}}</p>
-          <p class="email">{{ user.email }}</p>
+      <!-- Cabeçalho verde -->
+      <div class="profile-header">  
+        <img
+          class="profile-avatar"
+          :src="getProfileImageUrl(user.profile?.first_profile_image_url)"
+          alt="Foto do usuário"
+        />
+        <h2 class="profile-name">{{ user.fullname }}</h2>
+      </div>
+
+      <!-- Corpo branco -->
+      <div class="profile-body">
+        <p class="profile-username">@{{ user.name }}</p>
+        <div class="profile-stats">
+          <div class="sgds">
+            <span>Seguidores</span>
+            <br>
+            <strong style="margin-right: 1vw;">0</strong>
+          </div>
+          <div class="sgnd">
+            <span>Seguindo</span>
+            <br>
+            <strong style="margin-right: 1vw;">0</strong>
+          </div>
         </div>
-      </div>
 
-      <div class="profile-stats">
-        <div><strong>{{ user.followers_count || 0 }}</strong><span>Seguidores</span></div>
-        <div><strong>{{ user.following_count || 0 }}</strong><span>Seguindo</span></div>
-      </div>
+        <div class="profile-bio">
+          <p>{{ user.profile?.legend || 'Esse usuário ainda não escreveu nada.' }}</p>
+        </div>
 
-      <div class="profile-bio">
-        <p>{{ user.profile?.legend || 'Esse usuário ainda não escreveu nada.' }}</p>
+        <button class="follow-btn" @click="followUser">Seguir</button>
       </div>
-
-      <button class="follow-btn" @click="followUser">Seguir</button>
     </div>
 
     <div v-else>Usuário não encontrado.</div>
@@ -84,47 +96,96 @@ watch(
   justify-content: center;
   margin-top: 2rem;
 }
+
 .profile-card {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  width: 400px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 0.8vw;
+  width: 60vw;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
+
+/* Header verde */
 .profile-header {
+  background: #0a801f;
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  justify-content: center;
+  padding: 4rem 0 4rem 0;
+  position: relative;
 }
+.profile-header img {
+  padding: 2vw; 
+  margin-right: 35vw;
+}
+/* Avatar redondo sobreposto */
 .profile-avatar {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
+  border: 4px solid white;
+  position: absolute;
+  bottom: -60px;
+  background: white;
   object-fit: cover;
 }
-.username {
-  color: gray;
-  font-size: 0.9rem;
+
+.profile-body {
+  background: white;
+  padding: 4rem 2rem 2rem 2rem;
+  text-align: center;
 }
+
+.profile-name {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: white;
+  margin-right: 15vw;
+  margin-bottom: -4vw;
+  margin-top: 3vw ;
+}
+
+.profile-username {
+  color: gray;
+  margin-bottom: 0.5rem;
+  margin-right: 20vw;
+  margin-top: -4vw;
+  margin-bottom: 6vw;
+}
+
 .email {
   color: #555;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
 }
+
 .profile-stats {
   display: flex;
   justify-content: space-around;
-  margin: 1rem 0;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  margin: 1.5rem 0;
+  border-top: 1px;
+  border-bottom: 1px;
   padding: 1rem 0;
+  margin-top: -5vw;
 }
+
 .profile-stats div {
   text-align: center;
 }
-.profile-bio {
-  margin: 1rem 0;
-  font-size: 0.95rem;
+.sgds{
+  margin-left: 20vw;
+  margin-bottom: 4vw;
+  border-right: 1px solid black;
+  padding-top: 10px;
+  padding-right: 5vw; 
 }
+.sgnd{
+  margin-right: 10vw;
+  padding: 10px;
+}
+.profile-bio {
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
 .follow-btn {
   background: #0a801f;
   color: white;
@@ -134,6 +195,7 @@ watch(
   cursor: pointer;
   width: 100%;
 }
+
 .follow-btn:hover {
   background: #066817;
 }
