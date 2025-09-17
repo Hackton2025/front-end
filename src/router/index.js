@@ -11,6 +11,7 @@ import pagUserComponent from '@/components/pagUserComponent.vue'
 import configPanelComponent from '@/components/configPanelComponent.vue'
 import CreatePostView from '@/views/CreatePostView.vue'
 import verOutrosUsersView from '@/views/verOutrosUsersView.vue'
+import criarInstitutoView from '@/views/criarInstitutoView.vue'
 
 
 const router = createRouter({
@@ -47,7 +48,7 @@ const router = createRouter({
       name: 'controleDeAcesso',
       component: ControleDeAcessoView
     },
-
+    {
       path: '/enviar-mensagem-em-massa',
       name: 'enviarMensagemEmMassa',
       component: sendMassiveMessageView,
@@ -62,7 +63,12 @@ const router = createRouter({
       name:"verUsuario",
       component: verOutrosUsersView,
       props: true,
-    }
+    },
+    {
+      path:"/criar-instituto",
+      name:"criarInstituto",
+      component: criarInstitutoView,
+    },
   ],
 })
 
