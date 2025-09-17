@@ -30,12 +30,13 @@ export const useUserStore = defineStore("user", () => {
     legend: "",
   });
 
+  
+
   const confirmPassword = ref("");
   const token = ref(localStorage.getItem("token") || null);
   const profileImagePreview = ref(null);
   const usersFetched = ref([]);
 
-  // Função para resetar completamente a store
   function resetStore() {
     usuario.value = {
       uuid: null,
@@ -68,46 +69,47 @@ export const useUserStore = defineStore("user", () => {
     usersFetched.value = [];
   }
 
-  // Criar conta
-  async function createAccount() {
-    if (usuario.value.password !== confirmPassword.value) {
-      alert("As senhas não coincidem!");
-      return;
-    }
-
-    try {
-      const response = await api.post("/users/", {
-        email: usuario.value.email,
-        fullname: usuario.value.fullname,
-        name: usuario.value.name,
-        password: usuario.value.password,
-        phone: usuario.value.phone,
-        birthday: usuario.value.birthday,
-        accept_notification: usuario.value.accept_notification,
-        is_master: usuario.value.is_master,
-        is_institute: usuario.value.is_institute,
-      });
-
-      alert("Conta criada com sucesso!");
-      router.push("/");
-    } catch (error) {
-      if (error.response?.data) {
-        alert(
-          "Erro ao criar conta:\n" +
-            Object.entries(error.response.data)
-              .map(([campo, msg]) => `${campo}: ${msg}`)
-              .join("\n")
-        );
-      } else {
-        alert("Erro ao criar conta. Tente novamente.");
-      }
-    }
+async function createAccount() {
+  if (usuario.value.password !== confirmPassword.value) {
+    alert("As senhas não coincidem!");
+    return;
   }
 
-  // Login do usuário
+  try {
+    const { data } = await api.post("/users/", {
+      email: usuario.value.email,
+      fullname: usuario.value.fullname,
+      name: usuario.value.name,
+      password: usuario.value.password,
+      phone: usuario.value.phone,
+      birthday: usuario.value.birthday,
+      accept_notification: usuario.value.accept_notification,
+      is_master: usuario.value.is_master,
+      is_institute: usuario.value.is_institute,
+    });
+
+    usuario.value = data;
+
+    alert("Conta criada com sucesso!");
+
+    router.push(`/usuario/${data.uuid}`);
+
+  } catch (error) {
+    if (error.response?.data) {
+      alert(
+        "Erro ao criar conta:\n" +
+          Object.entries(error.response.data)
+            .map(([campo, msg]) => `${campo}: ${msg}`)
+            .join("\n")
+      );
+    } else {
+      alert("Erro ao criar conta. Tente novamente.");
+    }
+  }
+}
+
   async function loginUser(usuarioLogin) {
     try {
-      // Reset completo antes do login
       resetStore();
 
       const { data } = await api.post("/users/login/", {
@@ -119,16 +121,14 @@ export const useUserStore = defineStore("user", () => {
       localStorage.setItem("token", data.access);
       localStorage.setItem("refresh", data.refresh);
 
-      // Atualizar dados do usuário
       Object.assign(usuario.value, data.user);
 
-      // Atualizar perfil com dados do backend (se vierem no login)
       if (data.user.profile) {
         Object.assign(profile.value, data.user.profile);
-        
-        // Cache busting para imagem
+
         if (profile.value.first_profile_image_url) {
-          profile.value.first_profile_image_url = `${profile.value.first_profile_image_url}?t=${Date.now()}`;
+          profile.value.first_profile_image_url =
+            `${profile.value.first_profile_image_url}?t=${Date.now()}`;
         }
       }
 
@@ -140,21 +140,14 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  // Logout
   function logout() {
-    // Limpar token do localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("refresh");
-    
-    // Resetar completamente a store
     resetStore();
     token.value = null;
-
-    // Redirecionar para a página de login
     router.push("/");
   }
 
-  // Manipulação de imagem de perfil
   function onFileChange(event) {
     const file = event.target.files[0];
     if (file) {
@@ -163,7 +156,6 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  // Upload de imagem de perfil
   async function uploadProfileImage() {
     if (!profile.value.firstProfileImageFile) {
       return null;
@@ -174,9 +166,7 @@ export const useUserStore = defineStore("user", () => {
 
     try {
       const response = await api.post("/image-uploader/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       return response.data.attachment_key;
@@ -186,7 +176,6 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  // Atualizar perfil
   async function updateProfile() {
     try {
       let imageKey = null;
@@ -212,10 +201,9 @@ export const useUserStore = defineStore("user", () => {
 
       Object.assign(profile.value, response.data);
 
-      // Limpar arquivo temporário e preview
       profile.value.firstProfileImageFile = null;
       profileImagePreview.value = null;
-      
+
       alert("Perfil atualizado com sucesso!");
     } catch (error) {
       console.error(error);
@@ -223,22 +211,18 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
-  // Atualizar usuário
   async function updateUser(updates) {
     try {
       const response = await api.patch(
         `/users/${usuario.value.uuid}/`,
         updates
       );
-
       Object.assign(usuario.value, response.data);
-      // alert("Dados atualizados com sucesso!");
     } catch (error) {
       alert("Erro ao atualizar usuário. Verifique os dados e tente novamente.");
     }
   }
 
-  // Buscar todos os usuários
   async function fetchUsers() {
     try {
       const response = await api.get("/users/");
@@ -246,6 +230,17 @@ export const useUserStore = defineStore("user", () => {
     } catch (error) {
       alert("Erro ao buscar usuários.");
       console.error(error);
+    }
+  }
+
+  // Buscar usuário pelo UUID
+  async function fetchUserByUuid(uuid) {
+    try {
+      const response = await api.get(`/users/${uuid}/`);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
+      throw error;
     }
   }
 
@@ -263,6 +258,7 @@ export const useUserStore = defineStore("user", () => {
     uploadProfileImage,
     usersFetched,
     fetchUsers,
+    fetchUserByUuid, 
     logout,
     resetStore,
   };

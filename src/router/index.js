@@ -75,6 +75,7 @@ const router = createRouter({
       name:"criarInstituto",
       component: criarInstitutoView,
     },
+    {
       path: '/comunidade/:uuid',
       name: 'comunidade',
       component: CommunityView,
