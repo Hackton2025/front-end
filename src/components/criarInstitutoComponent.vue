@@ -20,6 +20,12 @@ const userStore = useUserStore();
           <p><input v-model="userStore.confirmPassword" type="password" placeholder="Confirme a Senha" /></p>
         </div>
 
+        <div id="instituto-checkbox">
+          <label>
+            <input type="checkbox" v-model="userStore.usuario.is_institute" /> Instituto
+          </label>
+        </div>
+
         <div id="cadastre-se">
           <p><button type="submit" id="cadastro">Cadastre-se</button></p>
         </div>

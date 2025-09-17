@@ -16,6 +16,7 @@ const isOn = ref(false)
 onMounted(() => {
     userStore.fetchUsers();
 })
+
 </script>
 
 <template>
@@ -25,4 +26,9 @@ onMounted(() => {
     <instituicao-component />
     <comunidades-component />
 </template>
-<style scoped></style>
+
+
+<style scoped>
+
+</style>
+
