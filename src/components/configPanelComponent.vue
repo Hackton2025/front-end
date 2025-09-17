@@ -17,9 +17,6 @@ const triggerFileSelect = () => {
 }
 
 onMounted(() => {
-  if (store.token) {
-    store.fetchProfile()
-  }
   uiStore.ativarAvisoSaida()
 })
 
@@ -27,6 +24,10 @@ onBeforeUnmount(() => {
   uiStore.desativarAvisoSaida()
 })
 
+const logoutUser = () => {
+  store.resetStore(); // Usa a função resetStore para limpar tudo
+  store.logout(); // Redireciona para login
+};
 
 const saveChanges = async () => {
   try {
@@ -41,7 +42,7 @@ const saveChanges = async () => {
     }
     await store.updateUser(userUpdates)
 
-    alert('Alterações salvas com sucesso!')
+    // alert('Alterações salvas com sucesso!')
   } catch (error) {
     console.error("Erro ao salvar alterações:", error)
     alert("Ocorreu um erro ao salvar as alterações. Tente novamente.")
@@ -62,8 +63,6 @@ const saveChanges = async () => {
             ? store.profile.first_profile_image_url
             : '/img/default-avatar.png')" class="avatar" @click="triggerFileSelect" />
 
-
-
         <input type="file" ref="fileInputRef" @change="store.onFileChange" accept="image/*" style="display: none;" />
 
         <div class="user-info">
@@ -79,9 +78,10 @@ const saveChanges = async () => {
         <textarea name="legend" id="legend" placeholder="Adicione uma legenda"
           v-model="store.profile.legend"></textarea>
       </div>
-
-      <button @click="saveChanges" class="saveChanges">Salvar alterações</button>
-
+      <div style="display: flex;">
+        <button @click="saveChanges" class="saveChanges">Salvar alterações</button>
+        <button @click="logoutUser" class="saveChanges">Sair</button>
+      </div>
 
       <div class="notificacoes">
         <span>🔔 Notificações</span>
@@ -109,7 +109,7 @@ const saveChanges = async () => {
           <span>Alterar senha</span>
         </button>
 
-        <button class="danger-button">
+        <button class="danger-button" @click="logoutUser">
           <span class="mdi mdi-exit-run"></span>
           <span>Sair da conta</span>
         </button>
@@ -195,11 +195,10 @@ input {
   font-size: 1rem;
   border-radius: 20px;
   cursor: pointer;
+}
 
-  &:hover {
-    background-color: rgb(0, 150, 0);
-  }
-
+.saveChanges:hover {
+  background-color: rgb(0, 150, 0);
   transition: 0.5s;
 }
 

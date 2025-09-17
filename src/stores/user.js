@@ -1,4 +1,4 @@
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 import api from "@/plugins/axios";
 import router from "@/router";
@@ -35,6 +35,40 @@ export const useUserStore = defineStore("user", () => {
   const profileImagePreview = ref(null);
   const usersFetched = ref([]);
 
+  // Função para resetar completamente a store
+  function resetStore() {
+    usuario.value = {
+      uuid: null,
+      email: "",
+      fullname: "",
+      name: "",
+      phone: "",
+      birthday: "",
+      password: "",
+      accept_notification: false,
+      is_master: false,
+      is_institute: false,
+    };
+
+    profile.value = {
+      uuid: null,
+      is_man: true,
+      links1: "",
+      links2: "",
+      first_profile_image_url: null,
+      second_profile_image_url: null,
+      image_test: null,
+      firstProfileImage: null,
+      firstProfileImageFile: null,
+      legend: "",
+    };
+
+    confirmPassword.value = "";
+    profileImagePreview.value = null;
+    usersFetched.value = [];
+  }
+
+  // Criar conta
   async function createAccount() {
     if (usuario.value.password !== confirmPassword.value) {
       alert("As senhas não coincidem!");
@@ -70,8 +104,12 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  // Login do usuário
   async function loginUser(usuarioLogin) {
     try {
+      // Reset completo antes do login
+      resetStore();
+
       const { data } = await api.post("/users/login/", {
         email: usuarioLogin.email,
         password: usuarioLogin.password,
@@ -81,71 +119,42 @@ export const useUserStore = defineStore("user", () => {
       localStorage.setItem("token", data.access);
       localStorage.setItem("refresh", data.refresh);
 
-      // 🔄 Resetar o usuario antes de aplicar o novo
-      Object.assign(usuario.value, {
-        uuid: null,
-        email: "",
-        fullname: "",
-        name: "",
-        phone: "",
-        birthday: "",
-        password: "",
-        accept_notification: false,
-        is_master: false,
-        is_institute: false,
-      });
+      // Atualizar dados do usuário
       Object.assign(usuario.value, data.user);
 
-      // 🔄 Resetar o profile também
-      Object.assign(profile.value, {
-        uuid: null,
-        is_man: true,
-        links1: "",
-        links2: "",
-        first_profile_image_url: null,
-        second_profile_image_url: null,
-        image_test: null,
-        firstProfileImage: null,
-        firstProfileImageFile: null,
-        legend: "",
-      });
-
-      // aplica dados do backend
+      // Atualizar perfil com dados do backend (se vierem no login)
       if (data.user.profile) {
         Object.assign(profile.value, data.user.profile);
+        
+        // Cache busting para imagem
+        if (profile.value.first_profile_image_url) {
+          profile.value.first_profile_image_url = `${profile.value.first_profile_image_url}?t=${Date.now()}`;
+        }
       }
-
-      // força recarregar imagem ou zera
-      if (profile.value.first_profile_image_url) {
-        profile.value.first_profile_image_url =
-          profile.value.first_profile_image_url + `?t=${Date.now()}`;
-      } else {
-        profile.value.first_profile_image_url = null;
-      }
-
-      // reset preview
-      profileImagePreview.value = null;
 
       alert("Login bem-sucedido!");
       router.push("/home");
     } catch (error) {
-      alert(
-        "Erro ao fazer login. Verifique suas credenciais e tente novamente."
-      );
+      console.error(error);
+      alert("Erro ao fazer login. Verifique suas credenciais e tente novamente.");
     }
   }
 
-  async function fetchProfile() {
-    try {
-      const response = await api.get("/profile/");
-      if (response.data.length > 0) {
-        Object.assign(profile.value, response.data[response.data.length - 1]);
-      }
-    } catch (error) {
-      // Erro ignorado intencionalmente
-    }
+  // Logout
+  function logout() {
+    // Limpar token do localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("refresh");
+    
+    // Resetar completamente a store
+    resetStore();
+    token.value = null;
+
+    // Redirecionar para a página de login
+    router.push("/");
   }
 
+  // Manipulação de imagem de perfil
   function onFileChange(event) {
     const file = event.target.files[0];
     if (file) {
@@ -154,6 +163,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  // Upload de imagem de perfil
   async function uploadProfileImage() {
     if (!profile.value.firstProfileImageFile) {
       return null;
@@ -176,6 +186,7 @@ export const useUserStore = defineStore("user", () => {
     }
   }
 
+  // Atualizar perfil
   async function updateProfile() {
     try {
       let imageKey = null;
@@ -201,13 +212,18 @@ export const useUserStore = defineStore("user", () => {
 
       Object.assign(profile.value, response.data);
 
+      // Limpar arquivo temporário e preview
       profile.value.firstProfileImageFile = null;
       profileImagePreview.value = null;
+      
+      alert("Perfil atualizado com sucesso!");
     } catch (error) {
-      // alert("Erro ao atualizar perfil.");
+      console.error(error);
+      alert("Erro ao atualizar perfil.");
     }
   }
 
+  // Atualizar usuário
   async function updateUser(updates) {
     try {
       const response = await api.patch(
@@ -216,17 +232,13 @@ export const useUserStore = defineStore("user", () => {
       );
 
       Object.assign(usuario.value, response.data);
-      // alert("Usuário atualizado com sucesso!");
+      // alert("Dados atualizados com sucesso!");
     } catch (error) {
-      // alert("Erro ao atualizar usuário. Verifique os dados e tente novamente.");
+      alert("Erro ao atualizar usuário. Verifique os dados e tente novamente.");
     }
   }
 
-  onMounted(() => {
-    if (token.value) {
-      fetchProfile();
-    }
-  });
+  // Buscar todos os usuários
   async function fetchUsers() {
     try {
       const response = await api.get("/users/");
@@ -244,7 +256,6 @@ export const useUserStore = defineStore("user", () => {
     profile,
     createAccount,
     loginUser,
-    fetchProfile,
     updateProfile,
     updateUser,
     onFileChange,
@@ -252,5 +263,7 @@ export const useUserStore = defineStore("user", () => {
     uploadProfileImage,
     usersFetched,
     fetchUsers,
+    logout,
+    resetStore,
   };
 });
