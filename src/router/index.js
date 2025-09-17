@@ -12,7 +12,7 @@ import configPanelComponent from '@/components/configPanelComponent.vue'
 import CreatePostView from '@/views/CreatePostView.vue'
 import verOutrosUsersView from '@/views/verOutrosUsersView.vue'
 import criarInstitutoView from '@/views/criarInstitutoView.vue'
-
+import CommunityView from '@/views/CommunityView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -68,6 +68,10 @@ const router = createRouter({
       path:"/criar-instituto",
       name:"criarInstituto",
       component: criarInstitutoView,
+    },
+      path: '/comunidade/:uuid',
+      name: 'comunidade',
+      component: CommunityView,
     },
   ],
 })
