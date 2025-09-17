@@ -1,7 +1,7 @@
 <script setup>
-import userInstituicao from '@/components/userInstituicaoComponent.vue';
+import userInstituicaoComponent from '@/components/userInstituicaoComponent.vue';
 </script>
 
 <template>
-    <userInstituicao></userInstituicao>
+    <userInstituicaoComponent></userInstituicaoComponent>
 </template>

@@ -7,8 +7,6 @@ import userInstituicaoView from '@/views/userInstituicaoView.vue'
 import ControleDeAcessoView from '@/views/controleDeAcessoView.vue'
 
 import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
-import pagUserComponent from '@/components/pagUserComponent.vue'
-import configPanelComponent from '@/components/configPanelComponent.vue'
 import CreatePostView from '@/views/CreatePostView.vue'
 import verOutrosUsersView from '@/views/verOutrosUsersView.vue'
 

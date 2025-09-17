@@ -1,18 +1,47 @@
 <script setup>
 import { RouterLink } from 'vue-router';
+import { ref, onMounted } from 'vue';   
 
+const isInstitute = ref(false);
+
+onMounted(() => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  isInstitute.value = user?.is_institute === true;
+});
 
 </script>
 <template>
 <main>
-    <section class="posts">
-    <RouterLink :to="{name : 'home'}" class="voltar"><span class="mdi mdi-arrow-left"></span>Voltar</RouterLink>
-    <div class="geral">
-    <router-link :to="{name : 'criarPostagem'}" class="post"><span class="mdi mdi-plus"></span><p class="postagem">Adicionar Postagem</p></router-link>
-    <router-link :to="{name : 'criarComunidade'}" class="comunnity"><span class="mdi mdi-account-multiple"></span><p class="comunidades">Criar Comunidade</p></router-link>
-    <router-link :to="{name : ''}" class=""><span class="mdi mdi-account-edit"></span><p class="gerenciar">Gerenciar Perfis</p></router-link>
-    <router-link :to="{name : ''}"><span class="mdi mdi-key-variant"></span><p class="controle">Controle de Acesso</p></router-link>
-    <router-link :to="{name : ''}"><span class="mdi mdi-alert"></span><p class="massive">   Mensagens Massivas</p></router-link>
+    <section class="posts" v-if="isInstitute">
+      <RouterLink :to="{ name: 'home' }" class="voltar">
+        <span class="mdi mdi-arrow-left"></span>Voltar
+      </RouterLink>
+      
+      <div class="geral">
+        <router-link :to="{ name: 'criarPostagem' }" class="post">
+          <span class="mdi mdi-plus"></span>
+          <p class="postagem">Adicionar Postagem</p>
+        </router-link>
+        
+        <router-link :to="{ name: 'criarComunidade' }" class="comunnity">
+          <span class="mdi mdi-account-multiple"></span>
+          <p class="comunidades">Criar Comunidade</p>
+        </router-link>
+        
+        <router-link :to="{ name: '' }">
+          <span class="mdi mdi-account-edit"></span>
+          <p class="gerenciar">Gerenciar Perfis</p>
+        </router-link>
+        
+        <router-link :to="{ name: '' }">
+          <span class="mdi mdi-key-variant"></span>
+          <p class="controle">Controle de Acesso</p>
+        </router-link>
+        
+        <router-link :to="{ name: '' }">
+          <span class="mdi mdi-alert"></span>
+          <p class="massive">Mensagens Massivas</p>
+        </router-link>
     </div>
     </section>
 </main>
