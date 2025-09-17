@@ -1,37 +1,78 @@
+<script setup>
+import { ref } from "vue";
+
+const user = ref({
+  handle: "@Criador do mundo",
+  verified: true,
+  name: "Kaua Martins Barros",
+  time: "1 hora atrás",
+  avatar: "/img/motomoto.png", 
+});
+
+const post = ref({
+  image: "/img/motomoto.png", 
+});
+
+const likes = ref(0);
+const comments = ref(0);
+const shares = ref(0);
+
+const toggleSave = ref(false);
+
+function likePost() {}
+
+function commentPost() {}
+
+function sharePost() {}
+
+function toggleSavePost() {
+  toggleSave.value = !toggleSave.value;
+}
+</script>
+
 <template>
   <div class="card">
     <div class="card-top">
-      <div class="avatar"></div>
+      <div class="avatar">
+        <img v-if="user.avatar" :src="user.avatar" alt="avatar" style="width:100%;height:100%;border-radius:10px;" />
+      </div>
       <div class="user-info">
-        <div class="handle"><p>@LittlePotas <img src="/img/verifiedIcon.png" alt=""></p></div>
-            <div class="username">
-          <div class="name">Kaua Martins Barros | 1 hora atrás</div>
+        <div class="handle">
+          <p>
+            {{ user.handle }}
+            <img v-if="user.verified" src="/img/verifiedIcon.png" alt="verified" />
+          </p>
+        </div>
+        <div class="username">
+          <div class="name">{{ user.name }} | {{ user.time }}</div>
         </div>
       </div>
     </div>
-
     <div class="card-content">
       <div class="images">
-        <div class="img-placeholder"></div>
+        <div class="img-placeholder">
+          <img v-if="post.image" :src="post.image" alt="post" style="width:100%;height:100%;border-radius:10px;" />
+        </div>
       </div>
     </div>
 
     <div class="card-actions">
       <div class="icons">
-        <div class="icon"></div>
-        <div class="icon"></div>
-        <div class="icon"></div>
+        <div class="icon" @click="likePost"><img src="/img/like.png" /></div>
+        <div class="icon" @click="commentPost"><img src="/img/comment.png" /></div>
+        <div class="icon" @click="sharePost"><img src="/img/share.png" /></div>
       </div>
-      <div class="save">
-      </div>
+      <button class="save" @click="toggleSavePost">
+        {{ toggleSave ? "Salvo" : "Salvar" }}
+      </button>
     </div>
-
     <div class="card-bottom">
       <div class="comment-avatar"></div>
-      <div class="input-placeholder"></div>
+      <input class="input-placeholder" placeholder="Adicione um comentário..." />
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .card {
@@ -43,7 +84,7 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   overflow: hidden;
   font-family: Arial, sans-serif;
-  height: 500px;
+  height: calc(34vw + 5px);
 }
 
 .card-top {
@@ -73,7 +114,9 @@
 .username {
   align-items: start;
   margin-top: 4px;
-  padding: 0; }
+  padding: 0; 
+  
+  }
 .name, .time, .handle {
   height: 10px;
   border-radius: 10px;
@@ -126,48 +169,57 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 15px;
+  padding: 2px 15px;
 }
 
 .icons {
-  display: flex;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
 }
 
-.icon {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #bbb;
-  border-radius: 10px;
+.icon img {
+  width: 25px;
+  height: 25px;
 }
 
 .save {
   width: 15%;
-  height: 22px;
-  border: 2px solid #bbb;
+  color: white;
+  background-color: #2c9c49;
+  height: 2.2rem;
   border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.1s ease; 
+  border: none;
+}
+
+.save:hover {
+  width: calc(15% + 1px); 
+  opacity: 0.9; 
+  
 }
 
 .card-bottom {
   display: flex;
   align-items: center;
-  padding: 10px 12px;
-  border-top: 1px solid #eee;
+  padding: 14px 12px;
   gap: 10px;
 }
 
 
 .comment-avatar {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
-  border: 2px solid #bbb;
+  border: 1px solid black;
 }
 
 .input-placeholder {
   flex: 1;
-  height: 25px;
-  border: 1px solid #bbb;
+  height: 38px;
+  border: 1px solid black;
   border-radius: 10px;
+  padding-left: 8px;
 }
 </style>
