@@ -80,7 +80,6 @@ const saveChanges = async () => {
       </div>
       <div style="display: flex;">
         <button @click="saveChanges" class="saveChanges">Salvar alterações</button>
-        <button @click="logoutUser" class="saveChanges">Sair</button>
       </div>
 
       <div class="notificacoes">

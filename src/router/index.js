@@ -6,8 +6,6 @@ import createCommunityView from '@/views/createCommunityView.vue'
 import userInstituicaoView from '@/views/userInstituicaoView.vue'
 import ControleDeAcessoView from '@/views/controleDeAcessoView.vue'
 import sendMassiveMessageView from '@/views/sendMassiveMessageView.vue'
-import pagUserComponent from '@/components/pagUserComponent.vue'
-import configPanelComponent from '@/components/configPanelComponent.vue'
 import CreatePostView from '@/views/CreatePostView.vue'
 import verOutrosUsersView from '@/views/verOutrosUsersView.vue'
 import verOutrasInstituicoesComponent from '@/components/verOutrasInstituicoesComponent.vue'
@@ -55,7 +53,7 @@ const router = createRouter({
       component: sendMassiveMessageView,
     }, 
      {
-      path: '/instituicao',
+      path: '/verInstituicao',
       name: 'verInstituicao',
       component: verOutrasInstituicoesComponent,
     },
@@ -75,6 +73,7 @@ const router = createRouter({
       name:"criarInstituto",
       component: criarInstitutoView,
     },
+    {
       path: '/comunidade/:uuid',
       name: 'comunidade',
       component: CommunityView,

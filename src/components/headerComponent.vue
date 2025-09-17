@@ -83,6 +83,8 @@ input {
 .icons {
   display: flex;
   gap: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 span.mdi {
@@ -94,8 +96,8 @@ span.mdi {
 
 
 .avatar {
-  width: 25%;
-  height: 4vh;
+  width: 6vh;
+  height: 6vh;
   border-radius: 50%;
   cursor: pointer;
   object-fit: cover;
