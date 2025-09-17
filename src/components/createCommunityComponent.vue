@@ -14,7 +14,7 @@ import { onMounted } from 'vue';
             <section class="voltar-mais-comunidades">
                 <section class="voltar">
                     <span class="mdi mdi-arrow-left"></span>
-                    <RouterLink to="/home" class="return">Voltar</RouterLink>
+                    <RouterLink to="/instituicao" class="return">Voltar</RouterLink>
                 </section>
                 <section class="comunidades-existentes">
                     <div class="input-wrapper">

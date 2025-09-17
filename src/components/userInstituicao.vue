@@ -1,24 +1,25 @@
 <script setup>
 import headerComponent from "./headerComponent.vue";
+import router from "@/router";
 </script>
 <template>
   <headerComponent></headerComponent>
   <main>
     <section class="posts">
-      <RouterLink :to="{ name: 'home' }" class="voltar"
+      <RouterLink :to="{ name: 'instituicao' }" class="voltar"
         ><span class="mdi mdi-arrow-left"></span>
         <h2>Voltar</h2>
       </RouterLink>
       <div class="geral">
         <div class="botoes">
-          <button>
+          <button @click="router.push('/criar-postagem')">
             <span class="mdi mdi-plus"></span>
             <p class="postagem">Adicionar Postagem</p>
           </button>
-          <button class="criarC"><span class="mdi mdi-account-multiple"></span><p class="comunidade">Criar Comunidade</p></button>
-          <button class="gerenciar">
+          <button @click="router.push('/criar-comunidade')" class="criarC"><span class="mdi mdi-account-multiple"></span><p class="comunidade">Criar Comunidade</p></button>
+          <!-- <button class="gerenciar">
             <span class="mdi mdi-account-edit"></span>
-            <p class="gerenciar">Criar Comunidade</p></button>
+            <p class="gerenciar">Criar Comunidade</p></button> -->
           <RouterLink to="/controle-acesso" class="button-link acess">
             <span class="mdi mdi-key-variant"></span>
             <p class="controle">Controle de Acesso</p>
@@ -88,8 +89,9 @@ main {
     background: none;
     border: none;
     text-decoration: none;
-    color: inherit;
+    color: black;
     margin-top: 1vw;
+    text-decoration: none;
 }
 .voltar span {
     font-size: 2.5vw;
