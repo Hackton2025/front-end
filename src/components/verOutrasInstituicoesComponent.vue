@@ -3,12 +3,13 @@ import headerComponent from './headerComponent.vue';
 import { useUserStore } from '@/stores/user';
 import { useFollowerStore } from '@/stores/follower';
 import { useContentStore } from '@/stores/content';
+import { usePostStore } from '@/stores/post';
+import router from '@/router';
 
 const storeUser = useUserStore();
 const followerStore = useFollowerStore();
 const contentStore = useContentStore();
-
-
+const postStore = usePostStore();
 </script>
 
 <template>
@@ -24,14 +25,12 @@ const contentStore = useContentStore();
     <div class="card-top">
       <h2>{{ storeUser.usuario.fullname }}</h2> 
     </div>
-     <p class="username">@{{ storeUser.usuario.name }}</p>
+    <p class="username">@{{ storeUser.usuario.name }}</p>
     <div class="avatar-wrapper">
       <img 
-        :src="storeUser.profileImagePreview
-          || (typeof storeUser.profile.first_profile_image_url === 'string'
-            ? storeUser.profile.first_profile_image_url  
-            : null)" 
+        :src="storeUser.profileImagePreview || storeUser.profile.first_profile_image_url" 
         class="avatar"
+        alt="User Avatar"
       />
     </div>
 
@@ -49,26 +48,32 @@ const contentStore = useContentStore();
         <span>Postagens</span>
       </div>
     </div>
-    <button @click="followerStore.follow(storeUser.usuario.id)" class="btn-seguir">
-      Seguir
+
+    <button 
+      @click="followerStore.follow(storeUser.usuario.id)" class="btn-seguir">Seguir
     </button>
   </section>
+
   <section class="post">
-    <div>
-      
+    <div class="post-content">
+      <ul>
+        <li v-for="i in postStore.posts">
+          <img :src="i.image" alt="">
+        </li>
+      </ul>
     </div>
-    
   </section>
+  <button @click="router.push('/criar-postagem')">ad</button>
 </template>
- 
+
 <style scoped>
 .voltar {
   margin: 3vw 0 1vw 5vw;
 }
 .return {
-  all: unset;         
-  cursor: pointer;    
-  font-size: 1rem;      
+  all: unset;
+  cursor: pointer;
+  font-size: 1rem;
   color: black;
 }
 
@@ -83,8 +88,9 @@ const contentStore = useContentStore();
   font-family: sans-serif;
   position: relative;
 }
+
 .username {
-  margin:1vw 27vw 0 0;
+  margin: 1vw 34vw 0 0;
   color: grey;
   font-size: 1rem;
 }
@@ -93,16 +99,17 @@ const contentStore = useContentStore();
   background: #0A7C00;
   padding: 80px 20px;
   color: white;
+  max-height: 50%;
 }
 
 .card-top h2 {
-  margin: 0 17vw 0 0vw;
+  margin: 0 30.5vw 0 0;
   font-size: 1.6rem;
 }
 
 .avatar-wrapper {
   position: absolute;
-  top: 65px; 
+  top: 65px;
   left: 20%;
   transform: translateX(-50%);
 }
@@ -114,17 +121,13 @@ const contentStore = useContentStore();
   border: 3px solid white;
   object-fit: cover;
   background: #eee;
-  
-}
-.username {
-  justify-content: flex-start;
 }
 
 .stats {
   display: flex;
   justify-content: center;
   gap: 30px;
-  margin: 80px 0 20px 0; 
+  margin: 80px 0 20px 0;
 }
 
 .stats div {
@@ -155,10 +158,14 @@ const contentStore = useContentStore();
   border-radius: 8px;
   cursor: pointer;
   margin-bottom: 15px;
-  transition: 0.5s;
+  transition: 0.8s;
 }
 
 .btn-seguir:hover {
-  background: #267e3b;
+  background: #195527;
+}
+
+.post-content {
+  padding: 20px;
 }
 </style>
