@@ -120,6 +120,5 @@ export const useComunittyStore = defineStore("comunitty", () => {
         fetchCommunityDetails, 
         filteredCommunities,
         currentCommunity,  
-        // joinCommunity,
     };
 });
