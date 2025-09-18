@@ -15,6 +15,7 @@ export const usePostStore = defineStore("post", () => {
 
   const legenda = ref("");
   const posts = ref([])
+
   function onFileChange(event, type) {
     const file = event.target.files[0];
     if (!file) return;
@@ -91,7 +92,7 @@ export const usePostStore = defineStore("post", () => {
 
       if (post.value.video) {
         const videoData = await uploadVideo();
-        formData.append("video", videoData.attachment_key); // 👈 UUID aqui
+        formData.append("video", videoData.attachment_key);
       }
 
       formData.append("content", legenda.value);
@@ -103,6 +104,15 @@ export const usePostStore = defineStore("post", () => {
         },
       });
 
+      post.value = {
+        image: null,
+        imagepreview: null,
+        video: null,
+        videopreview: null,
+        content: '',
+      }
+      legenda.value = ''
+
       return response.data;
     } catch (error) {
       throw error;
@@ -111,21 +121,16 @@ export const usePostStore = defineStore("post", () => {
 
 
   async function publicarPost() {
-    const data = await createPost();
-
-    legenda.value = '';
-    post.value.image = null;
-    post.value.imagepreview = null;
-    post.value.video = null;
-    post.value.videopreview = null;
-
-    return data;
-  }
+  const data = await createPost();
+  await fetchPosts(); 
+  return data;
+}
 
   async function fetchPosts() {
     try {
       const response = await api.get("/content/");
       posts.value = response.data;
+      console.log(response.data)
     } catch (error) {
       console.error("Erro ao buscar posts:", error);
       throw error;
