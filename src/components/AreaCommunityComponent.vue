@@ -42,7 +42,7 @@ watch(
 
           <div class="seguindo">
             <p>Seguindo</p>
-            <p>{{ seguidoresStore.seguindoComunidades[store.currentCommunity.uuid] ? 1 : 0 }}</p>
+            <p> {{ seguidoresStore.seguidoresUsuario }}</p>
           </div>
 
           <div class="publicacoes">
@@ -55,9 +55,12 @@ watch(
           <p>{{ store.currentCommunity.legend }}</p>
         </div>
 
-        <button @click="seguidoresStore.toggleSeguirComunidade(store.currentCommunity.uuid)">
-          {{ seguidoresStore.seguindoComunidades[store.currentCommunity.uuid] ? 'Seguindo' : 'Entrar na comunidade' }}
-        </button>
+<button @click="seguidoresStore.toggleSeguidor(store.currentCommunity.uuid)" :class="{'seguindo': seguidoresStore.clicadoComunidade[store.currentCommunity.uuid]}">
+  {{ seguidoresStore.clicadoComunidade[store.currentCommunity.uuid] ? 'Seguindo' : 'Entrar na comunidade' }} 
+</button>
+
+
+
       </div>
     </section>
   </main>
@@ -147,5 +150,10 @@ button:hover{
     background-color:  #086600f5;
     cursor: pointer;
     transform: scale(1.01);
+}
+button.seguindo {
+    background-color: #969696;
+    padding: 5px 70px;
+    border: solid 1px #7a7a7a;
 }
 </style>

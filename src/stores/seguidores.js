@@ -3,30 +3,26 @@ import { ref } from "vue";
 
 export const useSeguidoresStore = defineStore("seguidores", () => {
   const seguidoresInstituto = ref(13);
-  const seguidoresUsuario = ref(Math.floor(Math.random() * 11));
+  const seguidoresUsuario = ref(Math.floor(Math.random() * 11)); // segue fixo
 
-  // Guardamos os seguidores de cada comunidade
-  const seguidoresComunidade = ref({
-    // exemplo: "uuidDaComunidade": 10
-  });
+  // Cada comunidade terá seu número inicial de seguidores
+  const seguidoresComunidade = ref({});
 
-  // Guardamos se o botão foi clicado (para alternar aumentar/diminuir)
-  const clicadoComunidade = ref({
-    // exemplo: "uuidDaComunidade": true/false
-  });
+  // Controle de clique por comunidade
+  const clicadoComunidade = ref({});
 
   function toggleSeguidor(uuid) {
+    // Se ainda não existe, inicializa com 0 seguidores
     if (!(uuid in seguidoresComunidade.value)) {
       seguidoresComunidade.value[uuid] = 0;
       clicadoComunidade.value[uuid] = false;
     }
 
+    // Alterna clique → aumenta/diminui
     if (clicadoComunidade.value[uuid]) {
-      // Já clicado → diminuir
       seguidoresComunidade.value[uuid]--;
       clicadoComunidade.value[uuid] = false;
     } else {
-      // Não clicado → aumentar
       seguidoresComunidade.value[uuid]++;
       clicadoComunidade.value[uuid] = true;
     }
