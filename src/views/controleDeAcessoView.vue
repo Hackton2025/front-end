@@ -1,91 +1,147 @@
-<script setup>
-import headerComponent from '@/components/headerComponent.vue';
-import { useComunittyStore } from '@/stores/comunitty';
-import { useUserStore } from '@/stores/user';
-
-const ComunStore = useComunittyStore();
-const UserStore = useUserStore();
-</script>
-
 <template>
-  <header-component />
+  <main>
+    <section class="comunidades">
+      <div
+        v-for="comunidade in comunidades"
+        :key="comunidade.uuid"
+        class="comunidade-item"
+      >
+        <span>{{ comunidade.name }}</span>
 
-  <div class="voltar">
-    <span class="mdi mdi-arrow-left"></span>
-    <RouterLink to="/home" class="return">Voltar</RouterLink>
-  </div>
-
-  <div class="meio-pag">
-    <div class="left">
-        <div class="titulo">
-            <span class="mdi mdi-account-group"></span>
-             <h1>Comunidade</h1>
-        </div>
-      <div class="input-wrapper">
-        <input type="text" v-model="ComunStore.search" placeholder="Pesquisar..." />
-        <span class="mdi mdi-magnify search-icon"></span>
+        <!-- Botão de excluir (ícone lixeira) -->
+        <button class="delete-btn" @click="abrirModal(comunidade)">
+          <span class="mdi mdi-delete"></span>
+        </button>
       </div>
+    </section>
 
-      <!-- Exibir as comunidades filtradas -->
-      <ul>
-        <li v-for="comn in ComunStore.filteredCommunities" :key="comn.uuid">
-            <img :src="comn.image" alt="Imagem da comunidade" />
-          <h3>{{ comn.name }}</h3>
-        </li>
-      </ul>
-    </div>
+    <!-- Modal de exclusão -->
+    <div v-if="showExcluirModal" class="modal-overlay">
+      <div class="modal-content">
+        <h3>Excluir Comunidade</h3>
+        <p>
+          Tem certeza que deseja excluir a comunidade
+          <strong>{{ comunidadeSelecionada?.name }}</strong>?
+        </p>
 
-    <div class="right">
-      <!-- Seção da direita pode ser usada para outras coisas, se necessário -->
+        <div class="modal-actions">
+          <button class="btn cancelar" @click="showExcluirModal = false">
+            Cancelar
+          </button>
+          <button class="btn excluir" @click="excluirComunidade">
+            Excluir
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
+  </main>
 </template>
 
+<script>
+import api from "@/plugins/axios";
+
+export default {
+  name: "comunidadesComponent",
+  data() {
+    return {
+      comunidades: [],
+      showExcluirModal: false,
+      comunidadeSelecionada: null,
+    };
+  },
+  methods: {
+    async fetchComunidades() {
+      try {
+        const res = await api.get("/api/community/");
+        this.comunidades = res.data;
+      } catch (error) {
+        console.error("Erro ao buscar comunidades", error);
+      }
+    },
+    abrirModal(comunidade) {
+      this.comunidadeSelecionada = comunidade;
+      this.showExcluirModal = true;
+    },
+    async excluirComunidade() {
+      try {
+       await api.delete(`/api/comunidades/${this.comunidadeSelecionada.uuid}/`);
+        this.comunidades = this.comunidades.filter(
+          (c) => c.uuid !== this.comunidadeSelecionada.uuid
+        );
+        this.showExcluirModal = false;
+      } catch (error) {
+        console.error("Erro ao excluir comunidade", error);
+      }
+    },
+  },
+  mounted() {
+    this.fetchComunidades();
+  },
+};
+</script>
+
 <style scoped>
-.meio-pag {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.comunidade-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
 }
 
-.right, .left {
-  background-color: white;
-  margin: 2vw 3.5vw;
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #e63946;
+  font-size: 18px;
+}
+
+.delete-btn:hover {
+  color: #c53030;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
   border-radius: 10px;
-  object-fit: cover;
-  height: 75vh;
-  box-shadow: 6px 6px 5px rgba(0, 0, 0, 0.13);
+  width: 350px;
+  text-align: center;
 }
-.titulo{
-    display: flex;
-    align-items: center;
-    margin: 20px;
-    font-size: 1.7rem;
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
 }
-.titulo .mdi.mdi-account-group{
-    font-size: 2.3rem;
-    margin-right: 10px;
+
+.btn {
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
 }
-ul li{
-    display: flex;
-    align-items: center;
+
+.cancelar {
+  background: #ccc;
 }
-ul li:hover{
-    background-color: #f0f0f0;
-    cursor: pointer;
-    padding: 3px 0;
-    transition: 0.4s;
-}
-ul li h3{
-    margin-left: 20px;
-    font-size: 1.3rem;
-}
-ul li img{
-    width: 80px;
-    height: 80px;
-    border-radius: 7px;
-    margin-left: 20px;
-    margin-top: 7px;
-    margin-bottom: 7px;
-    border: solid
+
+.excluir {
+  background: #e63946;
+  color: white;
 }
 </style>
