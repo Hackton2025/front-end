@@ -80,6 +80,11 @@ onMounted(() => {
                 <textarea v-model="store.legenda"></textarea>
             </div>
 
+            <div class="whatsapp">
+                <input type="checkbox" id="whatsapp" v-model="store.post.is_emergency" />
+                <label for="whatsapp">Compartilhar no WhatsApp e Email</label>
+            </div>
+
             <!-- <div class="opitions">
                 <div class="marcar-pessoas">
                     <span class="mdi mdi-account"></span>
@@ -299,13 +304,13 @@ div.image-video {
     font-size: 1.05rem;
     cursor: pointer;
     margin-top: 1vw;
-    margin-left: 31.9vw;
+    margin-left: 35.9vw;
 }
 
 .publicar:hover {
     padding: 7px 111px;
     transition: 0.5s;
-    margin-left: 31.8vw;
+    margin-left: 35.8vw;
     background-color: #097000;
 }
 
@@ -337,5 +342,19 @@ div.image-video {
     width: 10%;
     height: 8vh;
     border-radius: 100%;
+}
+.whatsapp {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+.whatsapp label {
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+.whatsapp input[type="checkbox"] {
+    width: 10%;
+    height: 2.5vh;
+    cursor: pointer;
 }
 </style>
