@@ -1,5 +1,6 @@
 <script setup>
 import headerComponent from "./headerComponent.vue";
+import router from "@/router";
 </script>
 <template>
   <headerComponent></headerComponent>
@@ -11,14 +12,14 @@ import headerComponent from "./headerComponent.vue";
       </RouterLink>
       <div class="geral">
         <div class="botoes">
-          <button>
+          <button @click="router.push('/criar-postagem')" class="postar">
             <span class="mdi mdi-plus"></span>
             <p class="postagem">Adicionar Postagem</p>
           </button>
-          <button class="criarC"><span class="mdi mdi-account-multiple"></span><p class="comunidade">Criar Comunidade</p></button>
-          <button class="gerenciar">
+          <button @click="router.push('/criar-comunidade')" class="criarC"><span class="mdi mdi-account-multiple"></span><p class="comunidade">Criar Comunidade</p></button>
+          <!-- <button class="gerenciar">
             <span class="mdi mdi-account-edit"></span>
-            <p class="gerenciar">Criar Comunidade</p></button>
+            <p class="gerenciar">Criar Comunidade</p></button> -->
           <RouterLink to="/controle-acesso" class="button-link acess">
             <span class="mdi mdi-key-variant"></span>
             <p class="controle">Controle de Acesso</p>

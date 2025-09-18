@@ -2,8 +2,10 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import api from "@/plugins/axios";
 import router from "@/router";
+import { usePostStore } from "./post";
 
 export const useUserStore = defineStore("user", () => {
+  const store = usePostStore();
   const usuario = ref({
     uuid: null,
     email: "",
@@ -133,6 +135,7 @@ export const useUserStore = defineStore("user", () => {
       }
 
       alert("Login bem-sucedido!");
+      await store.fetchPosts();
       router.push("/home");
     } catch (error) {
       console.error(error);

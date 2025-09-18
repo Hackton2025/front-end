@@ -31,7 +31,7 @@ onMounted(() => {
     <main v-if="userStore.usuario.is_institute == true">
         <form class="sidebar.right">
             <div class="voltar">
-                <RouterLink to="/home" class="return">
+                <RouterLink to="/instituicao" class="return">
                     <span class="mdi mdi-arrow-left"></span>
                     Voltar
                 </RouterLink>
@@ -80,7 +80,7 @@ onMounted(() => {
                 <textarea v-model="store.legenda"></textarea>
             </div>
 
-            <div class="opitions">
+            <!-- <div class="opitions">
                 <div class="marcar-pessoas">
                     <span class="mdi mdi-account"></span>
                     <p>Marcar pessoas</p>
@@ -89,7 +89,7 @@ onMounted(() => {
                     <span class="mdi mdi-map-marker"></span>
                     <p>Localização</p>
                 </div>
-            </div>
+            </div> -->
         </form>
 
         <section class="sidebar.left">
@@ -226,11 +226,12 @@ div.image-video {
     margin-bottom: 3vw;
     flex-direction: column;
     margin: 2vw 0 0 0;
+    
 }
 
 .legend textarea {
     width: 100%;
-    height: 12vh;
+    height: 25vh;
     border-radius: 5px;
     border: none;
     padding-left: 0.5vw;

@@ -80,7 +80,6 @@ const saveChanges = async () => {
       </div>
       <div style="display: flex;">
         <button @click="saveChanges" class="saveChanges">Salvar alterações</button>
-        <button @click="logoutUser" class="saveChanges">Sair</button>
       </div>
 
       <div class="notificacoes">
@@ -193,7 +192,7 @@ input {
   width: 35%;
   height: 2.5vw;
   font-size: 1rem;
-  border-radius: 20px;
+  border-radius: 10px;
   cursor: pointer;
 }
 

@@ -1,4 +1,5 @@
-  <script setup>
+<script setup>
+// import { RouterLink } from 'vue-router'
   import router from '@/router';
   import { useUserStore } from '@/stores/user';
   const store = useUserStore();
@@ -19,9 +20,10 @@
         <p class="arroba">@{{ store.usuario.name }}</p>
         <p class="descricao">{{ store.profile.legend }}</p>
 
+         <!-- <RouterLink to="/instituicao"> -->
         <button class="btn-ver">Ver perfil</button>
-        <button v-if="store.usuario.is_institute" @click="router.push('/criar-postagem')" class="btn-ver">
-          Criar Post
+        <button v-if="store.usuario.is_institute" @click="router.push('/instituicao')" class="btn-ver">
+          Pagina de admin
         </button>
       </div>
     </section>
@@ -75,10 +77,11 @@
   background: #2c9c49;
   color: white;
   border: none;
-  padding: 8px 100px;
+  padding: 8px 0px;
   border-radius: 8px;
   cursor: pointer;
   margin-bottom: 15px;
+  width: 80%;
 }
 
 .btn-ver:hover {
