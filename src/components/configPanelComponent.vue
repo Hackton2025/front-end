@@ -66,10 +66,10 @@ const saveChanges = async () => {
         <input type="file" ref="fileInputRef" @change="store.onFileChange" accept="image/*" style="display: none;" />
 
         <div class="user-info">
-          <input v-model="store.usuario.fullname" class="fullname" />
-          <input v-model="store.usuario.name" class="username" />
-          <p class="email">{{ store.usuario.email }}</p>
-          <input placeholder="Adicione um link" v-model="store.profile.links1" class="links" />
+          <input style="margin-bottom: 0.5vw;" v-model="store.usuario.fullname" class="fullname" />
+          <input style="margin-bottom: 0.3vw;" v-model="store.usuario.name" class="username" />
+          <p style="margin-bottom: 0.3vw;" class="email">{{ store.usuario.email }}</p>
+          <input style="margin-bottom: 0.3vw;" placeholder="Adicione um link" v-model="store.profile.links1" class="links" />
           <input placeholder="Adicione um link" v-model="store.profile.links2" class="links" />
         </div>
       </div>
@@ -85,10 +85,10 @@ const saveChanges = async () => {
       <div class="notificacoes">
         <span>🔔 Notificações</span>
         <div class="toggle-box">
-          <button :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">
+          <button style="font-size: 1.5rem; width: 50%;" :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">
             ON
           </button>
-          <button :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">
+          <button style="font-size: 1.5rem; width:50% ;" :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">
             OFF
           </button>
         </div>
@@ -169,15 +169,16 @@ input {
 .perfil {
   display: flex;
   gap: 15px;
-  align-items: center;
+
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 20%;
+  height: 12vh;
   border-radius: 50%;
   cursor: pointer;
   transition: 0.2s;
+  border: #333 solid 2px;
 }
 
 .avatar:hover {
@@ -188,12 +189,13 @@ input {
   background-color: green;
   border: none;
   color: white;
-  margin: 0 0 2vw 0;
+  margin: 1vw 0 2vw 0;
   width: 35%;
   height: 2.5vw;
   font-size: 1rem;
   border-radius: 10px;
   cursor: pointer;
+  font-size: 1.5rem;
 }
 
 .saveChanges:hover {
@@ -204,25 +206,27 @@ input {
 .usuario,
 .email {
   color: #666;
-  font-size: 14px;
+  font-size: 1.5rem;
 }
 
 .descricao {
   margin-top: 20px;
 }
 
-.descricao input {
+.descricao textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 1.3rem;
 }
 
 .notificacoes {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  align-items: center;
+  font-size: 2rem;
 }
 
 .toggle-box {
@@ -230,7 +234,7 @@ input {
   border: 1px solid #333;
   border-radius: 5px;
   overflow: hidden;
-  margin: 0 22px;
+  margin: 0 0px;
 }
 
 .toggle-btn {
@@ -256,34 +260,51 @@ input {
 
 .privacidade {
   margin-top: 20px;
+  font-size: 2rem;
+  display: flex;
+  align-self: center;
+  justify-content: space-between;
+
 }
 
 .privacidade select {
   width: 20%;
-  padding: 5px;
+  font-size: 1.5rem;
+  padding: 10px;
   border-radius: 4px;
-  margin-left: 23.7vw;
+  margin-left: 0vw;
   padding-left: 10px;
-  background-color: #eaeaea;
-  color: black;
+  background-color: #2F9E41;
+  color: white;
+  margin-bottom: 2;
+  border: none;
+
+  &:focus {
+    outline: none;
+    border: none;
+    transition: 0.5s;
+  }
 }
 
 .acoes {
   border: 1px solid #d34141;
   padding: 16px;
   border-radius: 10px;
-  margin-top: 24px;
+  margin-top: 5VW;
   display: flex;
   flex-direction: column;
 }
 
 .acoes button {
-  padding: 1px;
+  padding: 1vw;
   border: none;
   cursor: pointer;
   text-align: left;
   border-radius: 5px;
   color: black;
+  font-size: 1.5rem;
+  background-color: white;
+  color: red;
 }
 
 .danger-button {
@@ -327,18 +348,19 @@ textarea:focus {
 
 .links {
   display: flex;
+  font-size: 1.5rem;
 }
 
 .fullname {
   display: block;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 .username {
   display: block;
   color: #666;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   margin-top: 2px;
 }
 </style>

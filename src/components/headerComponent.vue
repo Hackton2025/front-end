@@ -96,8 +96,8 @@ span.mdi {
 
 
 .avatar {
-  width: 6vh;
-  height: 6vh;
+  width: 5vh;
+  height: 5vh;
   border-radius: 50%;
   cursor: pointer;
   object-fit: cover;

@@ -45,7 +45,7 @@ onMounted(() => {
     }
     .left{
         justify-content: left;
-
+        width: 30%;
     }
     .centro{
         justify-content: center;

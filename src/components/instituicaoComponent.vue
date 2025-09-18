@@ -31,7 +31,7 @@
 
 <style scoped>
 .card-ifc {
-  width: 280px;
+  width: 70%;
   background: white;
   border-radius: 12px;
   overflow: hidden;
@@ -71,7 +71,11 @@
   margin: 4px 0 12px;
   color: #333;
   padding: 6px;
+  word-wrap: break-word; /* Garante que o texto será quebrado quando ultrapassar o limite */
+  overflow-wrap: break-word; /* Outra propriedade que garante a quebra do texto longo */
+  white-space: normal; /* Garante que o texto possa quebrar em várias linhas */
 }
+
 
 .btn-ver {
   background: #2c9c49;

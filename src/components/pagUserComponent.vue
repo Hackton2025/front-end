@@ -84,11 +84,11 @@
 
 img {
   position: absolute;
-  width: 14vw;
+  width: 16vw;
   height: 16vw;
-  border-radius: 2vw;
+  border-radius: 100%;
   object-fit: cover;
-  top: 4%;
+  top: 2%;
   left: 50%;
   z-index: 2;
   text-align: center;
@@ -161,14 +161,22 @@ img {
 .biografia {
   background-color: rgba(211, 211, 211, 0.2);
   border-radius: 12px;
-  padding: 20px 5px 20px 5px;
+  padding: 20px 5px;
   text-align: center;
+  width: 100%;
 }
 
 .biografia p {
+  padding: 10px 15px;
   color: black;
   text-align: left;
+  font-size: 1.2rem;
+  word-wrap: break-word; /* Garante que o texto será quebrado quando ultrapassar o limite */
+  overflow-wrap: break-word; /* Garante a quebra do texto longo em uma linha */
+  max-width: 100%; /* Garante que o texto vai ocupar a largura disponível */
+  white-space: normal; /* Garante que o texto pode quebrar em várias linhas */
 }
+
 .overlay {
   position: fixed;
   inset: 0;

@@ -10,20 +10,26 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>Comunidades:</h1>
-  <div v-for="community in store.filteredCommunities" :key="community.id" class="community-item">
-    <router-link :to="{ name: 'comunidade', params: { uuid: community.uuid } }"> 
-      <div class="community-card">
-        <img :src="community.image" alt="Image of community" />
-        <div class="community-info">
-          <h2>{{ community.name }}</h2>
+  <main>
+    
+    <h1>Comunidades:</h1>
+    <div v-for="community in store.filteredCommunities" :key="community.id" class="community-item">
+      <router-link :to="{ name: 'comunidade', params: { uuid: community.uuid } }"> 
+        <div class="community-card">
+          <img :src="community.image" alt="Image of community" />
+          <div class="community-info">
+            <h2>{{ community.name }}</h2>
+          </div>
         </div>
-      </div>
-    </router-link>
-  </div>
+      </router-link>
+    </div>
+  </main>
 </template>
 
 <style scoped>
+main{
+  width: 100%;
+}
 h1 {
   margin: 3vw 0 0 6vw;
   color: #333;

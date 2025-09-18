@@ -33,7 +33,7 @@ watch(
             <h2>Voltar</h2>
             </div>
       </RouterLink>
-    <section>
+    <section class="comunidades">
       <div class="corDiferente">
         <h1>{{ store.currentCommunity.name }}</h1>
       </div>
@@ -108,6 +108,7 @@ watch(
 <style scoped>
 section {
   margin-right: 6vw;
+  width: 85%;
 }
  .voltar{
   display: flex;
@@ -130,13 +131,13 @@ section {
 }
 
 .corDiferente h1 {
-  margin-left: 3.8vw;
+  margin-left: 5.8vw;
   font-weight: 600;
 }
 
 .lado h2 {
   position: absolute;
-  margin: -5.8vw 0 0 10.8vw;
+  margin: -5.8vw 0 0 12.8vw;
   font-size: 0.9rem;
   color: #00000085;
 }
@@ -148,7 +149,7 @@ section {
   height: 9vw;
   object-fit: cover;
   top: -5vw;
-  right: 57.9vw;
+  margin: 0 0 0 2vw;
 }
 
 .conteudo {
@@ -251,7 +252,7 @@ button.seguindo {
 
 .post .image img {
   margin: 2vw;
-  width: 131vh;
+  
   height: 60vh;
   border-radius: 15px;
   object-fit: cover;
