@@ -1,5 +1,12 @@
 <script setup>
+  import { ref } from 'vue'
+  import { useUserStore } from '@/stores/user'
 
+  const store = useUserStore()
+  import configPanelComponent from './configPanelComponent.vue'
+  import pagUserComponent from './pagUserComponent.vue'
+  const visivel = ref(false)
+  const visivelPerfil = ref(false)
 </script>
 
 <template>
@@ -15,8 +22,14 @@
 
       <div class="icons">
         <span class="mdi mdi-bell"></span>
-        <span class="mdi mdi-circle-outline"></span>
-        <span class="mdi mdi-cog" @click="mostrarConfig = true"></span>
+        <img :src="store.profileImagePreview
+          || (typeof store.profile.first_profile_image_url === 'string'
+            ? store.profile.first_profile_image_url  
+            : null)" class="avatar" @click="visivelPerfil = true"></img>
+        <pag-user-component :visivelPerfil="visivelPerfil" @fecharPerfil="visivelPerfil = false" />
+
+        <span class="mdi mdi-cog" @click="visivel = true"></span>
+        <config-panel-component :visivel="visivel" @fechar="visivel = false" />
       </div>
     </section>
 </template>
@@ -26,12 +39,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2vh 4vw;
+  padding: 1vw 4vw 0 3vw;
   gap: 20px;
 }
 
 .logo {
-  width: 16%;
+  width: 13%;
 }
 
 .input-area {
@@ -70,6 +83,8 @@ input {
 .icons {
   display: flex;
   gap: 10px;
+  justify-content: center;
+  align-items: center;
 }
 
 span.mdi {
@@ -79,4 +94,14 @@ span.mdi {
   padding: 5px;
 }
 
+
+.avatar {
+  width: 5vh;
+  height: 5vh;
+  border-radius: 50%;
+  cursor: pointer;
+  object-fit: cover;
+  border: solid 2px black;
+  margin-top: 3%;
+}
 </style>
