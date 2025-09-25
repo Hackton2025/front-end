@@ -76,4 +76,24 @@ h1 {
 .community-info {
   flex-grow: 1;
 }
+
+@media (max-width: 768px){
+  h2{
+    display: none;
+  }
+  h1{
+    font-size: 0.8rem;
+    margin: 3vw 0 0 3vw;
+    display: none;
+  }
+
+  .community-item{
+    width: 50%;
+    display: none;
+  }
+  .community-card img{
+    width: 100%;
+    height: 8vh;
+  }
+}
 </style>

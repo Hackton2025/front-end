@@ -27,7 +27,7 @@ const store = usePostStore();
       </li>
     </ul>
 
-    <div style="background-color: white; padding: 2vw 3vw; border-radius: 10px; height: fit-content;">
+    <div class="oi" style="background-color: white; padding: 2vw 3vw; border-radius: 10px; height: fit-content;">
       <h2 style="font-size: 2rem;" class="instituicoes">
         Agora no IFC
       </h2>
@@ -93,5 +93,33 @@ ul {
   word-wrap: break-word;
   overflow-wrap: anywhere;
   margin: 20px 0;
+}
+
+@media (max-width: 768px){
+  .oi{
+    display: none;
+  }
+  main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    justify-content: center;
+  }
+  ul{
+    width: 100%;
+    min-width: 100%;
+    justify-content: center;
+  }
+  .post{
+    width: 100%;
+    min-width: 100%;
+  }
+  .author img{
+    max-width: 15%;
+    min-width: 15%;
+    min-height: 6vh;
+    max-height: 6vh;
+  }
 }
 </style>

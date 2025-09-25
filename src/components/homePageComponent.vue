@@ -22,7 +22,7 @@ onMounted(() => {
 
 <template>
     <header-component />
-    <pag-user-component />
+    <pag-user-component class="a" />
     <config-panel-component />
     <div class="geral">
 
@@ -49,6 +49,12 @@ onMounted(() => {
     }
     .centro{
         justify-content: center;
+    }
+
+    @media (max-width: 768px){
+        .geral{
+            width: 100%;
+        }
     }
 </style>
 

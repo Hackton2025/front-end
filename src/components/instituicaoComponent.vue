@@ -91,4 +91,10 @@
 .btn-ver:hover {
   background: #267e3b;
 }
+
+@media (max-width: 768px){
+  .card-ifc{
+    display: none;
+  }
+}
 </style>
