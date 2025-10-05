@@ -15,6 +15,7 @@ const postStore = usePostStore();
       <RouterLink :to="{ name: 'home' }" class="voltar"><span class="mdi mdi-arrow-left"></span>
         <h2>Voltar</h2>
       </RouterLink>
+
       <div class="geral">
         <div class="botoes">
           <button @click="router.push('/criar-postagem')" class="postar">
@@ -40,6 +41,7 @@ const postStore = usePostStore();
     <section class="user">
 
       <div class="author">
+
         <div class="corDiferente">
         </div>
 
@@ -257,4 +259,67 @@ section.user .author {
   object-fit: cover;
   /* Garante que as imagens se ajustem sem distorcer */
 }
+
+
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+  section.posts,
+  section.user {
+    width: 100%;
+    border-right: none;
+  }
+  .geral{
+    height: auto;
+    padding: 4vw 0;
+    margin-top: 4vw;
+  }
+  .voltar{
+    margin-top: 3vw;
+  }
+  .mdi.mdi-arrow-left{
+    font-size: 1.5rem;
+  }
+  .geral .botoes button{
+    padding: 15px 30px;
+  }
+
+  .geral .botoes button:first-child {
+    margin-bottom: 3vw;
+  }
+ 
+  section
+  .corDiferente{
+    width: 100%;
+    height: 8vh;
+    box-sizing: border-box;
+    border-radius: 8px 8px 0 0;
+  }
+  .informacao img.avatar {
+    margin-top: -10vw;
+    width: 100%;
+    height: auto;
+  }
+  .informacao .resto h2 {
+    font-size: 1.4rem;
+    margin: -6vw 40vw 0 5vw;
+  }
+  .informacao .resto p {
+    font-size: 1rem;
+    margin: 1vw 40vw 2vw 5vw;
+  }
+  .posts-geral ul li {
+    width: 50%;
+    padding: 0.25rem;
+  }
+  .posts-geral img {
+    height: 30vh;
+  }
+}
+
+
+
+
+
 </style>
