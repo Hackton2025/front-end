@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css");
 @import './base.css';
 
 html, body, div, span, applet, object, iframe,
@@ -54,4 +55,18 @@ body {
 	background-color: #d3d3d3;
 	font-family: "Average Sans", sans-serif;
 	color: black;
+}
+
+.voltar {
+  display: flex;
+  align-items: center;
+  margin-left: 2vw;
+  gap: 10px;
+  font-size: 1.3rem;
+  margin-bottom: 1.5vw;
+  background: none;
+  border: none;
+  text-decoration: none;
+  color: inherit		;
+  margin-top: 1vw;
 }
