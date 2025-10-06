@@ -42,15 +42,17 @@ const store = usePostStore();
 main{
   display: flex;
   justify-content: space-between;
-  margin: 1vw 4vw;
+  margin: 1vw 4vw 1vw 0;
+  gap: 3rem;
 }
 ul {
   justify-content: center;
 }
 
 .post {
-  width: 60%;
-  min-width: 60%;
+  width: 100%;
+  min-width: 100%;
+
 }
 
 .total {
@@ -93,5 +95,37 @@ ul {
   word-wrap: break-word;
   overflow-wrap: anywhere;
   margin: 20px 0;
+}
+
+.instituicoes{
+  margin-right: 100px;
+}
+
+@media (max-width: 768px) {
+  main{
+    flex-direction: column;
+    margin-top: 0;
+    gap: 10px; 
+    margin-left: 4vw; 
+  }
+
+  .post {
+    width: 100%;
+    min-width: 100%;
+  }
+  .instituicoes{
+    display: none;
+  }
+  .author p{
+    font-size: 1.2rem;
+  }
+  .author img{
+    max-width: 15%;
+    min-width: auto;
+    min-height: 6vh;
+    max-height: auto;
+    margin-right: 7px;
+  }
+  
 }
 </style>
