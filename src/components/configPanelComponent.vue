@@ -9,6 +9,7 @@ const uiStore = useUiStore()
 const props = defineProps(['visivel'])
 const emit = defineEmits(['fechar'])
 
+
 const isOn = ref(true)
 const fileInputRef = ref(null)
 
@@ -66,8 +67,8 @@ const saveChanges = async () => {
         <input type="file" ref="fileInputRef" @change="store.onFileChange" accept="image/*" style="display: none;" />
 
         <div class="user-info">
-          <input style="margin-bottom: 0.5vw;" v-model="store.usuario.fullname" class="fullname" />
-          <input style="margin-bottom: 0.3vw;" v-model="store.usuario.name" class="username" />
+          <input style="margin-bottom: 0.5vw;" v-model="store.usuario.name" class="fullname" />
+          <input style="margin-bottom: 0.3vw;" v-model="store.usuario.fullname" class="username" />
           <p style="margin-bottom: 0.3vw;" class="email">{{ store.usuario.email }}</p>
           <input style="margin-bottom: 0.3vw;" placeholder="Adicione um link" v-model="store.profile.links1" class="links" />
           <input placeholder="Adicione um link" v-model="store.profile.links2" class="links" />
@@ -85,10 +86,10 @@ const saveChanges = async () => {
       <div class="notificacoes">
         <span>🔔 Notificações</span>
         <div class="toggle-box">
-          <button style="font-size: 1.5rem; width: 50%;" :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">
+          <button style="width: 50%;" :class="['toggle-btn', isOn ? 'ativo' : '']" @click="isOn = true">
             ON
           </button>
-          <button style="font-size: 1.5rem; width:50% ;" :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">
+          <button style="width:50% ;" :class="['toggle-btn', !isOn ? 'negativo' : '']" @click="isOn = false">
             OFF
           </button>
         </div>
@@ -174,7 +175,7 @@ input {
 
 .avatar {
   width: 20%;
-  height: 12vh;
+  height: 100%;
   border-radius: 50%;
   cursor: pointer;
   transition: 0.2s;
@@ -198,9 +199,11 @@ input {
   font-size: 1.5rem;
 }
 
-.saveChanges:hover {
-  background-color: rgb(0, 150, 0);
-  transition: 0.5s;
+.saveChanges {
+  width: 35%;
+  height: 2.5vw;
+  font-size: 1.5rem;
+  border-radius: 10px;
 }
 
 .usuario,
@@ -244,6 +247,7 @@ input {
   color: #333;
   cursor: pointer;
   font-weight: bold;
+    font-size: 1.5rem;
 }
 
 .toggle-btn.ativo {
@@ -270,21 +274,13 @@ input {
 .privacidade select {
   width: 20%;
   font-size: 1.5rem;
-  padding: 10px;
+  padding: 10px 10px;
   border-radius: 4px;
-  margin-left: 0vw;
-  padding-left: 10px;
   background-color: #2F9E41;
   color: white;
-  margin-bottom: 2;
   border: none;
-
-  &:focus {
-    outline: none;
-    border: none;
-    transition: 0.5s;
-  }
 }
+
 
 .acoes {
   border: 1px solid #d34141;
@@ -362,5 +358,134 @@ textarea:focus {
   color: #666;
   font-size: 1.2rem;
   margin-top: 2px;
+}
+
+/* ===== RESPONSIVO - MOBILE ===== */
+@media (max-width: 768px) {
+  .config-panel {
+    width: 90%;
+    right: -100%;        /* começa fora da tela */
+    top: 5%;
+    height: 80%;
+    transition: right 0.3s ease-in-out; /* animação suave */
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    overflow-y: auto;
+    z-index: 1100;
+  }
+
+  .config-panel.aberto {
+    right: 5%;  /* posição quando aberto */
+  }
+
+  .saveChanges {
+    width: 100%;
+    height: 45px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    margin: 1em 0;
+  }
+
+  .avatar {
+    width: 100px;
+    height: auto;
+    border: 2px solid #333;
+  }
+
+  .perfil {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .user-info {
+    width: 100%;
+  }
+ .user-info .username {
+    font-size: 1rem;
+  }
+  .user-info .email {
+    font-size: 1.3rem;
+    margin-top: 10px;
+    }
+  .user-info .links {
+    font-size: 1.3rem;
+    margin-top: 5px;
+  }
+  .descricao textarea {
+    height: 18vh;
+    font-size: 1rem;
+  }
+ .saveChanges {
+  width: 100%;       
+  height: 35px;    
+  font-size: 1.1rem; 
+  border-radius: 8px;
+  margin: 1em 0;
+}
+  .notificacoes {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    font-size: 1rem;
+  }
+  .notificacoes span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 2vw;
+  }
+  .toggle-box {
+    width: 100%;  
+    display: flex;
+  }
+
+  .toggle-btn {
+   font-size: 0.8rem; 
+    padding: 1px 0;
+    font-size: 1.2rem;
+  }
+  .toggle-btn.ativo, .toggle-btn.negativo {
+    padding: 2px 0;
+  }
+  .privacidade {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    margin-bottom: 20%;
+  }
+  .privacidade label {
+    font-size: 1.1rem;
+    width: 90%;
+    font-weight: bold;
+    margin-bottom: 1vw;
+  }
+ .privacidade select {
+  width: 100%;      
+  font-size: 1rem;   
+  padding: 8px;      
+  border-radius: 6px;
+}
+  #privacidade option {
+    font-size: 1rem;
+    padding: auto;
+  }
+  .notificacoes span {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  .acoes {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .acoes button {
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+
+  .fundo {
+    background: rgba(0,0,0,0.4);
+  }
 }
 </style>
