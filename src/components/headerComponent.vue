@@ -29,7 +29,7 @@ const visivelPerfil = ref(false)
         class="avatar"
         @click="visivelPerfil = true"
       />
-      <pag-user-component :visivelPerfil="visivelPerfil" @fecharPerfil="visivelPerfil = false" />
+
 
       <!-- ⚙️ abre painel lateral -->
       <span class="mdi mdi-cog" @click="visivel = true"></span>
@@ -52,9 +52,11 @@ const visivelPerfil = ref(false)
     </div>
 
     <div class="nav-icon">
-      <RouterLink :to="`/usuario/${store.usuario.uuid}`">
-        <img :src="store.profileImagePreview || store.profile.first_profile_image_url || '/img/default-avatar.png'" class="avatar"/>
-      </RouterLink>
+       <img 
+        :src="store.profileImagePreview || store.profile.first_profile_image_url || '/img/default-avatar.png'"
+        class="avatar"
+        @click="visivelPerfil = true"
+      />
     </div>
 
     <!-- ⚙️ no celular abre rota /configurações -->
@@ -64,6 +66,7 @@ const visivelPerfil = ref(false)
 </div>
   </section>
   <config-panel-component :visivel="visivel" @fechar="visivel = false" />
+  <pag-user-component :visivelPerfil="visivelPerfil" @fecharPerfil="visivelPerfil = false" />
 </template>
 
 <style scoped>
