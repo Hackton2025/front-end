@@ -39,16 +39,17 @@ onMounted(() => {
   display: flex; 
   margin-top: 2vw;
   align-items: flex-start; 
+  justify-content: space-between;
 }
 
 .left {
-  width: 30%;
+  width: 20%;
   display: flex;
   flex-direction: column;
 }
 
 .centro {
-  flex: 1;
+  width: 70%;
 }
 
 .comunidades-mobile {

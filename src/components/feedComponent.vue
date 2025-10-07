@@ -13,7 +13,10 @@ const store = usePostStore();
             <div class="author">
               <img v-if="post.author.first_profile_image_url" :src="post.author.first_profile_image_url"
                 alt="foto de perfil" />
+                <div class="at">
               <p>{{ post.author.fullname }}</p>
+              <p class="name" style="font-size: 1rem;">@{{ post.author.user.name }}</p>
+              </div>
             </div>
             <div class="content">
               <p>{{ post.content }}</p>
@@ -100,7 +103,10 @@ ul {
 .instituicoes{
   margin-right: 100px;
 }
-
+.name{
+  color: #b1b1b1;
+  font-size: 1rem;
+}
 @media (max-width: 768px) {
   main{
     flex-direction: column;

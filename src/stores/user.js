@@ -137,6 +137,7 @@ export const useUserStore = defineStore("user", () => {
       alert("Login bem-sucedido!");
       await store.fetchPosts();
       router.push("/home");
+      console.log(profile.value)
     } catch (error) {
       console.error(error);
       alert("Erro ao fazer login. Verifique suas credenciais e tente novamente.");
@@ -251,6 +252,12 @@ export const useUserStore = defineStore("user", () => {
       console.error(error);
     }
   }
+  const currentUser = ref({})
+  const getUserDetail = async (uuid) => {
+    const response = await api.get(`/users/${uuid}`)
+    currentUser.value = response.data
+    console.log(response.data)
+  }
 
   return {
     usuario,
@@ -268,5 +275,7 @@ export const useUserStore = defineStore("user", () => {
     fetchUsers,
     logout,
     resetStore,
+    currentUser,
+    getUserDetail
   };
 });

@@ -1,40 +1,82 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import configPanelComponent from './configPanelComponent.vue'
 import pagUserComponent from './pagUserComponent.vue'
+import { useRouter } from 'vue-router'
 
 const store = useUserStore()
+const router = useRouter()
 const visivel = ref(false)
 const visivelPerfil = ref(false)
+
+// Novo: campo de busca
+const searchQuery = ref('')
+const searchResults = computed(() => {
+  if (!searchQuery.value.trim()) return []
+
+  return store.usersFetched
+    .filter(user =>
+      user.fullname?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+    .slice(0, 3) // 👈 Mostra no máximo 3 resultados
+})
+
+// Carrega todos os usuários na primeira vez (poderia ser otimizado no backend futuramente)
+store.fetchUsers()
+
+// Alternativa: buscar enquanto digita (ou use debounce)
+function fazerBusca() {
+  if (!searchQuery.value.trim()) return
+  // A filtragem já acontece no computed acima
+}
+
+
+function irParaUsuario(uuid){
+  router.push({name:'verUsuario', params: { uuid }})
+}
 </script>
+
 
 <template>
   <!-- ===== TOPO (desktop) ===== -->
   <section class="topo">
+    <div style="display: flex; width: 100%;   padding: 1vw 4vw 0 3vw; align-items: center;">
     <img src="/img/logo.horizontal.ifc-Photoroom.png" alt="logo ifc" class="logo" />
 
     <div class="input-area">
       <div class="input-wrapper">
-        <span class="mdi mdi-magnify search-icon"></span>
-        <input type="text" placeholder="Pesquisar..." />
+        <span class="mdi mdi-magnify search-icon" @click="fazerBusca"></span>
+        <input type="text" v-model="searchQuery" placeholder="Pesquisar usuários..." @keyup.enter="fazerBusca" />
+
       </div>
     </div>
 
     <div class="icons">
       <span class="mdi mdi-bell"></span>
 
-      <img 
-        :src="store.profileImagePreview || store.profile.first_profile_image_url || '/img/default-avatar.png'"
-        class="avatar"
-        @click="visivelPerfil = true"
-      />
+      <img :src="store.profileImagePreview || store.profile.first_profile_image_url || '/img/default-avatar.png'"
+        class="avatar" @click="visivelPerfil = true" />
 
 
       <!-- ⚙️ abre painel lateral -->
       <span class="mdi mdi-cog" @click="visivel = true"></span>
 
     </div>
+    </div>
+    <div v-if="searchQuery && searchResults.length" class="search-results">
+  <ul>
+    <li v-for="user in searchResults" :key="user.uuid" @click="irParaUsuario(user.uuid)">
+      {{ user.fullname }}
+    </li>
+  </ul>
+</div>
+
+<div v-else-if="searchQuery && !searchResults.length" class="search-results">
+  <p>Nenhum usuário encontrado.</p>
+</div>
+
   </section>
 
   <!-- ===== NAV INFERIOR (mobile) ===== -->
@@ -52,18 +94,15 @@ const visivelPerfil = ref(false)
     </div>
 
     <div class="nav-icon">
-       <img 
-        :src="store.profileImagePreview || store.profile.first_profile_image_url || '/img/default-avatar.png'"
-        class="avatar"
-        @click="visivelPerfil = true"
-      />
+      <img :src="store.profileImagePreview || store.profile.first_profile_image_url || '/img/default-avatar.png'"
+        class="avatar" @click="visivelPerfil = true" />
     </div>
 
     <!-- ⚙️ no celular abre rota /configurações -->
-  <div class="nav-icon" >
-  <span class="mdi mdi-cog"@click="visivel = true"></span>
+    <div class="nav-icon">
+      <span class="mdi mdi-cog" @click="visivel = true"></span>
 
-</div>
+    </div>
   </section>
   <config-panel-component :visivel="visivel" @fechar="visivel = false" />
   <pag-user-component :visivelPerfil="visivelPerfil" @fecharPerfil="visivelPerfil = false" />
@@ -72,10 +111,9 @@ const visivelPerfil = ref(false)
 <style scoped>
 /* ========== TOPO DESKTOP ========== */
 .topo {
-  display: flex;
+  
   align-items: center;
   justify-content: space-between;
-  padding: 1vw 4vw 0 3vw;
   gap: 20px;
 }
 
@@ -141,7 +179,8 @@ span.mdi {
 }
 
 .bottom-nav {
-  display: none; /* desktop default */
+  display: none;
+  /* desktop default */
   position: fixed;
   bottom: 0;
   left: 0;
@@ -152,7 +191,7 @@ span.mdi {
   justify-content: space-around;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .nav-icon {
@@ -175,6 +214,33 @@ span.mdi {
   border: 1px solid #333;
   object-fit: cover;
 }
+.search-results{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 2vw 0;
+    width: 100%;
+}
+.search-results ul{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+}
+.search-results ul li{
+  background-color: #888;
+  padding: 0.5vw 1vw;
+  width: 40%;
+  color: #fff;
+  cursor: pointer;
+  margin: 0 auto 1vw auto;
+  border-radius: 10px;
+}
+.search-results ul li:hover{
+  background-color: #333;
+  transition: 0.5s;
+}
 
 /* ========== RESPONSIVO MOBILE ========== */
 @media (max-width: 768px) {
@@ -184,9 +250,12 @@ span.mdi {
     padding: 10px;
     gap: 10px;
   }
-.bottom-nav{
-    display: flex; /* mostra a nav no mobile */
+
+  .bottom-nav {
+    display: flex;
+    /* mostra a nav no mobile */
   }
+
   .logo {
     width: 50%;
   }
