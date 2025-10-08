@@ -25,9 +25,13 @@ const cloudinaryBase = 'https://res.cloudinary.com/dm2odcrnf/'
       <!-- Banner verde superior -->
       <div class="header-banner">
         <div class="avatar-wrapper">
-          <img :src="store.currentUser.profile?.[0]?.firstProfileImage?.file
-            ? cloudinaryBase + store.currentUser.profile[0].firstProfileImage.file
-            : '/img/default-avatar.png'" alt="Avatar" class="avatar" />
+          <img 
+            :src="store.currentUser.profile?.[0]?.firstProfileImage?.file
+              ? cloudinaryBase + store.currentUser.profile[0].firstProfileImage.file
+              : '/img/default-avatar.png'" 
+            alt="Avatar" 
+            class="avatar" 
+          />
         </div>
       </div>
 
@@ -35,12 +39,16 @@ const cloudinaryBase = 'https://res.cloudinary.com/dm2odcrnf/'
         <h2 class="fullname">{{ store.currentUser.fullname }}</h2>
         <p class="username">@{{ store.currentUser.name }}</p>
         <div class="links">
-          <p class="link">{{ store.currentUser.profile[0].links1 }}</p>
-          <p class="link">{{ store.currentUser.profile[0].links2 }}</p>
+          <p class="link" v-if="store.currentUser.profile?.[0]?.links1">
+            {{ store.currentUser.profile[0].links1 }}
+          </p>
+          <p class="link" v-if="store.currentUser.profile?.[0]?.links2">
+            {{ store.currentUser.profile[0].links2 }}
+          </p>
         </div>
-        <div class="bio-box">
+        <div class="bio-box" v-if="store.currentUser.profile?.[0]?.legend">
           <p class="bio">
-            {{ store.currentUser.profile?.[0]?.legend }}
+            {{ store.currentUser.profile[0].legend }}
           </p>
         </div>
         <RouterLink to="/home" class="voltar">Voltar</RouterLink>
@@ -180,13 +188,13 @@ const cloudinaryBase = 'https://res.cloudinary.com/dm2odcrnf/'
   background-color: #0d660d;
 }
 
-.links{
+.links {
   margin-bottom: 20px;
   font-size: 0.7rem;
+}
 
-  & .link{
-    color: #333;
-  }
+.links .link {
+  color: #333;
 }
 
 /* Responsivo para mobile */
