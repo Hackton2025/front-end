@@ -88,7 +88,7 @@ function irParaUsuario(uuid){
     </div>
 
     <div class="nav-icon">
-      <RouterLink to="/">
+      <RouterLink to="/search">
         <span class="mdi mdi-magnify"></span>
       </RouterLink>
     </div>
@@ -276,6 +276,9 @@ span.mdi {
 
   .input-area {
     width: 100%;
+  }
+  .search-results{
+    display: none;
   }
 }
 </style>

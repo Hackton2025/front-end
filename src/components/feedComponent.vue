@@ -7,7 +7,7 @@ const store = usePostStore();
 <template>
   <main>
     <ul>
-      <li v-for="post in store.posts" :key="post.uuid">
+      <li v-for="post in store.posts.slice().reverse()" :key="post.uuid">
         <div class="post">
           <div class="total">
             <div class="author">

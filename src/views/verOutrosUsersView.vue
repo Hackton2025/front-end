@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user'
-
+import headerComponent from '@/components/headerComponent.vue'
 const store = useUserStore()
 
 const props = defineProps({
@@ -19,26 +19,25 @@ const cloudinaryBase = 'https://res.cloudinary.com/dm2odcrnf/'
 </script>
 
 <template>
+  <headerComponent></headerComponent>
   <div class="outer-container">
     <div class="profile-container">
       <!-- Banner verde superior -->
       <div class="header-banner">
         <div class="avatar-wrapper">
-          <img
-            :src="store.currentUser.profile?.[0]?.firstProfileImage?.file
-              ? cloudinaryBase + store.currentUser.profile[0].firstProfileImage.file
-              : '/img/default-avatar.png'"
-            alt="Avatar"
-            class="avatar"
-          />
+          <img :src="store.currentUser.profile?.[0]?.firstProfileImage?.file
+            ? cloudinaryBase + store.currentUser.profile[0].firstProfileImage.file
+            : '/img/default-avatar.png'" alt="Avatar" class="avatar" />
         </div>
       </div>
 
       <div class="user-info">
         <h2 class="fullname">{{ store.currentUser.fullname }}</h2>
         <p class="username">@{{ store.currentUser.name }}</p>
-
-
+        <div class="links">
+          <p class="link">{{ store.currentUser.profile[0].links1 }}</p>
+          <p class="link">{{ store.currentUser.profile[0].links2 }}</p>
+        </div>
         <div class="bio-box">
           <p class="bio">
             {{ store.currentUser.profile?.[0]?.legend }}
@@ -57,7 +56,7 @@ const cloudinaryBase = 'https://res.cloudinary.com/dm2odcrnf/'
   align-items: center;
   padding: 2rem 1rem;
   min-height: 100vh;
-  background-color: #f0f0f0;
+  background-color: none;
 }
 
 .profile-container {
@@ -109,7 +108,7 @@ const cloudinaryBase = 'https://res.cloudinary.com/dm2odcrnf/'
 .username {
   color: #666;
   font-size: 0.95rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .follow-info {
@@ -181,6 +180,14 @@ const cloudinaryBase = 'https://res.cloudinary.com/dm2odcrnf/'
   background-color: #0d660d;
 }
 
+.links{
+  margin-bottom: 20px;
+  font-size: 0.7rem;
+
+  & .link{
+    color: #333;
+  }
+}
 
 /* Responsivo para mobile */
 @media (max-width: 480px) {

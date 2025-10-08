@@ -11,6 +11,7 @@ import verOutrosUsersView from '@/views/verOutrosUsersView.vue'
 import verOutrasInstituicoesComponent from '@/components/verOutrasInstituicoesComponent.vue'
 import criarInstitutoView from '@/views/criarInstitutoView.vue'
 import CommunityView from '@/views/CommunityView.vue'
+import searchView from '@/views/searchView.vue'
 
 
 const router = createRouter({
@@ -78,6 +79,11 @@ const router = createRouter({
       name: 'comunidade',
       component: CommunityView,
     },
+  {
+    path: `/search`,
+    name: `search`,
+    component: searchView,
+  }
   ],
 })
 
