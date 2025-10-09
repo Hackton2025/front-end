@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 function irParaInstituicao() {
-  router.push('/instituicao');
+  router.push('"/usuario/:uuid"');
 }
     
 </script>

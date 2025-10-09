@@ -4,6 +4,7 @@ import { useComunittyStore } from '@/stores/comunitty';
 import { onMounted } from 'vue';
 const store = useComunittyStore();
 
+
 onMounted(() => {
   store.fetchCommunities();
 });
@@ -31,7 +32,7 @@ main{
   width: 100%;
 }
 h1 {
-  margin: 3vw 0 0 6vw;
+  margin: 0 0 0 6vw;
   color: #333;
   font-size: 1.8rem;
   font-weight: 700;
@@ -75,5 +76,37 @@ h1 {
 
 .community-info {
   flex-grow: 1;
+}
+
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .community-list {
+    justify-content: center;
+    margin-left: 0;
+    margin-right: 0;
+
+  }
+  .community-item { 
+    max-width: 90%;
+    margin-top: 10px;
+  }
+  .community-item:last-child{
+    margin-bottom: 70px;
+  }
+  .community-card img {
+    width: 40px;
+    height: 40px;
+    margin-right: 0.5rem;
+  }
+
+  .community-info h2 {
+    font-size: 1rem;
+  }
 }
 </style>

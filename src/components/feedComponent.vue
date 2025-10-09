@@ -7,13 +7,16 @@ const store = usePostStore();
 <template>
   <main>
     <ul>
-      <li v-for="post in store.posts" :key="post.uuid">
+      <li v-for="post in store.posts.slice().reverse()" :key="post.uuid">
         <div class="post">
           <div class="total">
             <div class="author">
               <img v-if="post.author.first_profile_image_url" :src="post.author.first_profile_image_url"
                 alt="foto de perfil" />
+                <div class="at">
               <p>{{ post.author.fullname }}</p>
+              <p class="name" style="font-size: 1rem;">@{{ post.author.user.name }}</p>
+              </div>
             </div>
             <div class="content">
               <p>{{ post.content }}</p>
@@ -42,15 +45,17 @@ const store = usePostStore();
 main{
   display: flex;
   justify-content: space-between;
-  margin: 1vw 4vw;
+  margin: 1vw 4vw 1vw 0;
+  gap: 3rem;
 }
 ul {
   justify-content: center;
 }
 
 .post {
-  width: 60%;
-  min-width: 60%;
+  width: 100%;
+  min-width: 100%;
+
 }
 
 .total {
@@ -93,5 +98,40 @@ ul {
   word-wrap: break-word;
   overflow-wrap: anywhere;
   margin: 20px 0;
+}
+
+.instituicoes{
+  margin-right: 100px;
+}
+.name{
+  color: #b1b1b1;
+  font-size: 1rem;
+}
+@media (max-width: 768px) {
+  main{
+    flex-direction: column;
+    margin-top: 0;
+    gap: 10px; 
+    margin-left: 4vw; 
+  }
+
+  .post {
+    width: 100%;
+    min-width: 100%;
+  }
+  .instituicoes{
+    display: none;
+  }
+  .author p{
+    font-size: 1.2rem;
+  }
+  .author img{
+    max-width: 15%;
+    min-width: auto;
+    min-height: 6vh;
+    max-height: auto;
+    margin-right: 7px;
+  }
+  
 }
 </style>

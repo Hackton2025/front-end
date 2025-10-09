@@ -155,20 +155,23 @@ main {
     grid-area: left;
     background-color: #fff;
     border-radius: 20px;
+    
 }
 
 
 .sidebar.right {
     grid-area: right;
-
+    
 }
 
 form {
     margin-right: 3vw;
 }
 
-.voltar {
+.return {
     padding-bottom: 1vw;
+    color: black;
+    text-decoration: none;
 }
 
 div.image-video {
@@ -304,20 +307,19 @@ div.image-video {
     font-size: 1.05rem;
     cursor: pointer;
     margin-top: 1vw;
-    margin-left: 35.9vw;
+    margin-bottom: 1vw;
 }
 
 .publicar:hover {
     padding: 7px 111px;
     transition: 0.5s;
-    margin-left: 35.8vw;
     background-color: #097000;
 }
 
 .previsualizacao {
     background-color: white;
     border-radius: 15px;
-    width: 90vh;
+    width: 100%;
     max-width: 90vh;
     height: 73vh;
     overflow-y: auto;

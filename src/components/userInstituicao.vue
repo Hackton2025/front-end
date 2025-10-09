@@ -5,6 +5,8 @@ import { usePostStore } from "@/stores/post";
 import { useUserStore } from "@/stores/user";
 const store = useUserStore();
 const postStore = usePostStore();
+
+
 </script>
 <template>
   <headerComponent></headerComponent>
@@ -13,6 +15,7 @@ const postStore = usePostStore();
       <RouterLink :to="{ name: 'home' }" class="voltar"><span class="mdi mdi-arrow-left"></span>
         <h2>Voltar</h2>
       </RouterLink>
+
       <div class="geral">
         <div class="botoes">
           <button @click="router.push('/criar-postagem')" class="postar">
@@ -30,29 +33,41 @@ const postStore = usePostStore();
             <span class="mdi mdi-key-variant"></span>
             <p class="controle">Controle de Acesso</p>
           </RouterLink> -->
-          <button @click="router.push('/enviar-mensagem-em-massa')" class="massivas">
-            <span class="mdi mdi-alert"></span>
-            <p class="massivas">Mensagens Massivas</p>
-          </button>
+
         </div>
       </div>
     </section>
 
     <section class="user">
+
       <div class="author">
-        <img :src="store.profileImagePreview
-          || (store.profile.first_profile_image_url
-            ? store.profile.first_profile_image_url
-            : '/img/default-avatar.png')" class="avatar" />
-        <h2>{{ store.usuario.fullname }}</h2>
-        <p>@{{ store.usuario.name }}</p>
+
+        <div class="corDiferente">
+        </div>
+
+        <div class="informacao">
+          <div class="lateral">
+            <img :src="store.profileImagePreview
+              || (store.profile.first_profile_image_url
+                ? store.profile.first_profile_image_url
+                : '/img/default-avatar.png')" class="avatar" />
+          </div>
+          <div class="resto">
+            <h2>{{ store.usuario.name }}</h2>
+            <p class="fullname">@{{ store.usuario.fullname }}</p>
+          </div>
+
+        </div>
+
       </div>
+
+
       <div class="posts-geral">
-          <ul>
-            <li v-for="post in postStore.posts" :key="post.uuid">
-              <img :src="post.image_url" alt="POST" v-if="post.image_url" class="imgPost" />
-            </li>
-          </ul>
+        <ul>
+          <li v-for="post in postStore.posts" :key="post.uuid">
+            <img :src="post.image_url" alt="POST" v-if="post.image_url" class="imgPost" />
+          </li>
+        </ul>
       </div>
     </section>
   </main>
@@ -79,7 +94,7 @@ section.posts {
   background-color: #FFFF;
   width: 100%;
   border-radius: 5px;
-  height: 100vh;
+  height: 40vh;
   padding: auto 0;
 }
 
@@ -153,67 +168,165 @@ div.botoes button.massivas {
 
 section.user {
   width: 80%;
-  gap: 0;
+  background-color: white;
+  margin-top: 2vw;
+  border-radius: 8px;
+}
 
-} 
+section .corDiferente {
+  background-color: #2f9e41;
+  width: 100%;
+  padding: 4vw;
+  border-radius: 8px 8px 0 0;
+}
 
+
+section.user .informacao {
+  display: flex;
+}
+section
 section.user .author {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 10px;
   background-color: #FFFF;
-  padding: 2vw 0;
   border-radius: 20px;
 }
 
 .author .avatar {
-  width: 15%;
+  width: 100%;
   height: 20vh;
   border: solid 1px black;
-  border-radius: 0px;
+  border-radius: 50%;
+  margin: -6vw 0 0 2vw;
+  object-fit: cover;
 }
 
 .author h2 {
   font-size: 2rem;
-  margin: 0;
+  margin: -2.5vw 0 0 2.5vw;
+  color: white;
 }
 
 .author p {
-  font-size: 1.2rem;
-  margin: 0;
-  color: gray;
+  font-size: 1.1rem;
+  margin: 0.7vw 0 2vw 2vw;
+  color: #0000007a;
+}
+.informacao button {
+  border: 2px solid #2f9e41;
+  color: #2f9e41;
+  padding: 4px 40px;
+  border-radius: 10px;
+  font-weight: 600;
+  background-color: white;
+  cursor: pointer;
+  margin-top: 3vw;
+  margin-bottom: 0.5vw;
 }
 .posts-geral {
-
-  margin-top: 2vw;
-
+  margin: 1vw 1vw 2vw 1vw;
   gap: 0;
 }
+
 .posts-geral ul {
   margin-top: 2vw;
   padding: 0;
   margin: 0;
   display: flex;
-  flex-wrap: wrap;/* Permite que as imagens quebrem para a linha seguinte se não caberem */
-  gap: 0;               /* Remove qualquer espaço entre as imagens */
+  flex-wrap: wrap;
+  /* Permite que as imagens quebrem para a linha seguinte se não caberem */
+  gap: 0;
+  /* Remove qualquer espaço entre as imagens */
 }
-.posts-geral ul li{
+
+.posts-geral ul li {
   list-style: none;
   padding: 0;
   margin: 0;
   gap: 0;
-  width: 33.33%;       /* Cada item ocupa um terço da largura do contêiner */
+  width: 33.33%;
+  /* Cada item ocupa um terço da largura do contêiner */
 }
 
 .posts-geral img {
   padding: 0;
   margin: 0;
-  width: 100%;           /* Largura de 33% para garantir 3 imagens por linha */
-  height: 50vh;            /* Altura fixa para as imagens */
+  width: 100%;
+  /* Largura de 33% para garantir 3 imagens por linha */
+  height: 50vh;
+  /* Altura fixa para as imagens */
   border-radius: 0;
-  object-fit: cover;       /* Garante que as imagens se ajustem sem distorcer */
+  object-fit: cover;
+  /* Garante que as imagens se ajustem sem distorcer */
 }
+.fullname{
+  margin-top: 4rem;
+}
+
+@media (max-width: 768px) {
+  main {
+    flex-direction: column;
+  }
+  section.posts,
+  section.user {
+    width: 100%;
+    border-right: none;
+  }
+  .geral{
+    height: auto;
+    padding: 4vw 0;
+    margin-top: 4vw;
+  }
+  .voltar{
+    margin-top: 3vw;
+  }
+  .mdi.mdi-arrow-left{
+    font-size: 1.5rem;
+  }
+  .geral .botoes button{
+    padding: 15px 30px;
+  }
+
+  .geral .botoes button:first-child {
+    margin-bottom: 3vw;
+  }
+ 
+  section
+  .corDiferente{
+    width: 100%;
+    height: 8vh;
+    box-sizing: border-box;
+    border-radius: 8px 8px 0 0;
+  }
+  .informacao img.avatar {
+    margin-top: -10vw;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .informacao .resto h2 {
+    font-size: 1.4rem;
+    margin: -6vw 40vw 0 5vw;
+  }
+  .informacao .resto p {
+    font-size: 1rem;
+    margin: 1vw 40vw 2vw 5vw;
+  }
+  .posts-geral ul li {
+    width: 50%;
+    padding: 0.25rem;
+  }
+  .posts-geral img {
+    height: 30vh;
+  }
+  .fullname{
+    margin-top: 1rem;
+  }
+}
+
+
+
 
 
 </style>

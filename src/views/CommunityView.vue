@@ -27,14 +27,26 @@ import comunidadesComponent from '@/components/comunidadesComponent.vue';
 div.conteudo{
     display: grid;
     grid-template-columns: 1fr 3fr;
-    grid-template-areas: "left right";
+    gap: 2vw;
     margin-top: 2vw;
 }
 
-.sidebar-left{
-    grid-area: left ;
+
+
+/* RESPONSIVIDADE: telas menores que 768px */
+@media (max-width: 768px) {
+    div.conteudo {
+        display: grid;               /* mantemos grid */
+        grid-template-columns: 1fr;  /* apenas uma coluna */
+        grid-template-rows: auto auto; /* duas linhas */
+        gap: 2rem;                   /* espaço entre os elementos */
+    }
+
+    /* sidebar-left vem primeiro automaticamente */
+    .sidebar-right {
+        /* já estará abaixo da esquerda */
+        margin-top: 0; /* opcional */
+    }
 }
-.sidebar-right{
-    grid-area: right;
-}
+
 </style>

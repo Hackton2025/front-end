@@ -184,5 +184,80 @@ img {
   z-index: 900;
 }
 
+/* ===== RESPONSIVO - MOBILE ===== */
+@media (max-width: 768px) {
+  .painel-user {
+    width: 90%;
+    right: -100%;
+    top: 5%;
+    height: 85%;
+    padding: 15px;
+    border-radius: 12px;
+    overflow-y: auto;
+
+  }
+
+  .painel-user.abrir {
+    right: 5%;
+  }
+
+  .fundo {
+    min-height: 90%;
+    padding-top: 20%;
+    border-radius: 8vw;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+    flex-direction: column;
+  }
+
+  img {
+    width: 40vw;
+    height: 40vw;
+    object-fit: cover;
+    top : 7.5%;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .card {
+    width: 90%;
+    border-radius: 5vw;
+    margin-top: 20vw;
+    margin-bottom: 20px; /* cria espaço para avatar */
+  }
+
+  .conteudo {
+    padding: 6vh 4vw;
+  }
+
+  .card h2 {
+    font-size: 1.5rem;
+  }
+
+  .card p.username {
+    margin-top: 5px;
+    font-size: 1rem;
+  }
+
+  .card ul li {
+    font-size: 1rem;
+    margin: 10px 20px;
+  }
+
+  .biografia {
+    padding: 15px 10px;
+    height: auto;
+  }
+
+  .biografia p {
+    font-size: 1rem;
+    padding: 8px 10px;
+  }
+
+  .editar {
+    width: 70%;
+    min-width: unset;
+    max-width: unset;
+    font-size: 0.9rem;
+  }
+}
 
 </style>

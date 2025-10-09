@@ -31,7 +31,9 @@
 
 <style scoped>
 .card-ifc {
-  width: 70%;
+  width: 100%;
+  max-width: 370px;
+    margin: 0 auto 2rem auto;
   background: white;
   border-radius: 12px;
   overflow: hidden;
@@ -48,11 +50,12 @@
 
 .card-logo {
   width: 30%;
-  height: 10vh;
+  height: 15vh;
   margin-top: -35px;
   border: 3px solid black;
   border-radius: 8px;
   background: white;
+  object-fit: cover;
 }
 
 .campus {
@@ -91,4 +94,63 @@
 .btn-ver:hover {
   background: #267e3b;
 }
+
+/* ===== RESPONSIVO - MOBILE ===== */
+@media (max-width: 768px) {
+ .card-ifc {
+    max-width: 90%;
+    margin: 20px 20px;
+  }
+
+  .card-logo {
+    width: 40%;
+    height: auto;
+    max-width: 100px;
+    margin-top: -30px;
+  }
+
+  .campus {
+    font-size: 1rem;
+  }
+
+  .arroba {
+    font-size: 0.8rem;
+  }
+
+  .descricao {
+    font-size: 0.85rem;
+  }
+
+  .btn-ver {
+    width: 90%;
+    padding: 6px 0;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-ifc {
+    width: 100%;
+    max-height: fit-content;
+  }
+
+  .card-logo {
+    width: 50%;
+    margin-top: -25px;
+  }
+
+  .campus {
+    font-size: 0.95rem;
+  }
+
+  .arroba {
+    font-size: 0.75rem;
+  }
+
+  .descricao {
+    display: none;
+  }
+
+}
+
 </style>
