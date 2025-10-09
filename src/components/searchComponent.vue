@@ -43,6 +43,8 @@ function irParaUsuario(uuid) {
     <div v-else-if="searchQuery && !searchResults.length" class="search-results">
         <p>Nenhum usuário encontrado.</p>
     </div>
+
+    
 </template>
 <style scoped>
 .search-results {

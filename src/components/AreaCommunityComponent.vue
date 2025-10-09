@@ -106,9 +106,9 @@ watch(
 </template>
 
 <style scoped>
-section {
-  margin-right: 6vw;
-  width: 85%;
+section { 
+  width: 80%;
+  margin-left: 10%;
 }
  .voltar{
   display: flex;
@@ -119,6 +119,7 @@ section {
   text-decoration: none;
   margin-bottom: 1vw;
   margin-top: 0.4vw;
+  margin-left: 5%;
 }
 .corDiferente {
   background-color: #0A7C00;
@@ -252,7 +253,7 @@ button.seguindo {
 
 .post .image img {
   margin: 2vw;
-  
+  width: 94%;
   height: 60vh;
   border-radius: 15px;
   object-fit: cover;
@@ -275,4 +276,110 @@ button.seguindo {
 .post .legenda span{
   font-weight: 600;
 }
+@media (max-width: 768px) {
+
+  main, section {
+  display: block;
+  width: 95%;
+  clear: both;
+      margin-left: 2.5%;
+}
+
+  .voltar {
+    display: none;
+  }
+
+  .corDiferente {
+    padding: 20vw 0 2vw 4vw;
+    font-size: 1.3rem;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    margin-top: -10vw;
+  }
+
+  .corDiferente h1 {
+    margin-left: 0;
+  }
+
+  .lado img {
+    position: relative;
+    width: 25vw;
+    height: 25vw;
+    top: -25vw;
+    margin-left: 5%;
+  }
+
+  .lado h2 {
+    margin: -30vw 0 0 37vw;
+    font-size: 1rem;
+  }
+
+
+  .informacoes {
+    align-items: center;  
+    margin-right: 2vw;
+    margin-top: -8vw;
+  }
+
+  .informacoes div {
+    border: none;
+    padding: 0;
+    padding-left: 5vw;
+  }
+
+  .descricao {
+    margin: 5vw;
+    font-size: 1rem;
+    padding: 4vw;
+  }
+
+  button {
+    font-size: 1rem;
+    width: 90%;
+    padding: 10px;
+  }
+
+  .post {
+    margin-top: 5vw;
+    margin-bottom: 20vw;
+  }
+
+  .post .usuario {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .post .usuario .name img {
+    width: 18vw;
+    height: 18vw;
+    margin-bottom: 2vw;
+  }
+
+  .post .usuario .name h1 {
+    font-size: 1rem;
+  }
+
+  .post .usuario .name h2 {
+    font-size: 0.85rem;
+  }
+
+  .post .legenda {
+    padding: 0 4vw;
+  }
+
+  .post .legenda h1 {
+    font-size: 1.1rem;
+  }
+
+  .post .legenda p {
+    font-size: 0.95rem;
+  }
+
+  .post .image img {
+    width: 90%;
+    height: auto;
+    margin: 4vw 5%;
+  }
+}
+
 </style>

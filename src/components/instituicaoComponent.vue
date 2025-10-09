@@ -50,11 +50,12 @@
 
 .card-logo {
   width: 30%;
-  height: 10vh;
+  height: 15vh;
   margin-top: -35px;
   border: 3px solid black;
   border-radius: 8px;
   background: white;
+  object-fit: cover;
 }
 
 .campus {

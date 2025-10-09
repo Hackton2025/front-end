@@ -1,3 +1,8 @@
+<script setup>
+import headerComponent from '@/components/headerComponent.vue';
+import searchComponent from '@/components/searchComponent.vue';
+</script>
 <template>
-    <h2>oi</h2>
+<headerComponent></headerComponent>
+<searchComponent></searchComponent>
 </template>

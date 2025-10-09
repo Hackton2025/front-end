@@ -388,8 +388,9 @@ textarea:focus {
   }
 
   .avatar {
-    width: 100px;
-    height: auto;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
     border: 2px solid #333;
   }
 

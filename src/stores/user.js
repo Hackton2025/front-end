@@ -259,6 +259,9 @@ export const useUserStore = defineStore("user", () => {
     console.log(response.data)
   }
 
+
+  const searchQuery = ref('')
+
   return {
     usuario,
     confirmPassword,
@@ -276,6 +279,7 @@ export const useUserStore = defineStore("user", () => {
     logout,
     resetStore,
     currentUser,
-    getUserDetail
+    getUserDetail,
+    searchQuery,
   };
 });

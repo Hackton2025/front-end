@@ -54,7 +54,7 @@ const postStore = usePostStore();
           </div>
           <div class="resto">
             <h2>{{ store.usuario.name }}</h2>
-            <p>@{{ store.usuario.fullname }}</p>
+            <p class="fullname">@{{ store.usuario.fullname }}</p>
           </div>
 
         </div>
@@ -194,16 +194,17 @@ section.user .author {
 }
 
 .author .avatar {
-  width: 90%;
+  width: 100%;
   height: 20vh;
   border: solid 1px black;
   border-radius: 50%;
   margin: -6vw 0 0 2vw;
+  object-fit: cover;
 }
 
 .author h2 {
   font-size: 2rem;
-  margin: -3vw 0 0 2vw;
+  margin: -2.5vw 0 0 2.5vw;
   color: white;
 }
 
@@ -259,7 +260,9 @@ section.user .author {
   object-fit: cover;
   /* Garante que as imagens se ajustem sem distorcer */
 }
-
+.fullname{
+  margin-top: 4rem;
+}
 
 @media (max-width: 768px) {
   main {
@@ -299,7 +302,8 @@ section.user .author {
   .informacao img.avatar {
     margin-top: -10vw;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
   }
   .informacao .resto h2 {
     font-size: 1.4rem;
@@ -315,6 +319,9 @@ section.user .author {
   }
   .posts-geral img {
     height: 30vh;
+  }
+  .fullname{
+    margin-top: 1rem;
   }
 }
 

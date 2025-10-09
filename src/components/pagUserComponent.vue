@@ -210,9 +210,11 @@ img {
   }
 
   img {
-    width: 35vw;
-    height: auto;
+    width: 40vw;
+    height: 40vw;
+    object-fit: cover;
     top : 7.5%;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
   }
 
   .card {
